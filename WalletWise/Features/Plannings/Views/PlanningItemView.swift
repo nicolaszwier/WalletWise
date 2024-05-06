@@ -8,11 +8,23 @@
 import SwiftUI
 
 struct PlanningItemView: View {
+    let planning: Planning
+    
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        VStack {
+            Image(systemName: "dollarsign.circle.fill")
+                .padding()
+            Text(planning.description)
+                .padding([.leading, .bottom, .trailing])
+                .fontWeight(.heavy)
+        }
+        .background(.blue)
+        .foregroundColor(.white)
+        .clipShape(RoundedRectangle(cornerRadius: 6))
+        
     }
 }
 
 #Preview {
-    PlanningItemView()
+    PlanningItemView(planning: Planning(id: "123a", description: "Sample planning", currency: Currency.cad, initialBalance: 100, dateOfCreation: Date.now))
 }
