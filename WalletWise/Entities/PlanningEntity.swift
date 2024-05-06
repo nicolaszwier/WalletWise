@@ -11,9 +11,10 @@ enum Currency: String, Codable {
     case brl = "BRL", cad = "CAD"
 }
 
-struct Planning: Codable {
+struct Planning: Hashable, Codable, Identifiable {
     let id: String
     let description: String
     let currency: Currency
+    let initialBalance: Decimal
     let dateOfCreation: Date
 }

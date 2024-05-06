@@ -6,15 +6,19 @@
 //
 
 import Foundation
+import SwiftUI
 
-enum Category: String, Codable {
+enum Category: String, Codable, CaseIterable {
     case groceries = "Groceries",
          transportation = "Transportation",
          entertainment = "Entertainment",
          shopping = "Shopping",
          dining = "Dining",
          home = "Home",
-         income = "Income"
+         income = "Income",
+         empty = "Empty"
+    
+    var localizedName: LocalizedStringKey { LocalizedStringKey(rawValue) }
 }
 
   

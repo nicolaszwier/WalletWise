@@ -6,3 +6,7 @@
 //
 
 import Foundation
+
+enum TransactionType: String, Codable {
+    case expense = "EXPENSE", income = "INCOME"
+}
