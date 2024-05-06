@@ -6,3 +6,22 @@
 //
 
 import Foundation
+
+enum AuthenticationError: Error {
+    case unauthorized
+    case invalidCredentials
+    case custom(errorMessage: String)
+    case invalidURL
+    case missingToken
+}
+
+enum NetworkError: Error {
+    case invalidURL
+    case invalidEndpointParams
+    case noData
+    case decodingError
+    case custom(errorMessage: String)
+    case badRequest
+    case internalServerError
+    case notFound
+}
