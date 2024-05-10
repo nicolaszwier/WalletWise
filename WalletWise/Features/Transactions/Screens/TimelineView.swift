@@ -9,13 +9,13 @@ import SwiftUI
 
 struct TimelineView: View {
     let planning: Planning
-    @StateObject private var viewModel: TimelineViewViewModel
+    @StateObject private var viewModel = TransactionsViewViewModel()
     
-    init(planning: Planning) {
-        self.planning = planning
-        let viewModel = TimelineViewViewModel(planningId: planning.id)
-        _viewModel = StateObject(wrappedValue: viewModel)
-    }
+//    init(planning: Planning) {
+//        self.planning = planning
+//        let viewModel = TransactionsViewViewModel(planningId: planning.id)
+//        _viewModel = StateObject(wrappedValue: viewModel)
+//    }
     
     var body: some View {
         
@@ -37,15 +37,10 @@ struct TimelineView: View {
                                 .multilineTextAlignment(.trailing)
                         }
                         .padding(.horizontal)
+                        
                         GroupBox() {
                             ForEach(period.transactions) { transaction in
-                                HStack {
-                                    Label(transaction.description, systemImage: "dollarsign.circle")
-                                    Spacer()
-                                    Text(viewModel.formatCurrency(amount: transaction.amount))
-                                }
-                                
-                                .padding(.vertical, 7)
+                                TransactionsListItemView(transaction: transaction)
                             }
                             Divider()
                                 .padding(.top, 5)
@@ -88,8 +83,21 @@ struct TimelineView: View {
                     }
                 }
                 .navigationTitle(planning.description)
-                .sheet(isPresented: $viewModel.isPresentingNewTransactionView) {
-                    NewTransactionView(planningId: planning.id, newTransactionPresented: $viewModel.isPresentingNewTransactionView)
+                .sheet(isPresented: $viewModel.isPresentingNewTransactionView, onDismiss: didDismiss){
+                    
+                    NavigationStack {
+                        NewTransactionView(planning: planning, newTransactionPresented: $viewModel.isPresentingNewTransactionView)
+                           .toolbar {
+                               ToolbarItem(placement: .cancellationAction) {
+                                   Button("Cancel") {
+                                       viewModel.isPresentingNewTransactionView = false
+                                   }
+                               }
+                               ToolbarItem(placement: .confirmationAction) {
+                               }
+                           }
+                    }
+    
                 }
                 .sheet(isPresented: $viewModel.isPresentingFiltersView) {
                     FiltersView()
@@ -97,15 +105,16 @@ struct TimelineView: View {
             }
             .onAppear {
                 Task {
-                    await viewModel.fetch()
+                    await viewModel.fetch(planning: planning)
                 }
             }
-//            .clipped()
-            
-//        }
-       
-       
         
+    }
+    
+    func didDismiss() {
+        Task {
+            await viewModel.fetch(planning: planning)
+        }
     }
 }
 

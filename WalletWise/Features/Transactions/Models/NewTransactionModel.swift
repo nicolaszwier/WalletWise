@@ -9,23 +9,25 @@ import Foundation
 
 class NewTransactionModel {
     
-    func save(transaction: Transaction) async throws -> [Period] {
+    func save(transaction: Transaction) async throws -> DefaultResponse {
         
         guard var request = try? HttpService().buildUrlRequest(method: "POST", endpoint: Constants.ApiConstants.Transactions.postTransactions, params: []) else {
             throw NetworkError.invalidURL
         }
-        print("1")
-        request.httpBody = try? JSONEncoder().encode(transaction)
-        print("2")
+        
+        request.httpBody = try? HttpService().customEncoder().encode(transaction)
+        
         let (data, response) = try await URLSession.shared.data(for: request)
         guard response is HTTPURLResponse else {
             throw NetworkError.custom(errorMessage: "Invalid HTTPUrlResponse")
         }
-        print("3")
-        if let response = try? HttpService().customDecoder().decode([Period].self, from: data) {
-            return response
+        
+        let decodedResponse = try? HttpService().customDecoder().decode(DefaultResponse.self, from: data)
+        
+        if (decodedResponse?.statusCode ?? 400) >= 200 && (decodedResponse?.statusCode ?? 400) <= 299 {
+            return decodedResponse!
         }
-        print("4")
+        
         let errorResponse = try HttpService().customDecoder().decode(ErrorResponse.self, from: data)
         
         switch errorResponse.statusCode {

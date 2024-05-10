@@ -8,17 +8,11 @@
 import SwiftUI
 
 struct NewTransactionView: View {
-    let planningId: String
-    @StateObject private var viewModel: NewTransactionViewViewModel
+    let planning: Planning
+    @StateObject private var viewModel = TransactionsViewViewModel()
     @Binding var newTransactionPresented: Bool
-    
-    init(planningId: String, newTransactionPresented: Binding<Bool>) {
-        self.planningId = planningId
-        self._newTransactionPresented = newTransactionPresented
-        let viewModel = NewTransactionViewViewModel(planningId: planningId)
-        _viewModel = StateObject(wrappedValue: viewModel)
-    }
-    
+//    @Binding var wasTransactionCreated: Bool
+
     var body: some View {
         if $viewModel.newTransaction.type.wrappedValue == TransactionType.expense {
             Text("Add new expense")
@@ -48,7 +42,7 @@ struct NewTransactionView: View {
                        Text("Amount")
                            .multilineTextAlignment(.trailing)
                        Spacer()
-                       TextField("Amount", value: $viewModel.newTransaction.amount, format: .currency(code: "CAD"))
+                       TextField("Amount", value: $viewModel.newTransaction.amount, format: .currency(code: Locale.current.identifier))
                            .multilineTextAlignment(.trailing)
                            .frame(maxWidth: 90)
                            .keyboardType(.decimalPad)
@@ -69,23 +63,23 @@ struct NewTransactionView: View {
                            Text(option.localizedName).tag(option)
                        }
                    }
+                   ForEach(viewModel.formErrors, id: \.self) { error in
+                       Text(error)
+                          .foregroundStyle(.red)
+                          .font(.callout)
+                   }
                    HStack {
                        Spacer()
-                       Button("Submit") {
+                       WWButton(label: "Submit", background: Color.blue) {
                            Task {
-                               await viewModel.submit()
-                               newTransactionPresented = false
+                               await viewModel.saveNewTransaction(planningId: planning.id)
+                               if viewModel.formErrors.isEmpty {
+                                   newTransactionPresented = false
+                               }
                            }
-                           
                        }
-                       .frame(height: 37.0)
-                       .fontWeight(.heavy)
-                       .frame(maxWidth: /*@START_MENU_TOKEN@*/.greatestFiniteMagnitude/*@END_MENU_TOKEN@*/)
-                       .padding(.trailing)
                        .disabled(viewModel.isLoading)
-                       .background(Color.blue)
-                                       .foregroundColor(.white)
-                       .clipShape(RoundedRectangle(cornerRadius: 8, style: /*@START_MENU_TOKEN@*/.continuous/*@END_MENU_TOKEN@*/))
+                       .padding(.trailing)
                        if viewModel.isLoading {
                            ProgressView()
                                .padding(.leading)
@@ -93,25 +87,18 @@ struct NewTransactionView: View {
                    }
                    .padding(.top)
                }
+               
           
            }
         }
-        .toolbar {
-            Button {
-                
-            } label: {
-                Image(systemName: "plus")
-            }
-        }
-        .navigationTitle("New")
-       
         
       
     }
 }
 
 #Preview {
-    NewTransactionView(planningId: "66271cf1b379cdd0d2e2f4c6", newTransactionPresented: Binding(get: {
-        return true
-    }, set: {_ in }))
+    NewTransactionView(planning: Planning(id: "", description: "", currency: Currency.cad, initialBalance: 0, dateOfCreation: Date.now), newTransactionPresented: Binding(get: {
+            return true
+    }, set: { _ in }))
 }
+
