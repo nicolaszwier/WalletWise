@@ -17,9 +17,11 @@
 		5B5BDA352BE020B7009046D1 /* UserEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B5BDA342BE020B7009046D1 /* UserEntity.swift */; };
 		5B5BDA372BE020F4009046D1 /* AuthEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B5BDA362BE020F4009046D1 /* AuthEntity.swift */; };
 		5B5BDA392BE02104009046D1 /* PlanningEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B5BDA382BE02104009046D1 /* PlanningEntity.swift */; };
+		5B8DDEE52BED4EEB003CB056 /* WWButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B8DDEE42BED4EEB003CB056 /* WWButton.swift */; };
+		5BA9C9D02BEABF1000F57AC2 /* AppStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BA9C9CF2BEABF1000F57AC2 /* AppStore.swift */; };
 		5BBCB7CA2BE44161004E8A47 /* UtilsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BBCB7C92BE44161004E8A47 /* UtilsService.swift */; };
 		5BBCB7CC2BE46215004E8A47 /* TimelineModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BBCB7CB2BE46215004E8A47 /* TimelineModel.swift */; };
-		5BBCB7CE2BE4631A004E8A47 /* TimelineViewViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BBCB7CD2BE4631A004E8A47 /* TimelineViewViewModel.swift */; };
+		5BBCB7CE2BE4631A004E8A47 /* TransactionsViewViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BBCB7CD2BE4631A004E8A47 /* TransactionsViewViewModel.swift */; };
 		5BBCB7D02BE4902B004E8A47 /* ErrorEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BBCB7CF2BE4902B004E8A47 /* ErrorEntity.swift */; };
 		5BBCB7D22BE5EB68004E8A47 /* NewTransactionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BBCB7D12BE5EB68004E8A47 /* NewTransactionView.swift */; };
 		5BBCB7D42BE6A653004E8A47 /* NewTransactionViewViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BBCB7D32BE6A653004E8A47 /* NewTransactionViewViewModel.swift */; };
@@ -77,9 +79,11 @@
 		5B5BDA342BE020B7009046D1 /* UserEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserEntity.swift; sourceTree = "<group>"; };
 		5B5BDA362BE020F4009046D1 /* AuthEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthEntity.swift; sourceTree = "<group>"; };
 		5B5BDA382BE02104009046D1 /* PlanningEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlanningEntity.swift; sourceTree = "<group>"; };
+		5B8DDEE42BED4EEB003CB056 /* WWButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WWButton.swift; sourceTree = "<group>"; };
+		5BA9C9CF2BEABF1000F57AC2 /* AppStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppStore.swift; sourceTree = "<group>"; };
 		5BBCB7C92BE44161004E8A47 /* UtilsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UtilsService.swift; sourceTree = "<group>"; };
 		5BBCB7CB2BE46215004E8A47 /* TimelineModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimelineModel.swift; sourceTree = "<group>"; };
-		5BBCB7CD2BE4631A004E8A47 /* TimelineViewViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimelineViewViewModel.swift; sourceTree = "<group>"; };
+		5BBCB7CD2BE4631A004E8A47 /* TransactionsViewViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionsViewViewModel.swift; sourceTree = "<group>"; };
 		5BBCB7CF2BE4902B004E8A47 /* ErrorEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorEntity.swift; sourceTree = "<group>"; };
 		5BBCB7D12BE5EB68004E8A47 /* NewTransactionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewTransactionView.swift; sourceTree = "<group>"; };
 		5BBCB7D32BE6A653004E8A47 /* NewTransactionViewViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewTransactionViewViewModel.swift; sourceTree = "<group>"; };
@@ -149,6 +153,7 @@
 		5B5BDA312BE01F97009046D1 /* Button */ = {
 			isa = PBXGroup;
 			children = (
+				5B8DDEE42BED4EEB003CB056 /* WWButton.swift */,
 			);
 			path = Button;
 			sourceTree = "<group>";
@@ -164,6 +169,14 @@
 				5BBCB7CF2BE4902B004E8A47 /* ErrorEntity.swift */,
 			);
 			path = Entities;
+			sourceTree = "<group>";
+		};
+		5BA9C9D12BEAC5E900F57AC2 /* Stores */ = {
+			isa = PBXGroup;
+			children = (
+				5BA9C9CF2BEABF1000F57AC2 /* AppStore.swift */,
+			);
+			path = Stores;
 			sourceTree = "<group>";
 		};
 		5BE0DEF12BDF5D15003BBD41 = {
@@ -189,6 +202,7 @@
 		5BE0DEFC2BDF5D15003BBD41 /* WalletWise */ = {
 			isa = PBXGroup;
 			children = (
+				5BA9C9D12BEAC5E900F57AC2 /* Stores */,
 				5BF580C62BE05219001E9A38 /* Enums */,
 				5BF580C12BE04E5C001E9A38 /* Services */,
 				5BF580922BE04425001E9A38 /* Features */,
@@ -440,7 +454,7 @@
 		5BF580B52BE04C99001E9A38 /* ViewModels */ = {
 			isa = PBXGroup;
 			children = (
-				5BBCB7CD2BE4631A004E8A47 /* TimelineViewViewModel.swift */,
+				5BBCB7CD2BE4631A004E8A47 /* TransactionsViewViewModel.swift */,
 				5BBCB7D32BE6A653004E8A47 /* NewTransactionViewViewModel.swift */,
 			);
 			path = ViewModels;
@@ -627,10 +641,12 @@
 				5BF580CA2BE0734C001E9A38 /* AuthViewViewModel.swift in Sources */,
 				5BF580C82BE0526B001E9A38 /* TransactionType.swift in Sources */,
 				5B5BDA392BE02104009046D1 /* PlanningEntity.swift in Sources */,
-				5BBCB7CE2BE4631A004E8A47 /* TimelineViewViewModel.swift in Sources */,
+				5BBCB7CE2BE4631A004E8A47 /* TransactionsViewViewModel.swift in Sources */,
 				5BF580AF2BE0482C001E9A38 /* ProfileView.swift in Sources */,
+				5B8DDEE52BED4EEB003CB056 /* WWButton.swift in Sources */,
 				5B5BDA372BE020F4009046D1 /* AuthEntity.swift in Sources */,
 				5BBCB7CA2BE44161004E8A47 /* UtilsService.swift in Sources */,
+				5BA9C9D02BEABF1000F57AC2 /* AppStore.swift in Sources */,
 				5BF5808F2BE02637001E9A38 /* Category.swift in Sources */,
 				5BBCB7D42BE6A653004E8A47 /* NewTransactionViewViewModel.swift in Sources */,
 				5B41CC442BE1A03100264C9A /* PlanningsModel.swift in Sources */,
