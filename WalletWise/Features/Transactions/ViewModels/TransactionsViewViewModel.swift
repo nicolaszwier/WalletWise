@@ -13,10 +13,12 @@ class TimelineViewViewModel: ObservableObject {
     @Published var isLoading: Bool = false
     @Published var isPresentingNewTransactionView = false
     @Published var isPresentingFiltersView = false
+    @Published var wasTransactionCreated = false
     let planningId: String
     
     init(planningId: String) {
         self.planningId = planningId
+        AppStore.shared.setPlanningId(value: planningId)
     }
     
     func fetch() async {

@@ -17,6 +17,10 @@ class AppService: ObservableObject {
         HttpService().setToken(token: token)
     }
     
+    func setSelectedPlanningId(planningId: String) {
+        HttpService().setToken(token: token)
+    }
+    
     func signout() {
         UserDefaults.standard.removeObject(forKey: "token")
     }

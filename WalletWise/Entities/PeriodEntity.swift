@@ -15,7 +15,7 @@ struct Period: Hashable, Codable, Identifiable {
     let expectedAllTimeBalance: Decimal
     let periodStart: Date
     let periodEnd: Date
-    let transactions: [Transaction]?
+    let transactions: [Transaction]
     
     static func ==(lhs: Period, rhs: Period) -> Bool {
           return lhs.periodStart == rhs.periodStart && lhs.periodEnd == rhs.periodEnd
