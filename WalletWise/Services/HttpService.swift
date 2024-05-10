@@ -8,29 +8,21 @@
 import Foundation
 
 class HttpService {
-    
+    let appStore: AppStore = AppStore()
     let baseUrl: String = Constants.ApiConstants.apiBaseUrl
-   
+    
     func getToken() -> String {
-        guard let token = UserDefaults.standard.string(forKey: "token") else {
+        let token = AppStore.shared.getToken()
+        if token.isEmpty {
             return ""
         }
         return "Bearer \(token)"
     }
     
-    func setToken(token: String) {
-         UserDefaults.standard.setValue(token, forKey: "token")
-    }
-    
-    
     func buildUrlRequest(method: String, endpoint: String, params: [String] = []) throws -> URLRequest {
 
         let url = try buildUrl(endpoint: endpoint, apiParams: params)
         let token = getToken()
-//        guard !token.isEmpty else {
-//            throw AuthenticationError.missingToken
-//        }
-        print("url", url)
          
         var request = URLRequest(url: url)
         request.httpMethod = method
@@ -43,8 +35,6 @@ class HttpService {
     private func buildUrl(endpoint: String, apiParams: [String] = []) throws -> URL {
       
         let apiEndpoint = try replaceParams(in: endpoint, with: apiParams)
-        
-        print("endpoint", apiEndpoint)
         
         guard let url = URL(string: "\(baseUrl)\(apiEndpoint)") else {
             throw NetworkError.invalidURL
@@ -84,9 +74,16 @@ class HttpService {
         formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"
         let decoder = JSONDecoder()
         decoder.dateDecodingStrategy = .formatted(formatter)
-        
-        
+
         return decoder
+    }
+    
+    func customEncoder() -> JSONEncoder {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"
+        let encoder = JSONEncoder()
+        encoder.dateEncodingStrategy = .formatted(formatter)
+        return encoder
     }
     
 }

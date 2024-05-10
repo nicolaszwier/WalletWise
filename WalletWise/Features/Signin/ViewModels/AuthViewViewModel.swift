@@ -14,6 +14,7 @@ class AuthViewViewModel: ObservableObject {
     @Published var errorMessage = ""
     @Published var isAuthenticated: Bool = false
     @Published var isLoading: Bool = false
+//    @EnvironmentObject var appStore: AppStore
     
     
     init() {
@@ -30,7 +31,7 @@ class AuthViewViewModel: ObservableObject {
                         print("success")
                         self.isLoading = false;
                         self.isAuthenticated = true;
-                        AppService().setSignedIn(token: accessToken )
+                        AppStore.shared.setToken(value: accessToken)
                     }
                 }
             }
@@ -51,6 +52,6 @@ class AuthViewViewModel: ObservableObject {
     }
     
     private func isSignedIn() -> Bool {
-        return !HttpService().getToken().isEmpty;
+        return !AppStore.shared.getToken().isEmpty;
     }
 }
