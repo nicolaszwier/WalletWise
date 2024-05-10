@@ -17,10 +17,24 @@ struct PlanningsView: View {
                     NavigationLink(destination: TimelineView(planning: planning)) {
                         Text(planning.description)
                             .bold()
+                            .padding()
+                            .swipeActions(edge: .trailing) {
+                                    Button(role: .destructive) {
+                                        
+                                    } label: {
+                                        Label("Delete", systemImage: "trash")
+                                    }
+                                    Button {
+                                        
+                                    } label: {
+                                        Label("Flag", systemImage: "pencil.circle")
+                                    }
+                                    .tint(.blue)
+                                }
                     }
                 }
-                .padding(.top, 20)
                 .listRowSpacing(12)
+                
                 if viewModel.isLoading {
                     ProgressView()
                         .padding(.leading)
