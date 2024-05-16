@@ -7,12 +7,12 @@
 
 import SwiftUI
 
-struct PeriodView: View {
+struct FiltersView: View {
     var body: some View {
-        Text("Period view")
+        Text("Filters view")
     }
 }
 
 #Preview {
-    PeriodView()
+    FiltersView()
 }

@@ -15,6 +15,7 @@ struct Planning: Hashable, Codable, Identifiable {
     let id: String
     let description: String
     let currency: Currency
-    let initialBalance: Decimal
+    let currentBalance: Decimal
+    let expectedBalance: Decimal
     let dateOfCreation: Date
 }

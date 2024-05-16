@@ -1,25 +1,25 @@
 //
-//  NewTransactionView.swift
+//  EditTransactionView.swift
 //  WalletWise
 //
-//  Created by NicolasZwierzykowski on 04/05/24.
+//  Created by NicolasZwierzykowski on 11/05/24.
 //
 
 import SwiftUI
 
-struct NewTransactionView: View {
-    let planning: Planning
+struct EditTransactionView: View {
+    @Binding var transaction: Transaction
     @StateObject private var viewModel = TransactionsViewViewModel()
-    @Binding var newTransactionPresented: Bool
+    @Binding var editTransactionPresented: Bool
 
     var body: some View {
-        if $viewModel.newTransaction.type.wrappedValue == TransactionType.expense {
-            Text("Add new expense")
+        if transaction.type == TransactionType.expense {
+            Text("Edit expense")
                 .font(/*@START_MENU_TOKEN@*/.title/*@END_MENU_TOKEN@*/)
                 .bold()
                 .padding(.top)
         } else {
-            Text("Add new income")
+            Text("Edit income")
                 .font(/*@START_MENU_TOKEN@*/.title/*@END_MENU_TOKEN@*/)
                 .bold()
 //                .foregroundStyle(.green)
@@ -27,12 +27,6 @@ struct NewTransactionView: View {
         }
        
         VStack {
-            Picker(selection: $viewModel.newTransaction.type, label: Text("Transaction")) {
-                Text("Expense").tag(TransactionType.expense)
-                Text("Income").tag(TransactionType.income)
-                }
-                .pickerStyle(.segmented)
-                .padding([.leading, .top, .trailing])
             
             Form {
                Section(header: Text("")) {
@@ -40,23 +34,29 @@ struct NewTransactionView: View {
                        Text("Amount")
                            .multilineTextAlignment(.trailing)
                        Spacer()
-                       TextField("Amount", value: $viewModel.newTransaction.amount, format: .currency(code: Locale.current.identifier))
+                       TextField("Amount", value: $transaction.amount, format: .currency(code: Locale.current.identifier))
                            .multilineTextAlignment(.trailing)
                            .frame(maxWidth: 90)
                            .keyboardType(.decimalPad)
+                           .onAppear(perform: {
+                               //if expense, convert the value to show as positive (logic will be handled by API)
+                               if transaction.type == TransactionType.expense {
+                                   transaction.amount = transaction.amount * -1
+                               }
+                           })
                    }
-                   TextField("Description", text: $viewModel.newTransaction.description)
+                   TextField("Description", text: $transaction.description)
                }
                Section(header: Text("")) {
                    DatePicker(
                           "Date",
-                          selection: $viewModel.newTransaction.date,
+                          selection: $transaction.date,
                           displayedComponents: [.date]
                       )
-                   Toggle(isOn: $viewModel.newTransaction.isPaid) {
+                   Toggle(isOn: $transaction.isPaid) {
                            Text("Is paid")
                    }
-                   Picker("Category", selection: $viewModel.newTransaction.category) {
+                   Picker("Category", selection: $transaction.category) {
                        ForEach(Category.allCases, id: \.self) { option in
                            Text(option.localizedName).tag(option)
                        }
@@ -70,9 +70,9 @@ struct NewTransactionView: View {
                        Spacer()
                        WWButton(label: "Submit", background: Color.blue) {
                            Task {
-                               await viewModel.saveNewTransaction(planningId: planning.id)
+                               await viewModel.updateTransaction(transaction: transaction)
                                if viewModel.formErrors.isEmpty {
-                                   newTransactionPresented = false
+                                   editTransactionPresented = false
                                }
                            }
                        }
@@ -95,8 +95,7 @@ struct NewTransactionView: View {
 }
 
 #Preview {
-    NewTransactionView(planning: Planning(id: "", description: "", currency: Currency.cad, currentBalance:0, expectedBalance: 10, dateOfCreation: Date.now), newTransactionPresented: Binding(get: {
-            return true
-    }, set: { _ in }))
+    EditTransactionView(transaction: .constant(Transaction(id: "", periodId: "", planningId: "", userId: "")), editTransactionPresented: Binding(get: {
+        return true
+}, set: { _ in }))
 }
-

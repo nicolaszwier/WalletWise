@@ -7,12 +7,29 @@
 
 import SwiftUI
 
-struct ProfileScreen: View {
+struct ProfileView: View {
+    @StateObject var viewModel = AuthViewViewModel()
+    
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        NavigationView {
+            VStack {
+                Button("Signout") {
+                    viewModel.signout()
+                }
+                .fontWeight(.heavy)
+            }
+            .navigationTitle("My profile")
+//            .toolbar {
+//                Button {
+//                    
+//                } label: {
+//                    Image(systemName: "plus")
+//                }
+//            }
+        }
     }
 }
 
 #Preview {
-    ProfileScreen()
+    ProfileView()
 }

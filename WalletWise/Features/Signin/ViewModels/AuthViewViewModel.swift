@@ -6,36 +6,52 @@
 //
 
 import Foundation
+import SwiftUI
 
 class AuthViewViewModel: ObservableObject {
-    @Published var email = ""
-    @Published var password = ""
+    @Published var email = "new@email.com"
+    @Published var password = "12345678"
     @Published var errorMessage = ""
     @Published var isAuthenticated: Bool = false
+    @Published var isLoading: Bool = false
+//    @EnvironmentObject var appStore: AppStore
     
     
     init() {
         self.isAuthenticated = isSignedIn()
     }
     
-    func signIn()  {
-        SigninModel().signin(email: email, password: password) { result in
-            switch result {
-                case .success(let token):
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+    func signIn() async  {
+        self.isLoading = true;
+        do {
+            let response = try await SigninModel().signin(email: email, password: password)
+            if let accessToken = response.accessToken {
+                DispatchQueue.main.async {
+                    withAnimation(){
                         print("success")
+                        self.isLoading = false;
                         self.isAuthenticated = true;
-                        AppService().setSignedIn(token: token)
+                        AppStore.shared.setToken(value: accessToken)
                     }
-                  
-                case .failure(_):
-                    self.errorMessage = "Invalid email or password"
-               
+                }
+            }
+        } catch {
+            DispatchQueue.main.async {
+                print("Error fetching data: \(error)")
+                self.isLoading = false;
+                self.errorMessage = "Invalid email or password"
             }
         }
     }
     
+    func signout()  {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+            self.isAuthenticated = false;
+            AppService().signout()
+        }
+    }
+    
     private func isSignedIn() -> Bool {
-        return !HttpService().getToken().isEmpty;
+        return !AppStore.shared.getToken().isEmpty;
     }
 }
