@@ -26,5 +26,5 @@ struct PlanningItemView: View {
 }
 
 #Preview {
-    PlanningItemView(planning: Planning(id: "123a", description: "Sample planning", currency: Currency.cad, initialBalance: 100, dateOfCreation: Date.now))
+    PlanningItemView(planning: Planning(id: "123a", description: "Sample planning", currency: Currency.cad, currentBalance: 100, expectedBalance: 100, dateOfCreation: Date.now))
 }

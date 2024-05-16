@@ -19,18 +19,18 @@ struct PlanningsView: View {
                             .bold()
                             .padding()
                             .swipeActions(edge: .trailing) {
-                                    Button(role: .destructive) {
-                                        
-                                    } label: {
-                                        Label("Delete", systemImage: "trash")
-                                    }
-                                    Button {
-                                        
-                                    } label: {
-                                        Label("Flag", systemImage: "pencil.circle")
-                                    }
-                                    .tint(.blue)
+                                Button(role: .destructive) {
+                                    
+                                } label: {
+                                    Label("Delete", systemImage: "trash")
                                 }
+                                Button {
+                                    
+                                } label: {
+                                    Label("Flag", systemImage: "pencil.circle")
+                                }
+                                .tint(.blue)
+                            }
                     }
                 }
                 .listRowSpacing(12)
