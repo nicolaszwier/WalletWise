@@ -11,14 +11,12 @@ struct NewTransactionView: View {
     let planning: Planning
     @StateObject private var viewModel = TransactionsViewViewModel()
     @Binding var newTransactionPresented: Bool
-//    @Binding var wasTransactionCreated: Bool
 
     var body: some View {
         if $viewModel.newTransaction.type.wrappedValue == TransactionType.expense {
             Text("Add new expense")
                 .font(/*@START_MENU_TOKEN@*/.title/*@END_MENU_TOKEN@*/)
                 .bold()
-//                .foregroundStyle(.red)
                 .padding(.top)
         } else {
             Text("Add new income")
@@ -97,7 +95,7 @@ struct NewTransactionView: View {
 }
 
 #Preview {
-    NewTransactionView(planning: Planning(id: "", description: "", currency: Currency.cad, initialBalance: 0, dateOfCreation: Date.now), newTransactionPresented: Binding(get: {
+    NewTransactionView(planning: Planning(id: "", description: "", currency: Currency.cad, currentBalance:0, expectedBalance: 10, dateOfCreation: Date.now), newTransactionPresented: Binding(get: {
             return true
     }, set: { _ in }))
 }
