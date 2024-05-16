@@ -8,12 +8,14 @@
 import SwiftUI
 
 struct TransactionsListItemView: View {
-    @StateObject private var viewModel = TransactionsViewViewModel()
     let transaction: Transaction
+    let onDelete: () async -> Void
+    @StateObject private var viewModel = TransactionsViewViewModel()
+    @State private var editingTransaction = Transaction(id: "", periodId: "", planningId: "", userId: "")
+   
     var body: some View {
         HStack {
             VStack(alignment: .leading) {
-//            systemImage: "dollarsign.circle"
                 Text(transaction.description)
                     .font(.headline)
                     .fontWeight(.semibold)
@@ -24,23 +26,21 @@ struct TransactionsListItemView: View {
                         .foregroundStyle(.secondary)
                     .padding(.leading, 1)
                     if transaction.isPaid {
-                        
                         Label("", systemImage: "checkmark.circle.fill")
                             .font(.caption)
-//                            .padding(.horizontal, 7.0)
-//                            .background(Color(hue: 0.381, saturation: 0.149, brightness: 1.0))
                             .foregroundColor(Color.green)
                     }
                     if !transaction.isPaid {
-                        Label("Pending", systemImage: "exclamationmark.circle.fill")
-//                            .frame(height: 18.0)
+                        Label("", systemImage: "exclamationmark.circle.fill")
                             .font(.caption)
-                            .padding(.horizontal, 7.0)
+                            .foregroundColor(.yellow)
+//                            .padding(.horizontal, 4.0)
 //                          .padding(.vertical, 1)
-                            .background(Color(hue: 0.003, saturation: 0.149, brightness: 1.0))
-                            .foregroundColor(Color(hue: 0.001, saturation: 1.0, brightness: 0.428))
-                            .clipShape(RoundedRectangle(cornerRadius: 8, style: .continuous))
+//                            .background(Color(hue: 0.003, saturation: 0.149, brightness: 1.0))
+//                            .foregroundColor(Color(hue: 0.001, saturation: 1.0, brightness: 0.428))
+//                            .clipShape(RoundedRectangle(cornerRadius: 8, style: .continuous))
                     }
+                    Spacer()
                 }
                     
             }
@@ -48,23 +48,56 @@ struct TransactionsListItemView: View {
             Spacer()
             Text(viewModel.formatCurrency(amount: transaction.amount))
         }
-        .padding(.vertical, 7)
-        .swipeActions(edge: .trailing) {
-                Button(role: .destructive) {
-                    
-                } label: {
-                    Label("Delete", systemImage: "trash")
+//        .padding(.vertical, 2)
+        .swipeActions(edge: .leading) {
+            Button {
+                Task {
+                    await viewModel.payTransaction(transaction:transaction)
                 }
-                Button {
-                    
-                } label: {
-                    Label("Flag", systemImage: "pencil.circle")
-                }
-                .tint(.blue)
+            } label: {
+                Label("Flag", systemImage: "checkmark.circle.fill")
             }
+            .tint(.green)
+        }
+        .swipeActions(edge: .trailing) {
+            Button(role: .destructive) {
+                Task {
+                    await viewModel.removeTransaction(periodId: transaction.periodId ?? "", transactionId: transaction.id ?? "")
+                    await onDelete()
+                }
+               
+            } label: {
+                Label("Delete", systemImage: "trash")
+            }
+            Button {
+                editingTransaction = transaction
+                viewModel.isPresentingEditTransactionView = true
+            } label: {
+                Label("Flag", systemImage: "pencil.circle")
+            }
+            .tint(.blue)
+        }
+        .sheet(isPresented: $viewModel.isPresentingEditTransactionView){
+            
+            NavigationStack {
+                EditTransactionView(transaction: $editingTransaction, editTransactionPresented: $viewModel.isPresentingEditTransactionView)
+                    .toolbar {
+                        ToolbarItem(placement: .cancellationAction) {
+                            Button("Cancel") {
+                                viewModel.isPresentingEditTransactionView = false
+                            }
+                        }
+                    }
+            }
+            
+        }
     }
+    
+    
 }
 
 #Preview {
-    TransactionsListItemView(transaction: Transaction(id: "", periodId: "", planningId: "", userId: "", description: "Transaction description", category: Category.shopping, isPaid: true))
+    TransactionsListItemView(transaction: Transaction(id: "", periodId: "", planningId: "", userId: "", description: "Transaction description", category: Category.shopping, isPaid: false), onDelete: {
+        
+    })
 }

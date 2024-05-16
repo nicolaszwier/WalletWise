@@ -23,16 +23,17 @@ struct Constants {
         
         struct Transactions {
             static let getTransactions = "/transactions/{{periodId}}"
-            static let postTransactions = "/transactions"
-            static let putTransactions = "/transactions/{{transactionId}}"
-            static let deleteTransactions = "/transactions/{{periodId}}/{{transactionId}}"
+            static let postTransaction = "/transactions"
+            static let putTransaction = "/transactions/{{transactionId}}"
+            static let deleteTransaction = "/transactions/{{periodId}}/{{transactionId}}"
+            static let payTransaction = "/transactions/pay/{{periodId}}/{{transactionId}}"
         }
         
         struct Plannings {
             static let getPlannings = "/plannings"
-            static let postPlannings = "/plannings"
-            static let putPlannings = "/plannings/{{planningId}}"
-            static let deletePlannings = "/plannings/{{planningId}}"
+            static let postPlanning = "/plannings"
+            static let putPlanning = "/plannings/{{planningId}}"
+            static let deletePlanning = "/plannings/{{planningId}}"
         }
     }
 }
