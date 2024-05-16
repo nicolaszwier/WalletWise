@@ -8,14 +8,16 @@
 import Foundation
 
 struct Period: Hashable, Codable, Identifiable {
-    let id: String
-    let planningId: String
-    let userId: String
-    let periodBalance: Decimal
-    let expectedAllTimeBalance: Decimal
-    let periodStart: Date
-    let periodEnd: Date
-    let transactions: [Transaction]
+    var id: String
+    var planningId: String
+    var userId: String
+    var periodBalance: Decimal
+    var periodBalancePaidOnly: Decimal
+    var expectedAllTimeBalance: Decimal
+    var expectedAllTimeBalancePaidOnly: Decimal
+    var periodStart: Date
+    var periodEnd: Date
+    var transactions: [Transaction]
     
     static func ==(lhs: Period, rhs: Period) -> Bool {
           return lhs.periodStart == rhs.periodStart && lhs.periodEnd == rhs.periodEnd

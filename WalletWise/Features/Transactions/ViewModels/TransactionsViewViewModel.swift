@@ -8,19 +8,18 @@
 import Foundation
 import SwiftUI
 
+@MainActor
 class TransactionsViewViewModel: ObservableObject {
     @Published var periods: [Period] = []
     @Published var isLoading: Bool = false
     @Published var isPresentingNewTransactionView = false
+    @Published var isPresentingEditTransactionView = false
     @Published var isPresentingFiltersView = false
-    @Published var wasTransactionCreated = false
     @Published var errorMessage = ""
     @Published var newTransaction = Transaction(id: "", periodId: "", planningId: "", userId: "", amount: 0)
     @Published var formErrors: [String] = []
        
     func fetch(planning: Planning) async {
-        self.isLoading = true;
-     
         do {
             let response = try await TimelineModel().fetch(planningId: planning.id)
             DispatchQueue.main.async {
@@ -37,14 +36,14 @@ class TransactionsViewViewModel: ObservableObject {
     }
     
     func saveNewTransaction(planningId: String) async  {
-        guard isFormValid() else {
+        guard isFormValid(transaction: self.newTransaction) else {
             print("form invalid", formErrors.count)
             return
         }
         self.isLoading = true;
         do {
             self.newTransaction.planningId = planningId
-            _ = try await NewTransactionModel().save(transaction: self.newTransaction)
+            _ = try await TransactionModel().save(transaction: self.newTransaction)
                 DispatchQueue.main.async {
                     print("success")
                     self.isLoading = false;
@@ -58,20 +57,75 @@ class TransactionsViewViewModel: ObservableObject {
         }
     }
     
-    private func isFormValid() -> Bool {
+    func updateTransaction(transaction: Transaction) async  {
+        guard isFormValid(transaction: transaction) else {
+            print("form invalid", formErrors.count)
+            return
+        }
+        self.isLoading = true;
+        do {
+            _ = try await TransactionModel().update(transaction: transaction)
+                DispatchQueue.main.async {
+                    print("success")
+                    self.isLoading = false;
+                }
+        } catch {
+            DispatchQueue.main.async {
+                print("Error: \(error)")
+                self.isLoading = false;
+                self.errorMessage = "Error on updating transaction"
+            }
+        }
+    }
+    
+    func payTransaction(transaction: Transaction) async  {
+        self.isLoading = true;
+        do {
+            _ = try await TransactionModel().pay(periodId: transaction.periodId ?? "", transactionId: transaction.id ?? "")
+            DispatchQueue.main.async {
+                    print("success")
+                    self.isLoading = false;
+                }
+        } catch {
+            DispatchQueue.main.async {
+                print("Error: \(error)")
+                self.isLoading = false;
+                self.errorMessage = "Error on paying"
+            }
+        }
+    }
+    
+    private func isFormValid(transaction: Transaction) -> Bool {
             self.formErrors.removeAll()
-            guard !self.newTransaction.amount.isLessThanOrEqualTo(0) else {
+            guard !transaction.amount.isLessThanOrEqualTo(0) else {
                 self.formErrors.append("Amount should be more than zero.")
                 return false
             }
             
-            guard !self.newTransaction.description.trimmingCharacters(in: .whitespaces).isEmpty else {
+            guard !transaction.description.trimmingCharacters(in: .whitespaces).isEmpty else {
                 self.formErrors.append("Description should not be empty.")
                 return false
             }
         
         return true
     }
+    
+    func removeTransaction(periodId: String, transactionId: String) async  {
+        do {
+            _ = try await TransactionModel().remove(periodId: periodId, transactionId: transactionId)
+                DispatchQueue.main.async {
+                    print("success")
+//                    self.isLoading = false;
+                }
+        } catch {
+            DispatchQueue.main.async {
+                print("Error: \(error)")
+                self.isLoading = false;
+//                self.errorMessage = "Error on removing transaction"
+            }
+        }
+    }
+    
     
     func formattedDate(date: Date) -> String {
            let dateFormatter = DateFormatter()

@@ -11,96 +11,37 @@ struct TimelineView: View {
     let planning: Planning
     @StateObject private var viewModel = TransactionsViewViewModel()
     
-//    init(planning: Planning) {
-//        self.planning = planning
-//        let viewModel = TransactionsViewViewModel(planningId: planning.id)
-//        _viewModel = StateObject(wrappedValue: viewModel)
-//    }
-    
     var body: some View {
-        
-//        NavigationView {
-            ScrollView {
-                VStack {
-                    ForEach(viewModel.periods, id: \.self) { period in
-                        HStack {
-                            Text("\(viewModel.formattedDate(date: period.periodStart)) to \(viewModel.formattedDate(date: period.periodEnd))")
-                                .accessibilityLabel("Period start date to period end date")
-                                .bold()
-                                .font(/*@START_MENU_TOKEN@*/.headline/*@END_MENU_TOKEN@*/)
-                            Spacer()
-                            Text(viewModel.formatCurrency(amount: period.periodBalance))
-                                .accessibilityLabel("Balance: \(viewModel.formatCurrency(amount: period.periodBalance))")
-                                .bold()
-                                .font(/*@START_MENU_TOKEN@*/.headline/*@END_MENU_TOKEN@*/)
-                                .foregroundColor(.secondary)
-                                .multilineTextAlignment(.trailing)
+
+        TimelineTotalsViews(expectedBalance: planning.expectedBalance, currentBalance: planning.currentBalance)
+            if $viewModel.periods.isEmpty && !viewModel.isLoading {
+                Text("We couldn’t find any transactions, go ahead and register the first one")
+                    .multilineTextAlignment(.center)
+                    .padding(30)
+                    .foregroundColor(.secondary)
+            }
+            List ($viewModel.periods, id: \.self) { $period in
+                if !period.transactions.isEmpty {
+                    Section {
+                        ForEach(period.transactions.indices, id: \.self) { index in
+                            TransactionsListItemView(transaction: period.transactions[index], onDelete: {
+                                await viewModel.fetch(planning: planning)
+                            })
                         }
-                        .padding(.horizontal)
-                        
-                        GroupBox() {
-                            ForEach(period.transactions) { transaction in
-                                TransactionsListItemView(transaction: transaction)
-                            }
-                            Divider()
-                                .padding(.top, 5)
-                            HStack {
-                               Text("Expected balance on \(viewModel.formattedDate(date: period.periodEnd))")
-                                    .accessibilityLabel("Expected balance on \(period.periodEnd)")
-                                   .foregroundColor(.secondary)
-                                   .font(.footnote)
-                                   .padding(.leading)
-                               Spacer()
-                               Text(viewModel.formatCurrency(amount: period.expectedAllTimeBalance))
-                                   .accessibilityLabel("Period balance: \(viewModel.formatCurrency(amount: period.periodBalance))")
-                                   .font(.title3)
-                                   .bold()
-                                   .foregroundColor(Color.green)
-                           }
-                        }
-                        .padding(.bottom)
-                    }
-                    .padding(.horizontal)
-                    
-                    if viewModel.isLoading {
-                        ProgressView()
-                            .padding(.leading)
-                        Spacer()
-                    }
-                    
-                }
-                .frame(maxWidth: .infinity, maxHeight: .infinity)
-                .toolbar {
-                    Button {
-                        viewModel.isPresentingFiltersView = true
-                    } label: {
-                        Image(systemName: "line.3.horizontal.decrease.circle")
-                    }
-                    Button {
-                        viewModel.isPresentingNewTransactionView = true
-                    } label: {
-                        Image(systemName: "plus")
+                    } header: {
+                        PeriodHeader(period: period)
+                    } footer: {
+                        PeriodFooter(period: period)
+                            .padding(.bottom)
                     }
                 }
-                .navigationTitle(planning.description)
-                .sheet(isPresented: $viewModel.isPresentingNewTransactionView, onDismiss: didDismiss){
-                    
-                    NavigationStack {
-                        NewTransactionView(planning: planning, newTransactionPresented: $viewModel.isPresentingNewTransactionView)
-                           .toolbar {
-                               ToolbarItem(placement: .cancellationAction) {
-                                   Button("Cancel") {
-                                       viewModel.isPresentingNewTransactionView = false
-                                   }
-                               }
-                               ToolbarItem(placement: .confirmationAction) {
-                               }
-                           }
-                    }
-    
-                }
-                .sheet(isPresented: $viewModel.isPresentingFiltersView) {
-                    FiltersView()
+                
+            }
+            .listStyle(.insetGrouped)
+            .listRowSpacing(6)
+            .refreshable {
+                Task {
+                    await viewModel.fetch(planning: planning)
                 }
             }
             .onAppear {
@@ -108,7 +49,40 @@ struct TimelineView: View {
                     await viewModel.fetch(planning: planning)
                 }
             }
-        
+            .frame(maxHeight: .infinity)
+            .toolbar {
+                Button {
+                    viewModel.isPresentingFiltersView = true
+                } label: {
+                    Image(systemName: "line.3.horizontal.decrease.circle")
+                }
+                Button {
+                    viewModel.isPresentingNewTransactionView = true
+                } label: {
+                    Image(systemName: "plus")
+                }
+            }
+            .navigationTitle(planning.description)
+            .navigationBarTitleDisplayMode(.inline)
+            .sheet(isPresented: $viewModel.isPresentingNewTransactionView, onDismiss: didDismiss){
+                
+                NavigationStack {
+                    NewTransactionView(planning: planning, newTransactionPresented: $viewModel.isPresentingNewTransactionView)
+                        .toolbar {
+                            ToolbarItem(placement: .cancellationAction) {
+                                Button("Cancel") {
+                                    viewModel.isPresentingNewTransactionView = false
+                                }
+                            }
+                            ToolbarItem(placement: .confirmationAction) {
+                            }
+                        }
+                }
+                
+            }
+            .sheet(isPresented: $viewModel.isPresentingFiltersView) {
+                FiltersView()
+            }
     }
     
     func didDismiss() {
@@ -119,5 +93,5 @@ struct TimelineView: View {
 }
 
 #Preview {
-    TimelineView(planning: Planning(id: "66271cf1b379cdd0d2e2f4c6", description: "Sample planning name bem grndao", currency: Currency.cad, initialBalance: 100, dateOfCreation: Date.now))
+    TimelineView(planning: Planning(id: "66410a4bbe0ab6de43a126b5", description: "Sample planning name bem grndao", currency: Currency.cad, currentBalance: 100, expectedBalance: 100, dateOfCreation: Date.now))
 }
