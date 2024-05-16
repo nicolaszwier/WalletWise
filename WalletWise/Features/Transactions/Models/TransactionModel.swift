@@ -7,7 +7,7 @@
 
 import Foundation
 
-class NewTransactionModel {
+class TransactionModel {
     
     func save(transaction: Transaction) async throws -> DefaultResponse {
         
