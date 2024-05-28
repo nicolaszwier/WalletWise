@@ -10,6 +10,7 @@ import Foundation
 struct Transaction: Codable, Identifiable, Hashable {
     var id: String?
     var periodId: String?
+    var categoryId: String?
     var planningId: String
     var userId: String?
     var amount: Decimal
@@ -26,7 +27,7 @@ struct Transaction: Codable, Identifiable, Hashable {
          userId: String?,
          amount: Decimal = 0,
          description: String = "",
-         category: Category = Category.empty,
+         category: Category = Category(id: "", description: "", icon: "", userId: "", active: true),
          date: Date = Date.now,
          isPaid: Bool = true,
          type: TransactionType = TransactionType.expense,
