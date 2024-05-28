@@ -8,11 +8,21 @@
 import SwiftUI
 
 struct CategoryPicker: View {
+    @EnvironmentObject var viewModel: AuthViewViewModel
+    @Binding var selection: Category
+    
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        Picker("Category", selection: $selection) {
+            ForEach(viewModel.user.categories ?? []) { category in
+                CategoryPickerItemView(category: category)
+                    .tag(category)
+            }
+        }
+        .pickerStyle(.navigationLink)
     }
 }
 
 #Preview {
-    CategoryPicker()
+    CategoryPicker(selection: .constant(Category(id: "", description: "Shopping", icon: "dollarsign.circle.fill", userId: "sdfsfwe", active: true)))
+        .environmentObject(AuthViewViewModel())
 }

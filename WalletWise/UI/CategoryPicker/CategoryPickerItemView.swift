@@ -1,5 +1,5 @@
 //
-//  CategoryListItemView.swift
+//  CategoryPickerItemView.swift
 //  WalletWise
 //
 //  Created by NicolasZwierzykowski on 23/05/24.
@@ -7,14 +7,19 @@
 
 import SwiftUI
 
-struct CategoryListItemView: View {
+struct CategoryPickerItemView: View {
     let category: Category
     
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        HStack(alignment: .center, spacing: 12.0) {
+            IconCircleView(icon: "dollarsign.circle.fill", circleColor: Color.pink, imageColor: .white, frameSize: 12)
+            
+            Text(category.description)
+                .font(.headline)
+        }
     }
 }
 
 #Preview {
-    CategoryListItemView(category: Category(id: "", description: "Shopping", active: true, icon: "", color: ""))
+    CategoryPickerItemView(category: Category(id: "", description: "Shopping", icon: "dollarsign.circle.fill", userId: "sdfsfwe", active: true))
 }
