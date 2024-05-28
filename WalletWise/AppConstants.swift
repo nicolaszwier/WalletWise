@@ -35,5 +35,13 @@ struct Constants {
             static let putPlanning = "/plannings/{{planningId}}"
             static let deletePlanning = "/plannings/{{planningId}}"
         }
+        
+        struct Users {
+            static let getProfile = "/users/my-profile"
+        }
+        
+        struct Api {
+            static let status = "/users/status"
+        }
     }
 }
