@@ -9,7 +9,7 @@ import SwiftUI
 
 struct PeriodFooter: View {
     @StateObject private var viewModel = TransactionsViewViewModel()
-    let period: Period
+    @Binding var period: Period
     var body: some View {
         HStack {
             Text("Expected balance on \(viewModel.formattedDate(date: period.periodEnd))")
@@ -19,6 +19,10 @@ struct PeriodFooter: View {
 //                                .padding(.leading)
             Spacer()
             Text(viewModel.formatCurrency(amount: period.expectedAllTimeBalance))
+                .contentTransition(.numericText())
+                .transaction { t in
+                    t.animation = .default
+                }
                 .accessibilityLabel("Period balance: \(viewModel.formatCurrency(amount: period.periodBalance))")
                 .font(.title3)
                 .bold()
@@ -28,5 +32,5 @@ struct PeriodFooter: View {
 }
 
 #Preview {
-    PeriodFooter(period: Period(id: "", planningId: "", userId: "", periodBalance: 100, periodBalancePaidOnly: 80, expectedAllTimeBalance: 120, expectedAllTimeBalancePaidOnly: 120, periodStart: Date.now, periodEnd: Date.now, transactions: []))
+    PeriodFooter(period: .constant(Period(id: "", planningId: "", userId: "", periodBalance: 100, periodBalancePaidOnly: 80, expectedAllTimeBalance: 120, expectedAllTimeBalancePaidOnly: 120, periodStart: Date.now, periodEnd: Date.now, transactions: [])))
 }
