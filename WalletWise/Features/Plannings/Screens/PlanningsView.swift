@@ -12,41 +12,39 @@ struct PlanningsView: View {
     
     var body: some View {
         NavigationView {
-            VStack {
-                List(viewModel.plannings) { planning in
-                    NavigationLink(destination: TimelineView(planning: planning)) {
-                        Text(planning.description)
-                            .bold()
-                            .padding()
-                            .swipeActions(edge: .trailing) {
-                                Button(role: .destructive) {
-                                    
-                                } label: {
-                                    Label("Delete", systemImage: "trash")
-                                }
-                                Button {
-                                    
-                                } label: {
-                                    Label("Flag", systemImage: "pencil.circle")
-                                }
-                                .tint(.blue)
+            List(viewModel.plannings) { planning in
+                NavigationLink(destination: TimelineView(planning: planning)) {
+                    Text(planning.description)
+                        .bold()
+                        .padding()
+                        .swipeActions(edge: .trailing) {
+                            Button(role: .destructive) {
+                                
+                            } label: {
+                                Label("Delete", systemImage: "trash")
                             }
-                    }
+                            Button {
+                                
+                            } label: {
+                                Label("Flag", systemImage: "pencil.circle")
+                            }
+                            .tint(.blue)
+                        }
                 }
-                .listRowSpacing(12)
-                
+            }
+            .listRowSpacing(12)
+            .refreshable {  await viewModel.fetch() }
+            .navigationTitle("Plannings")
+            .task {
+                await viewModel.fetch()
+            }
+            .toolbar {
                 if viewModel.isLoading {
                     ProgressView()
                         .padding(.leading)
+                        .zIndex(2)
                     Spacer()
                 }
-                
-            }
-            .navigationTitle("Plannings")
-            .onAppear {
-                viewModel.fetchPlannings()
-            }
-            .toolbar {
                 Button {
                     
                 } label: {
@@ -60,4 +58,5 @@ struct PlanningsView: View {
 
 #Preview {
     PlanningsView()
+        .environmentObject(AuthViewViewModel())
 }
