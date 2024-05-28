@@ -31,6 +31,7 @@ struct MainView: View {
                     .transition(.move(edge: .leading))
             }
         }
+        .environmentObject(viewModel)
     }
 }
 
