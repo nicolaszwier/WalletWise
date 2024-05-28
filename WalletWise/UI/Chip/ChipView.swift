@@ -7,12 +7,35 @@
 
 import SwiftUI
 
+struct ChipModel: Identifiable {
+    let id = UUID()
+    let titleKey: LocalizedStringKey
+    let period: FilterPeriod
+}
+
 struct ChipView: View {
+    var chip: ChipModel
+    @Binding var selectedChipIndex: UUID?
+
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        Text(chip.titleKey)
+            .lineLimit(1)
+            .padding(.vertical, 5)
+            .padding(.horizontal, 10)
+            .foregroundColor(selectedChipIndex == chip.id ? .white : .accentColor)
+            .background(selectedChipIndex == chip.id ? .accentColor : Color.white)
+            .cornerRadius(20)
+            .font(.title3)
+            .bold()
+            .overlay(
+                RoundedRectangle(cornerRadius: 20)
+                    .stroke(Color.accentColor, lineWidth: 1.5)
+                
+            )
+            .transition(.slide)
     }
 }
 
 #Preview {
-    ChipView()
+    ChipView(chip: ChipModel(titleKey: "Last four periods", period: FilterPeriod.lastMonth), selectedChipIndex: .constant(UUID()))
 }
