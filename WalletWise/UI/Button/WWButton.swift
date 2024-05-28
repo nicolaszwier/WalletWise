@@ -15,7 +15,7 @@ struct WWButton: View {
         Button(label) {
            action()
         }
-        .frame(height: 37.0)
+        .frame(height: 42.0)
         .fontWeight(.heavy)
         .frame(maxWidth: /*@START_MENU_TOKEN@*/.greatestFiniteMagnitude/*@END_MENU_TOKEN@*/)
         .background(background)
@@ -25,7 +25,7 @@ struct WWButton: View {
 }
 
 #Preview {
-    WWButton(label: "Label", background: .blue, action: {
+    WWButton(label: "Label", background: .accentColor, action: {
         
     })
 }
