@@ -81,7 +81,7 @@ struct TimelineView: View {
                 
             }
             .sheet(isPresented: $viewModel.isPresentingFiltersView) {
-                FiltersView()
+                FiltersView(planning: planning, filtersViewPresented: $viewModel.isPresentingFiltersView)
             }
     }
     
