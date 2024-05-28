@@ -12,12 +12,11 @@ struct SigninView: View {
     
     var body: some View {
         NavigationView {
-            VStack {
+            VStack() {
                 Text("WalletWise")
                     .font(.title)
                     .bold()
                     .padding(.top)
-                
                 Form {
                     if !viewModel.errorMessage.isEmpty {
                         Text(viewModel.errorMessage)
@@ -31,36 +30,35 @@ struct SigninView: View {
                     SecureField("Password", text: $viewModel.password)
                     HStack {
                         Spacer()
-                        Button("Signin") {
+                        Button(action: {
                             Task {
                                 await viewModel.signIn()
                             }
-                            
-                        }
-                        .frame(height: 37.0)
+                        }, label: {
+                            if viewModel.isLoading {
+                                ProgressView()
+                            } else {
+                                Text("Signin")
+                            }
+                        })
+                        .frame(height: 42.0)
                         .fontWeight(.heavy)
                         .frame(maxWidth: /*@START_MENU_TOKEN@*/.greatestFiniteMagnitude/*@END_MENU_TOKEN@*/)
                         .padding(.trailing)
                         .disabled(viewModel.isLoading)
-                        .background(Color.blue)
+                        .background(viewModel.isLoading ? Color.secondary : .accent)
                                         .foregroundColor(.white)
                         .clipShape(RoundedRectangle(cornerRadius: 8, style: /*@START_MENU_TOKEN@*/.continuous/*@END_MENU_TOKEN@*/))
-                        if viewModel.isLoading {
-                            ProgressView()
-                                .padding(.leading)
-                        }
                     }
-                    
                 }
-                
             
                 VStack {
                     Text("Doesn't have an account?")
                     NavigationLink("Create one", destination: SignupView())
+                        .bold()
                         
                 }
                 .padding(.bottom)
-                
              
             }
         }
