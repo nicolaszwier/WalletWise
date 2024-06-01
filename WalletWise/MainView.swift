@@ -18,7 +18,7 @@ struct MainView: View {
                         .tabItem {
                             Label("Plannings", systemImage: "dollarsign.circle.fill")
                         }
-                    ProfileView(viewModel: viewModel)
+                    ProfileView()
                         .tabItem {
                             Label("Profile", systemImage: "person.circle.fill")
                         }
