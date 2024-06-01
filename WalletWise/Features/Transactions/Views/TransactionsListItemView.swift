@@ -12,7 +12,7 @@ struct TransactionsListItemView: View {
     let refreshTrigger: () async -> Void
     let onEditDismiss: () -> Void
     @StateObject private var viewModel = TransactionsViewViewModel()
-    @State private var editingTransaction = Transaction(id: "", periodId: "", planningId: "", userId: "")
+    @State private var editingTransaction = Transaction(id: "", periodId: "", categoryId: "", planningId: "", userId: "")
    
     var body: some View {
         HStack {
@@ -83,15 +83,7 @@ struct TransactionsListItemView: View {
             
             NavigationStack {
                 EditTransactionView(transaction: $editingTransaction, editTransactionPresented: $viewModel.isPresentingEditTransactionView)
-//                    .toolbar {
-//                        ToolbarItem(placement: .cancellationAction) {
-//                            Button("Cancel") {
-//                                viewModel.isPresentingEditTransactionView = false
-//                            }
-//                        }
-//                    }
             }
-            
         }
     }
     
@@ -99,7 +91,7 @@ struct TransactionsListItemView: View {
 }
 
 #Preview {
-    TransactionsListItemView(transaction: .constant(Transaction(id: "", periodId: "", planningId: "", userId: "", description: "Transaction description", category: Category(id: "", description: "Shopping", icon: "dollarsign.circle.fill", userId: "sdfsfwe", active: true), isPaid: false)), refreshTrigger: {
+    TransactionsListItemView(transaction: .constant(Transaction(id: "", periodId: "", categoryId: "", planningId: "", userId: "", description: "Transaction description", category: Category(id: "", description: "Shopping", icon: "dollarsign.circle.fill", userId: "sdfsfwe", active: true), isPaid: false)), refreshTrigger: {
         
     }, onEditDismiss: {})
 }
