@@ -16,7 +16,7 @@ class TransactionsViewViewModel: ObservableObject {
     @Published var isPresentingEditTransactionView = false
     @Published var isPresentingFiltersView = false
     @Published var errorMessage = ""
-    @Published var newTransaction = Transaction(id: "", periodId: "", planningId: "", userId: "", amount: 0)
+    @Published var newTransaction = Transaction(id: "", periodId: "", categoryId: "", planningId: "", userId: "", amount: 0)
     @Published var formErrors: [String] = []
     @Published var planningExpectedBalance: Decimal = 0
     @Published var planningCurrentBalance: Decimal = 0
@@ -41,7 +41,6 @@ class TransactionsViewViewModel: ObservableObject {
                 self.loader(show: false)
             }
         }
-        
     }
     
     func clearFilters() {
@@ -72,7 +71,7 @@ class TransactionsViewViewModel: ObservableObject {
     
     func updateTransaction(transaction: Transaction) async  {
         guard isFormValid(transaction: transaction) else {
-            print("form invalid", formErrors.count)
+            print("form invalid", transaction)
             return
         }
         self.loader(show: true)
@@ -117,6 +116,11 @@ class TransactionsViewViewModel: ObservableObject {
         
         guard !transaction.description.trimmingCharacters(in: .whitespaces).isEmpty else {
             self.formErrors.append("Description should not be empty.")
+            return false
+        }
+        
+        guard !transaction.categoryId.isEmpty else {
+            self.formErrors.append("Please select a category")
             return false
         }
         
