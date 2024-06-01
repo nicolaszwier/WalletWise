@@ -29,7 +29,6 @@ struct SigninView: View {
                         
                     SecureField("Password", text: $viewModel.password)
                     HStack {
-                        Spacer()
                         Button(action: {
                             Task {
                                 await viewModel.signIn()
