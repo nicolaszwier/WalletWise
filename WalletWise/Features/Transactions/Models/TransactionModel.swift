@@ -15,6 +15,8 @@ class TransactionModel {
             throw NetworkError.invalidURL
         }
         
+        print(transaction)
+        
         request.httpBody = try? HttpService().customEncoder().encode(transaction)
         
         let (data, response) = try await URLSession.shared.data(for: request)
@@ -49,19 +51,19 @@ class TransactionModel {
         }
         
         request.httpBody = try? HttpService().customEncoder().encode(transaction)
-        
+        print(String(data: request.httpBody!, encoding: .utf8)!)
         let (data, response) = try await URLSession.shared.data(for: request)
         guard response is HTTPURLResponse else {
             throw NetworkError.custom(errorMessage: "Invalid HTTPUrlResponse")
         }
-        
+        print("result, ", String(data: data, encoding: .utf8)!)
         let decodedResponse = try? HttpService().customDecoder().decode(DefaultResponse.self, from: data)
         
         if (decodedResponse?.statusCode ?? 400) >= 200 && (decodedResponse?.statusCode ?? 400) <= 299 {
             return decodedResponse!
         }
         
-        try? handleError(data: data, statusCode: decodedResponse?.statusCode ?? nil)
+        try handleError(data: data, statusCode: decodedResponse?.statusCode ?? nil)
         
         return nil
     }
@@ -91,10 +93,16 @@ class TransactionModel {
     func handleError(data: Data, statusCode: Int?) throws {
         var code = statusCode
         var errorResponse: ErrorResponse?
+        var errorResponseAlt: ErrorResponseAlt?
         
         if statusCode == nil {
             errorResponse = try? HttpService().customDecoder().decode(ErrorResponse.self, from: data)
             code = errorResponse?.statusCode ?? 0
+        }
+        
+        if errorResponse == nil {
+            errorResponseAlt = try? HttpService().customDecoder().decode(ErrorResponseAlt.self, from: data)
+            code = errorResponseAlt?.statusCode ?? 0
         }
         
         switch code {
