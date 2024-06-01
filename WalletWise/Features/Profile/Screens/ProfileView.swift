@@ -8,14 +8,22 @@
 import SwiftUI
 
 struct ProfileView: View {
-    @StateObject var viewModel = AuthViewViewModel()
+    @EnvironmentObject var viewModel: AuthViewViewModel
     
     var body: some View {
         NavigationView {
             VStack {
+                Text(viewModel.user.name)
+                    .font(/*@START_MENU_TOKEN@*/.title/*@END_MENU_TOKEN@*/)
+                    .bold()
+                    .padding(.top, 60)
+                Text(viewModel.user.email)
+                    .foregroundStyle(.secondary)
+                Spacer()
                 Button("Signout") {
                     viewModel.signout()
                 }
+                .padding()
                 .fontWeight(.heavy)
             }
             .navigationTitle("My profile")
@@ -32,4 +40,5 @@ struct ProfileView: View {
 
 #Preview {
     ProfileView()
+        .environmentObject(AuthViewViewModel())
 }
