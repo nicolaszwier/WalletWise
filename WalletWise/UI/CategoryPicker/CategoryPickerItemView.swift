@@ -12,7 +12,7 @@ struct CategoryPickerItemView: View {
     
     var body: some View {
         HStack(alignment: .center, spacing: 12.0) {
-            IconCircleView(icon: "dollarsign.circle.fill", circleColor: Color.pink, imageColor: .white, frameSize: 12)
+            IconCircleView(icon: category.icon ?? "ellipsis.circle.fill", circleColor: Color.blue, imageColor: .white, frameSize: 12)
             
             Text(category.description)
                 .font(.headline)
