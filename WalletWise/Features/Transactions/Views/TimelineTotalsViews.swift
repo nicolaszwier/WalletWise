@@ -23,11 +23,11 @@ struct TimelineTotalsViews: View {
                 Text(viewModel.formatCurrency(amount: currentBalance))
                     .contentTransition(.numericText())
                     .transaction { t in
-                        t.animation = .default
+                        t.animation = .smooth
                     }
                     .font(.title2)
                     .bold()
-                    .foregroundColor(Color.accentColor)
+                    .foregroundColor(Color.green)
                    
             }
             .onTapGesture {
@@ -49,11 +49,11 @@ struct TimelineTotalsViews: View {
                 Text(viewModel.formatCurrency(amount: expectedBalance))
                     .contentTransition(.numericText())
                     .transaction { t in
-                        t.animation = .default
+                        t.animation = .smooth
                     }
                     .font(.title2)
                     .bold()
-                    .foregroundColor(Color.accentColor)
+                    .foregroundColor(Color.green)
             }
             .onTapGesture {
                 isExpectedBalancePopoverPresented = true
