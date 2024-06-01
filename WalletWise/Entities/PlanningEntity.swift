@@ -12,10 +12,11 @@ enum Currency: String, Codable {
 }
 
 struct Planning: Hashable, Codable, Identifiable {
-    let id: String
-    let description: String
-    let currency: Currency
-    let currentBalance: Decimal
-    let expectedBalance: Decimal
-    let dateOfCreation: Date
+    var id: String
+    var description: String
+    var currency: Currency
+    var currentBalance: Decimal
+    var expectedBalance: Decimal
+    var dateOfCreation: Date?
+    var active: Bool?
 }
