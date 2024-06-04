@@ -73,6 +73,7 @@ struct PlanningsView: View {
                     .foregroundColor(.secondary)
             }
         }
+        .tint(.primary)
     }
     
     func didDismiss() {
