@@ -7,12 +7,23 @@
 
 import SwiftUI
 
-struct OutlinedTextFieldStyle: View {
-    var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+struct OutlinedTextFieldStyle: TextFieldStyle {
+    
+    @State var icon: Image?
+    
+    func _body(configuration: TextField<Self._Label>) -> some View {
+        HStack {
+            if icon != nil {
+                icon
+                    .foregroundColor(Color(UIColor.systemGray4))
+                    .padding(.trailing, 6)
+            }
+            configuration
+        }
+        .padding()
+        .overlay {
+            RoundedRectangle(cornerRadius: 8, style: .continuous)
+                .stroke(Color(UIColor.systemGray4), lineWidth: 2)
+        }
     }
-}
-
-#Preview {
-    OutlinedTextFieldStyle()
 }

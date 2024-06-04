@@ -7,12 +7,25 @@
 
 import SwiftUI
 
-struct RoundedTextFieldStyle: View {
-    var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+struct RoundedTextFieldStyle: TextFieldStyle {
+    
+    @State var icon: Image?
+    @State var verticalPadding: CGFloat?
+    
+    func _body(configuration: TextField<Self._Label>) -> some View {
+        HStack {
+            if icon != nil {
+                icon
+                    .foregroundColor(Color(UIColor.systemGray4))
+                    .padding(.trailing, 6)
+            }
+            configuration
+        }
+        .padding(.vertical, verticalPadding ?? 12)
+        .padding(.horizontal, 24)
+        .background(
+            Color(UIColor.systemGray6)
+        )
+        .clipShape(Capsule(style: .continuous))
     }
-}
-
-#Preview {
-    RoundedTextFieldStyle()
 }
