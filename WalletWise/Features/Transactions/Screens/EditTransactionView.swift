@@ -23,7 +23,6 @@ struct EditTransactionView: View {
                 Text("Edit income")
                     .font(/*@START_MENU_TOKEN@*/.title/*@END_MENU_TOKEN@*/)
                     .bold()
-                //                .foregroundStyle(.green)
                     .padding(.top)
             }
             
@@ -35,12 +34,13 @@ struct EditTransactionView: View {
                             Text("Amount")
                                 .multilineTextAlignment(.trailing)
                             Spacer()
-                            TextField("Amount", value: $transaction.amount, format: .currency(code: Locale.current.identifier))
+                            TextField("0,00", value: $transaction.amount, format: .currency(code: Locale.current.identifier))
                                 .multilineTextAlignment(.trailing)
-                                .frame(height: 35.0)
+                                .frame(width: 160)
                                 .keyboardType(.decimalPad)
                                 .bold()
                                 .font(.title3)
+                                .textFieldStyle(RoundedTextFieldStyle(icon: Image(systemName: "dollarsign"), verticalPadding: 6))
                                 .onAppear(perform: {
                                     //if expense, convert the value to show as positive (logic will be handled by API)
                                     if transaction.type == TransactionType.expense &&  transaction.amount < 0 {
@@ -62,7 +62,7 @@ struct EditTransactionView: View {
                         }
                         .tint(.accentColor)
                         CategoryPicker(selection: $transaction.category)
-                   
+                        
                         ForEach(viewModel.formErrors, id: \.self) { error in
                             Text(error)
                                 .foregroundStyle(.red)
@@ -87,12 +87,10 @@ struct EditTransactionView: View {
                         }
                         .padding(.top)
                     }
-                    
-                    
                 }
             }
-            
         }
+        .tint(Color.customAccent)
     }
 }
 

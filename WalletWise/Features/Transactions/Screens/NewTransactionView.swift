@@ -44,20 +44,19 @@ struct NewTransactionView: View {
                             Text("Amount")
                                 .multilineTextAlignment(.trailing)
                             Spacer()
-                            TextField("$0,00", value: $viewModel.newTransaction.amount, format: .currency(code: Locale.current.identifier))
-                                .frame(height: 35.0)
+                            TextField("0,00", value: $viewModel.newTransaction.amount, format: .currency(code: Locale.current.identifier))
+                                .frame(width: 160)
                                 .focused($isFocused)
                                 .multilineTextAlignment(.trailing)
-                            
                                 .keyboardType(.decimalPad)
                                 .accessibilityIdentifier("myTextField")
-                                .textFieldStyle(.plain)
+                                .textFieldStyle(RoundedTextFieldStyle(icon: Image(systemName: "dollarsign"), verticalPadding: 6))
                                 .bold()
                                 .font(.title3)
-         
                         }
                         TextField("Description", text: $viewModel.newTransaction.description)
-                            .frame(height: 35.0)
+//                            .frame(height: 35.0)
+                            
                     }
                     Section(header: Text("")) {
                         DatePicker(
@@ -96,6 +95,7 @@ struct NewTransactionView: View {
                     
                     
                 }
+                .formStyle(.grouped)
             }
             .onAppear {
                 self.isFocused = true
@@ -115,6 +115,7 @@ struct NewTransactionView: View {
                 }
             }
         }
+        .tint(Color.customAccent)
         
     }
     
