@@ -71,6 +71,7 @@ struct TransactionsListItemView: View {
             } label: {
                 Label("Delete", systemImage: "trash")
             }
+            .tint(.red)
             Button {
                 editingTransaction = transaction
                 viewModel.isPresentingEditTransactionView = true
