@@ -18,7 +18,6 @@ struct FiltersView: View {
         ChipModel(titleKey: "Custom", period: FilterPeriod.custom)
     ]
     @State private var isPressed = false
-//    @State var filters: FiltersEntity
     
     var body: some View {
         
@@ -28,7 +27,7 @@ struct FiltersView: View {
             .padding(.top)
         VStack(alignment: .center) {
             GroupBox(label: Text("Period")) {
-                ChipContainerView(chipsArray: periodChips, selection: $viewModel.filters.selectedPeriod, selectedChipIndex: periodChips.first?.id)
+                ChipContainerView(chipsArray: periodChips, selection: $viewModel.filters.selectedPeriod, selectedChipIndex: periodChips.last?.id)
                 
                 
                 if (viewModel.filters.selectedPeriod.rawValue == FilterPeriod.custom.rawValue) {
@@ -61,13 +60,15 @@ struct FiltersView: View {
                     filtersViewPresented = false
                 }
             }
-            .sensoryFeedback(.increase, trigger: isPressed)
+            .sensoryFeedback(.start, trigger: isPressed)
             Button("Clear filters", systemImage: "xmark") {
                 Task {
+                    isPressed.toggle()
                     viewModel.clearFilters()
                     filtersViewPresented = false
                 }
             }
+            .sensoryFeedback(.impact, trigger: isPressed)
             .padding(.top)
             .buttonStyle(.plain)
             .foregroundColor(.red)
