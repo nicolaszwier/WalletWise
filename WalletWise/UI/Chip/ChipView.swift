@@ -22,14 +22,14 @@ struct ChipView: View {
             .lineLimit(1)
             .padding(.vertical, 5)
             .padding(.horizontal, 10)
-            .foregroundColor(selectedChipIndex == chip.id ? .white : .accentColor)
-            .background(selectedChipIndex == chip.id ? .accentColor : Color.white)
+            .foregroundColor(selectedChipIndex == chip.id ? .white : .secondary)
+            .background(selectedChipIndex == chip.id ? .accentColor : Color(UIColor.tertiarySystemBackground))
             .cornerRadius(20)
             .font(.title3)
             .bold()
             .overlay(
                 RoundedRectangle(cornerRadius: 20)
-                    .stroke(Color.accentColor, lineWidth: 1.5)
+                    .stroke(selectedChipIndex == chip.id ? .accentColor : Color(UIColor.quaternarySystemFill), lineWidth: 1.5)
                 
             )
             .transition(.slide)
