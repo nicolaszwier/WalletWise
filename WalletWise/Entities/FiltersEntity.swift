@@ -14,7 +14,7 @@ struct FiltersEntity: Codable, Hashable {
     var includeExpenses: Bool
     var includeIncomes: Bool
     
-    init(selectedPeriod: FilterPeriod = FilterPeriod.lastMonth, startDate: Date = UtilsService().addOrSubtractMonth(month: -3), endDate: Date = UtilsService().addOrSubtractMonth(month: 1), includeExpenses: Bool = true, includeIncomes: Bool = true) {
+    init(selectedPeriod: FilterPeriod = FilterPeriod.custom, startDate: Date = UtilsService().addOrSubtractMonth(month: -1), endDate: Date = UtilsService().addOrSubtractMonth(month: 2), includeExpenses: Bool = true, includeIncomes: Bool = true) {
         self.selectedPeriod = selectedPeriod
         self.startDate = startDate
         self.endDate = endDate
