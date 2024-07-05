@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct CategoryPicker: View {
-    @EnvironmentObject var viewModel: AuthViewViewModel
+    @EnvironmentObject var viewModel: AppViewViewModel
     @Binding var selection: Category
     
     var body: some View {
@@ -24,5 +24,5 @@ struct CategoryPicker: View {
 
 #Preview {
     CategoryPicker(selection: .constant(Category(id: "", description: "Shopping", icon: "dollarsign.circle.fill", userId: "sdfsfwe", active: true)))
-        .environmentObject(AuthViewViewModel())
+        .environmentObject(AppViewViewModel())
 }
