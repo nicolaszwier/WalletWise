@@ -73,6 +73,29 @@ class HttpService {
         return replacedEndpoint
     }
     
+    func handleError(data: Data, statusCode: Int?) throws {
+        var code = statusCode
+        var errorResponse: ErrorResponse?
+        
+        if statusCode == nil {
+            errorResponse = try HttpService().customDecoder().decode(ErrorResponse.self, from: data)
+            code = errorResponse?.statusCode ?? 0
+        }
+        
+        switch code {
+        case 401:
+            throw AuthenticationError.unauthorized
+        case 404:
+            throw NetworkError.notFound
+        case 409:
+            throw AuthenticationError.emailTaken
+        case 500:
+            throw NetworkError.internalServerError
+        default:
+            throw NetworkError.custom(errorMessage: errorResponse?.message ?? "Bad request")
+        }
+    }
+    
     func customDecoder() -> JSONDecoder {
         let decoder = JSONDecoder()
         decoder.dateDecodingStrategy = .custom { (decoder) -> Date in
