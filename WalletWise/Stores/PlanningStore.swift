@@ -6,3 +6,8 @@
 //
 
 import Foundation
+import SwiftUI
+
+class PlanningStore: ObservableObject {
+    @Published var planning: Planning?
+}
