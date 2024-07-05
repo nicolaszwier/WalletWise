@@ -9,33 +9,33 @@ import SwiftUI
 
 struct PlanningsView: View {
     @StateObject var viewModel = PlanningsViewViewModel()
+    @EnvironmentObject var planningStore: PlanningStore
     @State private var editingPlanning = Planning(id: "", description: "", currency: Currency.brl, currentBalance: 0, expectedBalance: 0)
     
     var body: some View {
         NavigationView {
             List(viewModel.plannings) { planning in
-                NavigationLink(destination: TimelineView(planning: planning)) {
-                    Text(planning.description)
-                        .bold()
-                        .padding()
-                        .swipeActions(edge: .trailing) {
-                            Button(role: .destructive) {
-                                Task {
-                                    await viewModel.remove(planningId: planning.id )
-                                }
-                            } label: {
-                                Label("Delete", systemImage: "trash")
+                PlanningListItemView(planning: planning)
+                    .swipeActions(edge: .trailing) {
+                        Button(role: .destructive) {
+                            Task {
+                                await viewModel.remove(planningId: planning.id )
                             }
-                            Button {
-                                editingPlanning = planning
-                                viewModel.isPresentingEditPlanningView = true
-                            } label: {
-                                Label("Flag", systemImage: "pencil.circle")
-                            }
-                            .tint(.blue)
+                        } label: {
+                            Label("Delete", systemImage: "trash")
                         }
-                }
+                        .tint(.red)
+                        Button {
+                            editingPlanning = planning
+                            viewModel.isPresentingEditPlanningView = true
+                        } label: {
+                            Label("Flag", systemImage: "pencil.circle")
+                        }
+                        .tint(.blue)
+                    }
+             
             }
+            .listStyle(DefaultListStyle())
             .listRowSpacing(12)
             .refreshable {  await viewModel.fetch() }
             .navigationTitle("Plannings")
@@ -66,14 +66,9 @@ struct PlanningsView: View {
                 }
             }
             
-            if $viewModel.plannings.isEmpty && !viewModel.isLoading {
-                Text("We couldn’t find any plannings, go ahead and create the first one")
-                    .multilineTextAlignment(.center)
-                    .padding(30)
-                    .foregroundColor(.secondary)
-            }
         }
         .tint(.primary)
+      
     }
     
     func didDismiss() {
@@ -85,5 +80,6 @@ struct PlanningsView: View {
 
 #Preview {
     PlanningsView()
-        .environmentObject(AuthViewViewModel())
+        .environmentObject(AppViewViewModel())
+        .environmentObject(PlanningStore())
 }

@@ -28,7 +28,7 @@ class PlanningsModel {
         catch {
             print(String(data: data, encoding: .utf8)!)
             print("error", error)
-            try handleError(data: data, statusCode: nil)
+            try HttpService().handleError(data: data, statusCode: nil)
         }
         
         return []
@@ -53,7 +53,7 @@ class PlanningsModel {
             return decodedResponse!
         }
         
-        try handleError(data: data, statusCode: nil)
+        try HttpService().handleError(data: data, statusCode: nil)
         
         throw NetworkError.noData
     }
@@ -77,7 +77,7 @@ class PlanningsModel {
             return decodedResponse!
         }
         
-        try handleError(data: data, statusCode: decodedResponse?.statusCode ?? nil)
+        try HttpService().handleError(data: data, statusCode: decodedResponse?.statusCode ?? nil)
         
         return nil
     }
@@ -100,31 +100,9 @@ class PlanningsModel {
             return decodedResponse!
         }
         
-        try handleError(data: data, statusCode: decodedResponse?.statusCode ?? nil)
+        try HttpService().handleError(data: data, statusCode: decodedResponse?.statusCode ?? nil)
         
         throw NetworkError.noData
     }
-    
-    func handleError(data: Data, statusCode: Int?) throws {
-        var code = statusCode
-        var errorResponse: ErrorResponse?
-        
-        if statusCode == nil {
-            errorResponse = try HttpService().customDecoder().decode(ErrorResponse.self, from: data)
-            code = errorResponse?.statusCode ?? 0
-        }
-        
-        switch code {
-        case 401:
-            throw AuthenticationError.unauthorized
-        case 404:
-            throw NetworkError.notFound
-        case 500:
-            throw NetworkError.internalServerError
-        default:
-            throw NetworkError.custom(errorMessage: errorResponse?.message ?? "Bad request")
-        }
-    }
-    
     
 }

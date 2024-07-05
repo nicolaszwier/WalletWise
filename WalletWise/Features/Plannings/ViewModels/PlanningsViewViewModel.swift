@@ -21,9 +21,12 @@ class PlanningsViewViewModel: ObservableObject {
         self.loader(show: true)
         do {
             let response = try await PlanningsModel().fetch()
-            
+           
             DispatchQueue.main.async {
                 withAnimation(){
+                    if response.isEmpty {
+                        self.isPresentingNewPlannningView = true
+                    }
                     self.plannings = response
                     self.loader(show: false)
                 }
@@ -44,7 +47,7 @@ class PlanningsViewViewModel: ObservableObject {
         }
         self.loader(show: true)
         do {
-            let response = try await PlanningsModel().save(planning: self.newPlanning)
+            _ = try await PlanningsModel().save(planning: self.newPlanning)
             await self.fetch()
             DispatchQueue.main.async {
                 print("success")
