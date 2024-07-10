@@ -23,7 +23,7 @@ struct TimelineView: View {
                     .foregroundColor(.secondary)
             }
             List {
-                TimelineTotalsViews(expectedBalance: $viewModel.planningExpectedBalance, currentBalance: $viewModel.planningCurrentBalance)
+                TimelineTotalsView(expectedBalance: $viewModel.planningExpectedBalance, currentBalance: $viewModel.planningCurrentBalance)
                     .listRowBackground(Color(UIColor.tertiarySystemFill))
 //                    .listRowBackground(Color(UIColor.secondarySystemBackground))
                 

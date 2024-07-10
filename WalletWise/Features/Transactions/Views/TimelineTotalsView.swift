@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct TimelineTotalsViews: View {
+struct TimelineTotalsView: View {
     @Binding var expectedBalance: Decimal
     @Binding var currentBalance: Decimal
     @State private var isCurrentBalancePopoverPresented: Bool = false
@@ -71,7 +71,7 @@ struct TimelineTotalsViews: View {
 }
 
 #Preview {
-    TimelineTotalsViews(expectedBalance: .constant(100), currentBalance: .constant(110))
+    TimelineTotalsView(expectedBalance: .constant(100), currentBalance: .constant(110))
         .environmentObject(PlanningStore())
 
 }
