@@ -13,6 +13,7 @@ enum AuthenticationError: Error {
     case custom(errorMessage: String)
     case invalidURL
     case missingToken
+    case emailTaken
 }
 
 enum NetworkError: Error {
