@@ -21,13 +21,32 @@ struct PlanningListItemView: View {
             isActive = true
             print("selected planning")
         }) {
-            Text(planning.description)
-                .multilineTextAlignment(.leading)
-                .bold()
-                .frame(maxWidth: .infinity)
-                .frame(height: 42.0)
-                .contentShape(Rectangle()) 
-            Spacer()
+            VStack {
+//                HStack {
+//                    Spacer()
+//                    Text(planning.currency.rawValue)
+//                        .font(.caption2)
+//                        .padding(.horizontal)
+//                        .foregroundStyle(.secondary)
+//                }
+                HStack {
+                    Text(planning.description)
+//                        .font(.title3)
+                        .bold()
+                        .padding(.horizontal)
+                    Spacer()
+                    Text(planning.currency.rawValue)
+                        .font(.caption2)
+                        .padding(.horizontal)
+                        .foregroundStyle(.secondary)
+                }
+            }
+            .frame(maxWidth: .infinity)
+            .frame(height: 42.0)
+            .contentShape(Rectangle())
+//            .background(.gray)
+          
+            
         }
         .background(
             NavigationLink(destination: TimelineView(planning: planning), isActive: $isActive) {
