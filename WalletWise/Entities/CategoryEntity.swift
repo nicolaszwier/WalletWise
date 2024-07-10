@@ -14,6 +14,7 @@ struct Category: Hashable, Codable, Identifiable {
     let icon: String?
     let userId: String?
     let active: Bool?
+    let type: TransactionType?
 //    let color: String?
 //    
 //    var uiColor: Color? {

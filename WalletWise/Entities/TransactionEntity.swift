@@ -32,7 +32,7 @@ struct Transaction: Codable, Identifiable, Hashable {
          userId: String?,
          amount: Decimal = 0,
          description: String = "",
-         category: Category = Category(id: "", description: "", icon: "", userId: "", active: true),
+         category: Category = Category(id: "", description: "", icon: "", userId: "", active: true, type: TransactionType.expense),
          date: Date = Date.now,
          isPaid: Bool = true,
          type: TransactionType = TransactionType.expense,
