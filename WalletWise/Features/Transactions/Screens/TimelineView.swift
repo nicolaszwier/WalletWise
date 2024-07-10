@@ -13,9 +13,8 @@ struct TimelineView: View {
     
     var body: some View {
         
-        
         Group {
-            TimelineTotalsViews(expectedBalance: $viewModel.planningExpectedBalance, currentBalance: $viewModel.planningCurrentBalance)
+//            TimelineTotalsViews(expectedBalance: $viewModel.planningExpectedBalance, currentBalance: $viewModel.planningCurrentBalance)
             
             if $viewModel.periods.isEmpty && !viewModel.isLoading {
                 Text("We couldn’t find any transactions, go ahead and register the first one")
@@ -24,6 +23,10 @@ struct TimelineView: View {
                     .foregroundColor(.secondary)
             }
             List {
+                TimelineTotalsViews(expectedBalance: $viewModel.planningExpectedBalance, currentBalance: $viewModel.planningCurrentBalance)
+                    .listRowBackground(Color(UIColor.tertiarySystemFill))
+//                    .listRowBackground(Color(UIColor.secondarySystemBackground))
+                
                 ForEach($viewModel.periods, id: \.self) { $period in
                     if !period.transactions.isEmpty {
                         Section {
@@ -71,7 +74,6 @@ struct TimelineView: View {
                 NavigationStack {
                     NewTransactionView(planning: planning, newTransactionPresented: $viewModel.isPresentingNewTransactionView)
                 }
-                
             }
             .sheet(isPresented: $viewModel.isPresentingFiltersView) {
                 FiltersView(planning: planning, filtersViewPresented: $viewModel.isPresentingFiltersView)
@@ -90,4 +92,5 @@ struct TimelineView: View {
 
 #Preview {
     TimelineView(planning: Planning(id: "66410a4bbe0ab6de43a126b5", description: "Sample planning name bem grndao", currency: Currency.cad, currentBalance: 100, expectedBalance: 100, dateOfCreation: Date.now))
+        .environmentObject(PlanningStore())
 }
