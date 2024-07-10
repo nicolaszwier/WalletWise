@@ -8,7 +8,7 @@
 import Foundation
 import SwiftUI
 
-class AuthViewViewModel: ObservableObject {
+class AppViewViewModel: ObservableObject {
     @Published var email = "new@email.com"
     @Published var password = "12345678"
     @Published var errorMessage = ""

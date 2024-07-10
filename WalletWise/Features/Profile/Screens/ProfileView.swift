@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct ProfileView: View {
-    @EnvironmentObject var viewModel: AuthViewViewModel
+    @EnvironmentObject var viewModel: AppViewViewModel
     
     var body: some View {
         NavigationView {
@@ -40,5 +40,5 @@ struct ProfileView: View {
 
 #Preview {
     ProfileView()
-        .environmentObject(AuthViewViewModel())
+        .environmentObject(AppViewViewModel())
 }
