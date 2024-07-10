@@ -29,8 +29,8 @@ class TransactionsViewViewModel: ObservableObject {
             withAnimation(){
                 DispatchQueue.main.async {
                     self.periods = response
-                    self.planningCurrentBalance = response.first?.expectedAllTimeBalancePaidOnly ?? 0;
-                    self.planningExpectedBalance = response.first?.expectedAllTimeBalance ?? 0;
+                    self.planningCurrentBalance = response.first?.expectedAllTimeBalancePaidOnly ?? planning.currentBalance;
+                    self.planningExpectedBalance = response.first?.expectedAllTimeBalance ?? planning.expectedBalance;
                     self.isPresentingEditTransactionView = false
                     self.loader(show: false)
                 }
