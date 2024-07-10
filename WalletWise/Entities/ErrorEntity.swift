@@ -13,6 +13,12 @@ struct ErrorResponse: Codable {
     let statusCode: Int?
 }
 
+struct ErrorResponseAlt: Codable {
+    let message: [String]?
+    let error: String?
+    let statusCode: Int?
+}
+
 struct DefaultResponse: Codable {
     let message: String?
     let error: String?

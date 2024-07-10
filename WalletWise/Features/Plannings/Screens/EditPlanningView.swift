@@ -1,18 +1,18 @@
 //
-//  NewPlanningView.swift
+//  EditPlanningView.swift
 //  WalletWise
 //
-//  Created by NicolasZwierzykowski on 29/04/24.
+//  Created by NicolasZwierzykowski on 30/05/24.
 //
 
 import SwiftUI
 
-struct NewPlanningView: View {
+struct EditPlanningView: View {
+    @Binding var planning: Planning
     @StateObject private var viewModel = PlanningsViewViewModel()
-    @Binding var newPlanningPresented: Bool
-    
+    @Binding var editPlanningPresented: Bool
     var body: some View {
-        Text("Add new planning")
+        Text("Edit planning")
             .font(/*@START_MENU_TOKEN@*/.title/*@END_MENU_TOKEN@*/)
             .bold()
             .padding(.top)
@@ -20,13 +20,16 @@ struct NewPlanningView: View {
         VStack {
             Form {
                 Section(header: Text("")) {
-                    TextField("Description", text: $viewModel.newPlanning.description)
+                    TextField("Description", text: $planning.description)
                         .frame(height: 35.0)
-                    Picker(selection: $viewModel.newPlanning.currency, label: Text("Currency")) {
-                        Text("Canadian Dollars (CA$)").tag(Currency.cad)
-                        Text("Brazilian Real (R$)").tag(Currency.brl)
+                    
+                    HStack {
+                        Label("Currency:", systemImage: "dollarsign.circle")
+                            .foregroundColor(.secondary)
+                        Spacer()
+                        Text(planning.currency.rawValue)
+                            .foregroundStyle(.secondary)
                     }
-                    .tint(.primary)
                     ForEach(viewModel.formErrors, id: \.self) { error in
                         Text(error)
                             .foregroundStyle(.red)
@@ -34,9 +37,9 @@ struct NewPlanningView: View {
                     }
                     WWButton(isLoading: $viewModel.isLoading, label: "Submit", background: .accentColor) {
                         Task {
-                            await viewModel.save()
+                            await viewModel.update(planning: planning)
                             if viewModel.formErrors.isEmpty {
-                                newPlanningPresented = false
+                                editPlanningPresented = false
                             }
                         }
                     }
@@ -50,5 +53,5 @@ struct NewPlanningView: View {
 }
 
 #Preview {
-    NewPlanningView(newPlanningPresented: .constant(true))
+    EditPlanningView(planning: .constant(Planning(id: "", description: "test", currency: Currency.cad, currentBalance: 0, expectedBalance: 0)), editPlanningPresented: .constant(true))
 }

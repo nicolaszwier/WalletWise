@@ -19,11 +19,11 @@ class HttpService {
         return "Bearer \(token)"
     }
     
-    func buildUrlRequest(method: String, endpoint: String, params: [String] = []) throws -> URLRequest {
-
-        let url = try buildUrl(endpoint: endpoint, apiParams: params)
+    func buildUrlRequest(method: String, endpoint: String, params: [String] = [], queryParams: [URLQueryItem] = []) throws -> URLRequest {
+        
+        let url = try buildUrl(endpoint: endpoint, apiParams: params, queryParams: queryParams)
         let token = getToken()
-         
+        
         var request = URLRequest(url: url)
         request.httpMethod = method
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
@@ -32,14 +32,18 @@ class HttpService {
         return request
     }
     
-    private func buildUrl(endpoint: String, apiParams: [String] = []) throws -> URL {
-      
+    private func buildUrl(endpoint: String, apiParams: [String] = [], queryParams: [URLQueryItem] = []) throws -> URL {
+        
         let apiEndpoint = try replaceParams(in: endpoint, with: apiParams)
         
-        guard let url = URL(string: "\(baseUrl)\(apiEndpoint)") else {
+        guard var url = URL(string: "\(baseUrl)\(apiEndpoint)") else {
             throw NetworkError.invalidURL
         }
+        if !queryParams.isEmpty {
+            url.append(queryItems: queryParams)
+        }
         
+        print("url", url.absoluteString)
         return url
     }
     
@@ -60,7 +64,7 @@ class HttpService {
                 let startIdx = range.lowerBound
                 if let endIdx = replacedEndpoint[startIdx...].range(of: "}}")?.upperBound {
                     let placeholderRange = startIdx..<endIdx
-                    let placeholder = String(replacedEndpoint[placeholderRange])
+                    _ = String(replacedEndpoint[placeholderRange])
                     replacedEndpoint.replaceSubrange(placeholderRange, with: param)
                 }
             }
@@ -69,21 +73,63 @@ class HttpService {
         return replacedEndpoint
     }
     
+    func handleError(data: Data, statusCode: Int?) throws {
+        var code = statusCode
+        var errorResponse: ErrorResponse?
+        
+        if statusCode == nil {
+            errorResponse = try HttpService().customDecoder().decode(ErrorResponse.self, from: data)
+            code = errorResponse?.statusCode ?? 0
+        }
+        
+        switch code {
+        case 401:
+            throw AuthenticationError.unauthorized
+        case 404:
+            throw NetworkError.notFound
+        case 409:
+            throw AuthenticationError.emailTaken
+        case 500:
+            throw NetworkError.internalServerError
+        default:
+            throw NetworkError.custom(errorMessage: errorResponse?.message ?? "Bad request")
+        }
+    }
+    
     func customDecoder() -> JSONDecoder {
-        let formatter = DateFormatter()
-        formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"
         let decoder = JSONDecoder()
-        decoder.dateDecodingStrategy = .formatted(formatter)
-
+        decoder.dateDecodingStrategy = .custom { (decoder) -> Date in
+            let container = try decoder.singleValueContainer()
+            let dateString = try container.decode(String.self)
+            let components = dateString.components(separatedBy: ".")
+            let dateStr = components.first ?? ""
+            let date = Date(isoString: dateStr)
+            return date!
+        }
         return decoder
     }
     
     func customEncoder() -> JSONEncoder {
         let formatter = DateFormatter()
         formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"
+        formatter.calendar = Calendar(identifier: .iso8601)
+        formatter.timeZone = TimeZone(secondsFromGMT: 0)
+        formatter.locale = Locale(identifier: "en_US_POSIX")
         let encoder = JSONEncoder()
         encoder.dateEncodingStrategy = .formatted(formatter)
         return encoder
     }
-    
+}
+
+extension Date {
+    init?(isoString: String) {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss"
+        formatter.locale = Locale(identifier: "en_US_POSIX")
+        if let date = formatter.date(from: isoString) {
+            self.init(timeInterval: 0, since: date)
+        } else {
+            return nil
+        }
+    }
 }

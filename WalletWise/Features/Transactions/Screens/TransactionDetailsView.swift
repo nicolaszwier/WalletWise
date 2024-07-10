@@ -8,11 +8,14 @@
 import SwiftUI
 
 struct TransactionDetailsView: View {
+    let transaction: Transaction
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        Text(transaction.description)
+        Text(transaction.amount.formatted())
+        Text(transaction.date.formatted())
     }
 }
 
 #Preview {
-    TransactionDetailsView()
+    TransactionDetailsView(transaction: Transaction(id: "", periodId: "", categoryId: "", planningId: "", userId: "", amount: 25, description: "Groceries", date: Date.now))
 }

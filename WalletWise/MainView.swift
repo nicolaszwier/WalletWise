@@ -8,17 +8,19 @@
 import SwiftUI
 
 struct MainView: View {
-    @StateObject var viewModel = AuthViewViewModel()
+    @StateObject var viewModel = AppViewViewModel()
+    @StateObject private var planningStore = PlanningStore()
     
     var body: some View {
         VStack {
             if viewModel.isAuthenticated {
                 TabView {
                     PlanningsView()
+                        .environmentObject(planningStore)
                         .tabItem {
                             Label("Plannings", systemImage: "dollarsign.circle.fill")
                         }
-                    ProfileView(viewModel: viewModel)
+                    ProfileView()
                         .tabItem {
                             Label("Profile", systemImage: "person.circle.fill")
                         }
@@ -26,11 +28,12 @@ struct MainView: View {
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
                 .transition(.move(edge: .trailing))
             } else {
-                SigninView(viewModel: viewModel)
+                SigninView()
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
                     .transition(.move(edge: .leading))
             }
         }
+        .environmentObject(viewModel)
     }
 }
 

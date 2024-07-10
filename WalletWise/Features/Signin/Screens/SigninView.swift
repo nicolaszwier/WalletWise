@@ -8,65 +8,98 @@
 import SwiftUI
 
 struct SigninView: View {
-    @StateObject var viewModel = AuthViewViewModel()
+    @EnvironmentObject var viewModel: AppViewViewModel
+    @State var showSignupView = false
     
     var body: some View {
-        NavigationView {
-            VStack {
-                Text("WalletWise")
-                    .font(.title)
-                    .bold()
-                    .padding(.top)
+        NavigationStack {
+            VStack() {
+                HStack(alignment: .center) {
+                    Image("AppIcon-WW")
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                        .clipShape(RoundedRectangle(cornerRadius: 6))
+                        .frame(width: 40)
+                    
+                    Text("WalletWise")
+                        .font(.title)
+                        .foregroundStyle(.secondary)
+                    //                        .bold()
+                }
+                .padding(.bottom, 40)
+                
+                TextField("Email", text: $viewModel.email)
+                    .keyboardType(.emailAddress)
+                    .textInputAutocapitalization(.never)
+                    .textFieldStyle(OutlinedTextFieldStyle(icon: Image(systemName: "person.circle")))
+                
+                SecureField("Password", text: $viewModel.password)
+                    .padding(.bottom)
+                    .textFieldStyle(OutlinedTextFieldStyle(icon: Image(systemName: "lock")))
+                
+                if !viewModel.errorMessage.isEmpty {
+                    Text(viewModel.errorMessage)
+                        .foregroundStyle(.red)
+                        .font(.callout)
+                        .padding(.bottom)
+                }
                 
                 Form {
-                    if !viewModel.errorMessage.isEmpty {
-                        Text(viewModel.errorMessage)
-                            .foregroundStyle(.red)
-                            .font(.callout)
-                    }
-                    TextField("Email", text: $viewModel.email)
-                        .keyboardType(.emailAddress)
-                        .textInputAutocapitalization(.never)
-                        
-                    SecureField("Password", text: $viewModel.password)
-                    HStack {
-                        Spacer()
-                        Button("Signin") {
-                            Task {
-                                await viewModel.signIn()
-                            }
-                            
+                    Button(action: {
+                        Task {
+                            await viewModel.signIn()
                         }
-                        .frame(height: 37.0)
-                        .fontWeight(.heavy)
-                        .frame(maxWidth: /*@START_MENU_TOKEN@*/.greatestFiniteMagnitude/*@END_MENU_TOKEN@*/)
-                        .padding(.trailing)
-                        .disabled(viewModel.isLoading)
-                        .background(Color.blue)
-                                        .foregroundColor(.white)
-                        .clipShape(RoundedRectangle(cornerRadius: 8, style: /*@START_MENU_TOKEN@*/.continuous/*@END_MENU_TOKEN@*/))
+                    }) {
                         if viewModel.isLoading {
                             ProgressView()
-                                .padding(.leading)
+                                .frame(maxWidth: .infinity)
+                                .frame(height: 32.0)
+                        } else {
+                            Text("Signin")
+                                .frame(maxWidth: .infinity)
+                                .frame(height: 32.0)
+                                .fontWeight(.heavy)
+                                .foregroundColor(.white)
                         }
                     }
-                    
+                    .buttonStyle(BorderedProminentButtonStyle())
+                    .disabled(viewModel.isLoading)
                 }
-                
+                .formStyle(.columns)
             
                 VStack {
-                    Text("Doesn't have an account?")
-                    NavigationLink("Create one", destination: SignupView())
+                    
+                        Text("Doesn't have an account?")
+                            .foregroundStyle(.secondary)
+                           
+                        Button("Create one") {
+                            showSignupView = true
+                            //                        .foregroundColor(.accentColor)
+                        }
+                        .bold()
+                    
+//                    NavigationStack {
+//                        navigationDestination(isPresented: $showSignupView) {
+//                            SignupView()
+//                        }
+//                    }
+//                    NavigationLink("Create one", destination: SignupView(), isActive: $showSignupView)
+//                        .bold()
+//                        .foregroundColor(.accentColor)
                         
                 }
-                .padding(.bottom)
-                
+                .navigationDestination(isPresented: $showSignupView) {
+                    SignupView()
+                }
+                .padding(.vertical)
              
             }
+            .padding(30)
         }
     }
 }
 
 #Preview {
     SigninView()
+        .environmentObject(AppViewViewModel())
 }

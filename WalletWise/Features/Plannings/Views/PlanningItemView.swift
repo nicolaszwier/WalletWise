@@ -7,24 +7,59 @@
 
 import SwiftUI
 
-struct PlanningItemView: View {
+struct PlanningListItemView: View {
+    @EnvironmentObject var planningStore: PlanningStore
+    @State private var isActive: Bool = false
+
     let planning: Planning
-    
+//    let viewModel: ViewModel // Replace with your actual ViewModel type
+//    @State private var editingPlanning: Planning?
+
     var body: some View {
-        VStack {
-            Image(systemName: "dollarsign.circle.fill")
-                .padding()
-            Text(planning.description)
-                .padding([.leading, .bottom, .trailing])
-                .fontWeight(.heavy)
+        Button(action: {
+            planningStore.planning = planning
+            isActive = true
+            print("selected planning")
+        }) {
+            VStack {
+//                HStack {
+//                    Spacer()
+//                    Text(planning.currency.rawValue)
+//                        .font(.caption2)
+//                        .padding(.horizontal)
+//                        .foregroundStyle(.secondary)
+//                }
+                HStack {
+                    Text(planning.description)
+//                        .font(.title3)
+                        .bold()
+                        .padding(.horizontal)
+                    Spacer()
+                    Text(planning.currency.rawValue)
+                        .font(.caption2)
+                        .padding(.horizontal)
+                        .foregroundStyle(.secondary)
+                }
+            }
+            .frame(maxWidth: .infinity)
+            .frame(height: 42.0)
+            .contentShape(Rectangle())
+//            .background(.gray)
+          
+            
         }
-        .background(.blue)
-        .foregroundColor(.white)
-        .clipShape(RoundedRectangle(cornerRadius: 6))
-        
+        .background(
+            NavigationLink(destination: TimelineView(planning: planning), isActive: $isActive) {
+                EmptyView()
+            }
+            .hidden()
+        )
+        .buttonStyle(PlainButtonStyle()) // To avoid the default button styling
+//        .buttonStyle(BorderedProminentButtonStyle())
     }
 }
 
 #Preview {
-    PlanningItemView(planning: Planning(id: "123a", description: "Sample planning", currency: Currency.cad, currentBalance: 100, expectedBalance: 100, dateOfCreation: Date.now))
+    PlanningListItemView(planning: Planning(id: "123a", description: "Sample planning", currency: Currency.cad, currentBalance: 100, expectedBalance: 100, dateOfCreation: Date.now))
+        .environmentObject(PlanningStore())
 }

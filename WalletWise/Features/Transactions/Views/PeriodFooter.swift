@@ -9,7 +9,8 @@ import SwiftUI
 
 struct PeriodFooter: View {
     @StateObject private var viewModel = TransactionsViewViewModel()
-    let period: Period
+    @EnvironmentObject var planningStore: PlanningStore
+    @Binding var period: Period
     var body: some View {
         HStack {
             Text("Expected balance on \(viewModel.formattedDate(date: period.periodEnd))")
@@ -18,8 +19,11 @@ struct PeriodFooter: View {
                 .font(.footnote)
 //                                .padding(.leading)
             Spacer()
-            Text(viewModel.formatCurrency(amount: period.expectedAllTimeBalance))
-                .accessibilityLabel("Period balance: \(viewModel.formatCurrency(amount: period.periodBalance))")
+            Text(period.expectedAllTimeBalance.formatted(.currency(code: planningStore.planning?.currency.rawValue ?? "BRL")))
+                .contentTransition(.numericText())
+                .transaction { t in
+                    t.animation = .default
+                }
                 .font(.title3)
                 .bold()
                 .foregroundColor(Color.green)
@@ -28,5 +32,6 @@ struct PeriodFooter: View {
 }
 
 #Preview {
-    PeriodFooter(period: Period(id: "", planningId: "", userId: "", periodBalance: 100, periodBalancePaidOnly: 80, expectedAllTimeBalance: 120, expectedAllTimeBalancePaidOnly: 120, periodStart: Date.now, periodEnd: Date.now, transactions: []))
+    PeriodFooter(period: .constant(Period(id: "", planningId: "", userId: "", periodBalance: 100, periodBalancePaidOnly: 80, expectedAllTimeBalance: 120, expectedAllTimeBalancePaidOnly: 120, periodStart: Date.now, periodEnd: Date.now, transactions: [])))
+        .environmentObject(PlanningStore())
 }

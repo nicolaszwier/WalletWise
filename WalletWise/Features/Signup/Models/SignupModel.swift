@@ -1,29 +1,29 @@
 //
-//  SigninModel.swift
+//  SignupModel.swift
 //  WalletWise
 //
-//  Created by NicolasZwierzykowski on 30/04/24.
+//  Created by NicolasZwierzykowski on 05/06/24.
 //
 
 import Foundation
 
-class SigninModel {
+
+class SignupModel {
     
-    func signin(email: String, password: String) async throws -> SigninResponse {
+    func signup(data: SignupRequest) async throws -> SignupResponse {
         
-        guard var request = try? HttpService().buildUrlRequest(method: "POST", endpoint: Constants.ApiConstants.Auth.signin) else {
+        guard var request = try? HttpService().buildUrlRequest(method: "POST", endpoint: Constants.ApiConstants.Auth.signup, params: []) else {
             throw NetworkError.invalidURL
         }
         
-        let body = SigninRequest(email: email, password: password)
-        request.httpBody = try? JSONEncoder().encode(body)
-      
+        request.httpBody = try? HttpService().customEncoder().encode(data)
+        
         let (data, response) = try await URLSession.shared.data(for: request)
         guard response is HTTPURLResponse else {
             throw NetworkError.custom(errorMessage: "Invalid HTTPUrlResponse")
         }
-        
-        let decodedResponse = try? HttpService().customDecoder().decode(SigninResponse.self, from: data)
+        print(String(data: data, encoding: .utf8)!)
+        let decodedResponse = try? HttpService().customDecoder().decode(SignupResponse.self, from: data)
         
         if (decodedResponse?.accessToken != nil) {
             return decodedResponse!
@@ -32,7 +32,6 @@ class SigninModel {
         try HttpService().handleError(data: data, statusCode: decodedResponse?.statusCode ?? nil)
         
         throw NetworkError.noData
-          
-      }
+    }
       
 }
