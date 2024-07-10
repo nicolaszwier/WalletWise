@@ -61,7 +61,7 @@ struct EditTransactionView: View {
                             Text("Is paid")
                         }
                         .tint(.accentColor)
-                        CategoryPicker(selection: $transaction.category)
+                        CategoryPicker(transactionType: $transaction.type, selection: $transaction.category)
                         
                         ForEach(viewModel.formErrors, id: \.self) { error in
                             Text(error)
@@ -98,5 +98,5 @@ struct EditTransactionView: View {
     EditTransactionView(transaction: .constant(Transaction(id: "", periodId: "", categoryId: "", planningId: "", userId: "")), editTransactionPresented: Binding(get: {
         return true
     }, set: { _ in }))
-    .environmentObject(AuthViewViewModel())
+    .environmentObject(AppViewViewModel())
 }

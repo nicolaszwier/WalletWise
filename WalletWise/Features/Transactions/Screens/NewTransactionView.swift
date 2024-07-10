@@ -9,7 +9,7 @@ import SwiftUI
 
 struct NewTransactionView: View {
     let planning: Planning
-    @EnvironmentObject var appViewModel: AuthViewViewModel
+    @EnvironmentObject var appViewModel: AppViewViewModel
     @StateObject private var viewModel = TransactionsViewViewModel()
     @Binding var newTransactionPresented: Bool
     @FocusState private var isFocused: Bool
@@ -68,7 +68,7 @@ struct NewTransactionView: View {
                             Text("Is paid")
                         }
                         .tint(.accentColor)
-                        CategoryPicker(selection: $viewModel.newTransaction.category)
+                        CategoryPicker(transactionType: $viewModel.newTransaction.type, selection: $viewModel.newTransaction.category)
                         ForEach(viewModel.formErrors, id: \.self) { error in
                             Text(error)
                                 .foregroundStyle(.red)
@@ -142,6 +142,6 @@ struct NewTransactionView: View {
     NewTransactionView(planning: Planning(id: "", description: "", currency: Currency.cad, currentBalance:0, expectedBalance: 10, dateOfCreation: Date.now), newTransactionPresented: Binding(get: {
         return true
     }, set: { _ in }))
-    .environmentObject(AuthViewViewModel())
+    .environmentObject(AppViewViewModel())
 }
 

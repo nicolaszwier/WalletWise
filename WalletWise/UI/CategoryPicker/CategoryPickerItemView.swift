@@ -21,5 +21,5 @@ struct CategoryPickerItemView: View {
 }
 
 #Preview {
-    CategoryPickerItemView(category: Category(id: "", description: "Shopping", icon: "dollarsign.circle.fill", userId: "sdfsfwe", active: true))
+    CategoryPickerItemView(category: Category(id: "", description: "Shopping", icon: "dollarsign.circle.fill", userId: "sdfsfwe", active: true, type: TransactionType.expense))
 }
