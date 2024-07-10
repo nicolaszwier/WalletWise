@@ -30,22 +30,25 @@ class AppViewViewModel: ObservableObject {
     }
     
     func fetchUser() async {
-        await MainActor.run {
-            self.isLoading = true;
-        }
+        self.loader(show: true)
         do {
             let response = try await UserModel().fetch()
             
             await MainActor.run {
                 withAnimation(){
                     self.user = response
-                    self.isLoading = false
+                    self.loader(show: false)
                 }
             }
         } catch {
             await MainActor.run {
-                print("Error fetching data: \(error)")
-                self.isLoading = false;
+                self.loader(show: false)
+                switch error {
+                case AuthenticationError.unauthorized:
+                    self.errorMessage = "Invalid email or password"
+                default:
+                    print("Error fetching data: \(error.localizedDescription)")
+                }
             }
         }
         
@@ -65,11 +68,17 @@ class AppViewViewModel: ObservableObject {
                     }
                 }
             }
+            await fetchUser()
         } catch {
             DispatchQueue.main.async {
-                print("Error fetching data: \(error)")
+                print("Error: \(error)")
                 self.loader(show: false)
-                self.errorMessage = "Invalid email or password"
+                switch error {
+                case AuthenticationError.unauthorized:
+                    self.errorMessage = "Invalid email or password"
+                default:
+                    self.errorMessage = error.localizedDescription
+                }
             }
         }
     }
@@ -91,6 +100,7 @@ class AppViewViewModel: ObservableObject {
                     }
                 }
             }
+            await fetchUser()
         } catch {
             DispatchQueue.main.async {
                 print("Error: \(error)")
@@ -141,6 +151,7 @@ class AppViewViewModel: ObservableObject {
     func signout()  {
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
             self.isAuthenticated = false;
+            self.user = User(name: "", email: "", categories: nil)
             AppService().signout()
         }
     }
