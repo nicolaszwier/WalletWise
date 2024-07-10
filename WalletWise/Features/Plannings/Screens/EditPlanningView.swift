@@ -35,31 +35,20 @@ struct EditPlanningView: View {
                             .foregroundStyle(.red)
                             .font(.callout)
                     }
-                    Button(action: {
+                    WWButton(isLoading: $viewModel.isLoading, label: "Submit", background: .accentColor) {
                         Task {
                             await viewModel.update(planning: planning)
                             if viewModel.formErrors.isEmpty {
                                 editPlanningPresented = false
                             }
                         }
-                    }, label: {
-                        if viewModel.isLoading {
-                            ProgressView()
-                        } else {
-                            Text("Submit")
-                        }
-                    })
-                    .frame(height: 42.0)
-                    .fontWeight(.heavy)
-                    .frame(maxWidth: .greatestFiniteMagnitude)
+                    }
                     .disabled(viewModel.isLoading)
-                    .background(viewModel.isLoading ? Color.secondary : .accent)
-                                    .foregroundColor(.white)
-                    .clipShape(RoundedRectangle(cornerRadius: 8, style: .continuous))
                     .padding(.top)
                 }
             }
         }
+        .tint(Color.customAccent)
     }
 }
 

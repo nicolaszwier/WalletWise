@@ -76,7 +76,7 @@ struct NewTransactionView: View {
                         }
                         HStack {
                             Spacer()
-                            WWButton(label: "Submit", background: .accentColor) {
+                            WWButton(isLoading: $viewModel.isLoading, label: "Submit", background: .accentColor) {
                                 Task {
                                     await viewModel.saveNewTransaction(planningId: planning.id)
                                     if viewModel.formErrors.isEmpty {
@@ -85,10 +85,6 @@ struct NewTransactionView: View {
                                 }
                             }
                             .disabled(viewModel.isLoading)
-                            if viewModel.isLoading {
-                                ProgressView()
-                                    .padding(.leading)
-                            }
                         }
                         .padding(.top)
                     }

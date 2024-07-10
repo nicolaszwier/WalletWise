@@ -42,18 +42,18 @@ struct FiltersView: View {
                 }
             }
 
-            GroupBox(label: Text("Transaction type")) {
-                Toggle(isOn: $viewModel.filters.includeExpenses) {
-                    Label("Include expenses", image: "")
-                }
-                .tint(.accentColor)
-                Toggle(isOn: $viewModel.filters.includeIncomes) {
-                    Label("Include incomes", image: "")
-                }
-                .tint(.accentColor)
-            }
+//            GroupBox(label: Text("Transaction type")) {
+//                Toggle(isOn: $viewModel.filters.includeExpenses) {
+//                    Label("Include expenses", image: "")
+//                }
+//                .tint(.accentColor)
+//                Toggle(isOn: $viewModel.filters.includeIncomes) {
+//                    Label("Include incomes", image: "")
+//                }
+//                .tint(.accentColor)
+//            }
             
-            WWButton(label: "Apply filters", background: .accentColor) {
+            WWButton(isLoading: $viewModel.isLoading, label: "Apply filters", background: .accentColor) {
                 Task {
                     isPressed.toggle()
                     await viewModel.fetch(planning: planning)
@@ -76,8 +76,10 @@ struct FiltersView: View {
             
             Spacer()
         }
+        .tint(Color.customAccent)
         .padding()
     }
+    
     
     
 }

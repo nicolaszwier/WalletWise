@@ -70,7 +70,7 @@ struct EditTransactionView: View {
                         }
                         HStack {
                             Spacer()
-                            WWButton(label: "Submit", background: .accentColor) {
+                            WWButton(isLoading: $viewModel.isLoading, label: "Submit", background: .accentColor) {
                                 Task {
                                     await viewModel.updateTransaction(transaction: transaction)
                                     if viewModel.formErrors.isEmpty {
@@ -80,10 +80,10 @@ struct EditTransactionView: View {
                             }
                             .disabled(viewModel.isLoading)
                             .padding(.trailing)
-                            if viewModel.isLoading {
-                                ProgressView()
-                                    .padding(.leading)
-                            }
+//                            if viewModel.isLoading {
+//                                ProgressView()
+//                                    .padding(.leading)
+//                            }
                         }
                         .padding(.top)
                     }

@@ -8,10 +8,11 @@
 import SwiftUI
 
 struct SigninView: View {
-    @StateObject var viewModel = AuthViewViewModel()
+    @EnvironmentObject var viewModel: AppViewViewModel
+    @State var showSignupView = false
     
     var body: some View {
-        NavigationView {
+        NavigationStack {
             VStack() {
                 HStack(alignment: .center) {
                     Image("AppIcon-WW")
@@ -27,12 +28,6 @@ struct SigninView: View {
                 }
                 .padding(.bottom, 40)
                 
-                if !viewModel.errorMessage.isEmpty {
-                    Text(viewModel.errorMessage)
-                        .foregroundStyle(.red)
-                        .font(.callout)
-                }
-                
                 TextField("Email", text: $viewModel.email)
                     .keyboardType(.emailAddress)
                     .textInputAutocapitalization(.never)
@@ -42,37 +37,59 @@ struct SigninView: View {
                     .padding(.bottom)
                     .textFieldStyle(OutlinedTextFieldStyle(icon: Image(systemName: "lock")))
                 
+                if !viewModel.errorMessage.isEmpty {
+                    Text(viewModel.errorMessage)
+                        .foregroundStyle(.red)
+                        .font(.callout)
+                        .padding(.bottom)
+                }
+                
                 Form {
                     Button(action: {
                         Task {
                             await viewModel.signIn()
                         }
-                    }, label: {
+                    }) {
                         if viewModel.isLoading {
                             ProgressView()
+                                .frame(maxWidth: .infinity)
+                                .frame(height: 32.0)
                         } else {
                             Text("Signin")
+                                .frame(maxWidth: .infinity)
+                                .frame(height: 32.0)
+                                .fontWeight(.heavy)
+                                .foregroundColor(.white)
                         }
-                    })
-                    .buttonStyle(BorderedButtonStyle())
-                    .frame(height: 42.0)
-                    .fontWeight(.heavy)
-                    .frame(maxWidth: /*@START_MENU_TOKEN@*/.greatestFiniteMagnitude/*@END_MENU_TOKEN@*/)
+                    }
+                    .buttonStyle(BorderedProminentButtonStyle())
                     .disabled(viewModel.isLoading)
-                    .background(viewModel.isLoading ? Color.secondary : .accent)
-                    .foregroundColor(.white)
-                    .clipShape(RoundedRectangle(cornerRadius: 8, style: /*@START_MENU_TOKEN@*/.continuous/*@END_MENU_TOKEN@*/))
                 }
                 .formStyle(.columns)
-
             
                 VStack {
-                    Text("Doesn't have an account?")
-                        .foregroundStyle(.secondary)
-                    NavigationLink("Create one", destination: SignupView())
+                    
+                        Text("Doesn't have an account?")
+                            .foregroundStyle(.secondary)
+                           
+                        Button("Create one") {
+                            showSignupView = true
+                            //                        .foregroundColor(.accentColor)
+                        }
                         .bold()
-                        .foregroundColor(.accentColor)
+                    
+//                    NavigationStack {
+//                        navigationDestination(isPresented: $showSignupView) {
+//                            SignupView()
+//                        }
+//                    }
+//                    NavigationLink("Create one", destination: SignupView(), isActive: $showSignupView)
+//                        .bold()
+//                        .foregroundColor(.accentColor)
                         
+                }
+                .navigationDestination(isPresented: $showSignupView) {
+                    SignupView()
                 }
                 .padding(.vertical)
              
@@ -84,4 +101,5 @@ struct SigninView: View {
 
 #Preview {
     SigninView()
+        .environmentObject(AppViewViewModel())
 }
