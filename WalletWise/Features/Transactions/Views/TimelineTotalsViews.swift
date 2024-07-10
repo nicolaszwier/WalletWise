@@ -10,9 +10,9 @@ import SwiftUI
 struct TimelineTotalsViews: View {
     @Binding var expectedBalance: Decimal
     @Binding var currentBalance: Decimal
-    @StateObject private var viewModel = TransactionsViewViewModel()
     @State private var isCurrentBalancePopoverPresented: Bool = false
     @State private var isExpectedBalancePopoverPresented: Bool = false
+    @EnvironmentObject var planningStore: PlanningStore
     
     var body: some View {
         HStack {
@@ -20,7 +20,7 @@ struct TimelineTotalsViews: View {
                 Text("Current balance")
                     .foregroundColor(.secondary)
                     .font(.footnote)
-                Text(viewModel.formatCurrency(amount: currentBalance))
+                Text(currentBalance.formatted(.currency(code: planningStore.planning?.currency.rawValue ?? "BRL")))
                     .contentTransition(.numericText())
                     .transaction { t in
                         t.animation = .smooth
@@ -46,7 +46,7 @@ struct TimelineTotalsViews: View {
                 Text("Expected balance")
                     .foregroundColor(.secondary)
                     .font(.footnote)
-                Text(viewModel.formatCurrency(amount: expectedBalance))
+                Text(expectedBalance.formatted(.currency(code: planningStore.planning?.currency.rawValue ?? "BRL")))
                     .contentTransition(.numericText())
                     .transaction { t in
                         t.animation = .smooth
@@ -65,11 +65,13 @@ struct TimelineTotalsViews: View {
                     .presentationCompactAdaptation(.none)
             })
         }
-        .padding(.horizontal, 35)
-        .padding(.top)
+//        .padding(.horizontal, 35)
+//        .padding(.top)
     }
 }
 
 #Preview {
     TimelineTotalsViews(expectedBalance: .constant(100), currentBalance: .constant(110))
+        .environmentObject(PlanningStore())
+
 }

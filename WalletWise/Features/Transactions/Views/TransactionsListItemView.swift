@@ -12,10 +12,12 @@ struct TransactionsListItemView: View {
     let refreshTrigger: () async -> Void
     let onEditDismiss: () -> Void
     @StateObject private var viewModel = TransactionsViewViewModel()
+    @EnvironmentObject var planningStore: PlanningStore
     @State private var editingTransaction = Transaction(id: "", periodId: "", categoryId: "", planningId: "", userId: "")
    
     var body: some View {
         HStack {
+            IconCircleView(icon: transaction.category.icon ?? "ellipsis.circle.fill", circleColor: Color(UIColor.secondarySystemFill), imageColor: .secondary, frameSize: 16)
             VStack(alignment: .leading) {
                 Text(transaction.description)
                     .font(.headline)
@@ -42,7 +44,7 @@ struct TransactionsListItemView: View {
             }
            
             Spacer()
-            Text(viewModel.formatCurrency(amount: transaction.amount))
+            Text(transaction.amount.formatted(.currency(code: planningStore.planning?.currency.rawValue ?? "BRL")))
         }
         .transition(.move(edge: .leading))
 //        .padding(.vertical, 2)
@@ -92,7 +94,8 @@ struct TransactionsListItemView: View {
 }
 
 #Preview {
-    TransactionsListItemView(transaction: .constant(Transaction(id: "", periodId: "", categoryId: "", planningId: "", userId: "", description: "Transaction description", category: Category(id: "", description: "Shopping", icon: "dollarsign.circle.fill", userId: "sdfsfwe", active: true), isPaid: false)), refreshTrigger: {
+    TransactionsListItemView(transaction: .constant(Transaction(id: "", periodId: "", categoryId: "", planningId: "", userId: "", description: "Transaction description", category: Category(id: "", description: "Shopping", icon: "dollarsign.circle.fill", userId: "sdfsfwe", active: true, type: TransactionType.expense), isPaid: false)), refreshTrigger: {
         
     }, onEditDismiss: {})
+        .environmentObject(PlanningStore())
 }
