@@ -23,42 +23,15 @@ class SigninModel {
             throw NetworkError.custom(errorMessage: "Invalid HTTPUrlResponse")
         }
         
-        if let response = try? HttpService().customDecoder().decode(SigninResponse.self, from: data) {
-            return response
+        let decodedResponse = try? HttpService().customDecoder().decode(SigninResponse.self, from: data)
+        
+        if (decodedResponse?.accessToken != nil) {
+            return decodedResponse!
         }
         
-        let errorResponse = try HttpService().customDecoder().decode(ErrorResponse.self, from: data)
+        try HttpService().handleError(data: data, statusCode: decodedResponse?.statusCode ?? nil)
         
-        switch errorResponse.statusCode {
-        case 401:
-            throw AuthenticationError.unauthorized
-        case 404:
-            throw NetworkError.notFound
-        case 500:
-            throw NetworkError.internalServerError
-        default:
-            throw NetworkError.custom(errorMessage: errorResponse.message ?? "Bad request")
-        }
-//        URLSession.shared.dataTask(with: request) { (data, response, error) in
-//          
-//          guard let data = data, error == nil else {
-//              completion(.failure(.custom(errorMessage: "No data")))
-//              return
-//          }
-//          
-//          guard let loginResponse = try? JSONDecoder().decode(SigninResponse.self, from: data) else {
-//              completion(.failure(.invalidCredentials))
-//              return
-//          }
-//          
-//            guard let token = loginResponse.accessToken else {
-//              completion(.failure(.invalidCredentials))
-//              return
-//          }
-//          
-//          completion(.success(token))
-//          
-//        }.resume()
+        throw NetworkError.noData
           
       }
       
