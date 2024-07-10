@@ -113,7 +113,7 @@ class TransactionModel {
         case 500:
             throw NetworkError.internalServerError
         default:
-            throw NetworkError.custom(errorMessage: errorResponse?.message ?? "Bad request")
+            throw NetworkError.custom(errorMessage: errorResponse?.message ?? "Unidentified error code")
         }
     }
     
