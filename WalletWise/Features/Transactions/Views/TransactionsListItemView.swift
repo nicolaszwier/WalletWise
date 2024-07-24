@@ -17,17 +17,21 @@ struct TransactionsListItemView: View {
    
     var body: some View {
         HStack {
-            IconCircleView(icon: transaction.category.icon ?? "ellipsis.circle.fill", circleColor: Color(UIColor.secondarySystemFill), imageColor: .secondary, frameSize: 16)
+            IconRoundedRectangleView(icon: transaction.category.icon ?? "ellipsis.circle.fill", circleColor: Color(UIColor.secondarySystemFill), imageColor: .primary, frameSize: 16)
+                .padding(.trailing, 6)
             VStack(alignment: .leading) {
                 Text(transaction.description)
                     .font(.headline)
                     .fontWeight(.semibold)
                 
                 HStack(alignment: .bottom) {
+                    Text("\(viewModel.formattedDate(date: transaction.date))  •")
+                        .font(.footnote)
+                        .foregroundStyle(.secondary)
+                        .padding(.leading, 1)
                     Text(transaction.category.description)
                         .font(.footnote)
                         .foregroundStyle(.secondary)
-                    .padding(.leading, 1)
                     if transaction.isPaid {
                         Label("", systemImage: "checkmark.circle.fill")
                             .font(.caption)
@@ -44,7 +48,7 @@ struct TransactionsListItemView: View {
             }
            
             Spacer()
-            Text(transaction.amount.formatted(.currency(code: planningStore.planning?.currency.rawValue ?? "BRL")))
+            Text(transaction.amount?.formatted(.currency(code: planningStore.planning?.currency.rawValue ?? "BRL")) ?? "0")
         }
         .transition(.move(edge: .leading))
 //        .padding(.vertical, 2)

@@ -11,7 +11,7 @@ struct TransactionDetailsView: View {
     let transaction: Transaction
     var body: some View {
         Text(transaction.description)
-        Text(transaction.amount.formatted())
+        Text(transaction.amount?.formatted() ?? "0")
         Text(transaction.date.formatted())
     }
 }
