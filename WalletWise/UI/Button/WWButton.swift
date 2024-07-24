@@ -30,7 +30,7 @@ struct WWButton: View {
             isPressed.toggle()
             action()
         }) {
-            if isLoading ?? false {
+            if isLoading {
                 ProgressView()
                     .frame(maxWidth: .infinity)
                     .frame(height: 32.0)
