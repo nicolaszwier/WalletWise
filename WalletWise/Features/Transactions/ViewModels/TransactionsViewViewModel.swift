@@ -16,7 +16,7 @@ class TransactionsViewViewModel: ObservableObject {
     @Published var isPresentingEditTransactionView = false
     @Published var isPresentingFiltersView = false
     @Published var errorMessage = ""
-    @Published var newTransaction = Transaction(id: "", periodId: "", categoryId: "", planningId: "", userId: "", amount: 0)
+    @Published var newTransaction = Transaction(id: "", periodId: "", categoryId: "", planningId: "", userId: "", amount: nil)
     @Published var formErrors: [String] = []
     @Published var planningExpectedBalance: Decimal = 0
     @Published var planningCurrentBalance: Decimal = 0
@@ -109,7 +109,7 @@ class TransactionsViewViewModel: ObservableObject {
     
     private func isFormValid(transaction: Transaction) -> Bool {
         self.formErrors.removeAll()
-        guard !transaction.amount.isLessThanOrEqualTo(0) else {
+        guard !(transaction.amount?.isLessThanOrEqualTo(0) ?? true) else {
             self.formErrors.append("Amount should be more than zero.")
             return false
         }
@@ -147,6 +147,15 @@ class TransactionsViewViewModel: ObservableObject {
         DispatchQueue.main.async {
             self.isLoading = show;
         }
+    }
+    
+    func isCurrentPeriod(periodStart: Date, periodEnd: Date) -> Bool {
+        let now = Date()
+        let orderPeriodStart = Calendar.current.compare(now, to: periodStart, toGranularity: .day)
+        let orderPeriodEnd = Calendar.current.compare(now, to: periodEnd, toGranularity: .day)
+        
+        // compare if the current date is greater or equal to periodStart date and smaller or equal to periodEnd date
+        return (orderPeriodStart == .orderedDescending || orderPeriodStart == .orderedSame) && (orderPeriodEnd == .orderedAscending || orderPeriodEnd == .orderedSame)
     }
     
     
