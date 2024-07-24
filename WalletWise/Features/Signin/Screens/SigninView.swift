@@ -68,25 +68,12 @@ struct SigninView: View {
                 .formStyle(.columns)
             
                 VStack {
-                    
                         Text("Doesn't have an account?")
                             .foregroundStyle(.secondary)
-                           
                         Button("Create one") {
                             showSignupView = true
-                            //                        .foregroundColor(.accentColor)
                         }
                         .bold()
-                    
-//                    NavigationStack {
-//                        navigationDestination(isPresented: $showSignupView) {
-//                            SignupView()
-//                        }
-//                    }
-//                    NavigationLink("Create one", destination: SignupView(), isActive: $showSignupView)
-//                        .bold()
-//                        .foregroundColor(.accentColor)
-                        
                 }
                 .navigationDestination(isPresented: $showSignupView) {
                     SignupView()
