@@ -85,7 +85,7 @@ class PlanningsModel {
     
     func remove(planningId: String) async throws -> DefaultResponse {
         
-        guard var request = try? HttpService().buildUrlRequest(method: "DELETE", endpoint: Constants.ApiConstants.Plannings.deletePlanning, params: [planningId]) else {
+        guard let request = try? HttpService().buildUrlRequest(method: "DELETE", endpoint: Constants.ApiConstants.Plannings.deletePlanning, params: [planningId]) else {
             throw NetworkError.invalidURL
         }
 
