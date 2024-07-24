@@ -13,10 +13,12 @@ struct ProfileView: View {
     var body: some View {
         NavigationView {
             VStack {
+                IconRoundedRectangleView(icon: "person.fill", circleColor: Color(UIColor.secondarySystemFill), imageColor: .primary, frameSize: 46)
+                    .padding(.top, 60)
                 Text(viewModel.user.name)
                     .font(/*@START_MENU_TOKEN@*/.title/*@END_MENU_TOKEN@*/)
                     .bold()
-                    .padding(.top, 60)
+                    .padding(.top)
                 Text(viewModel.user.email)
                     .foregroundStyle(.secondary)
                 Spacer()
@@ -27,13 +29,6 @@ struct ProfileView: View {
                 .fontWeight(.heavy)
             }
             .navigationTitle("My profile")
-//            .toolbar {
-//                Button {
-//                    
-//                } label: {
-//                    Image(systemName: "plus")
-//                }
-//            }
         }
     }
 }
