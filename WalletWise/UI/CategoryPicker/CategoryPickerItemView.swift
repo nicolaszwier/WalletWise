@@ -11,12 +11,13 @@ struct CategoryPickerItemView: View {
     let category: Category
     
     var body: some View {
-        HStack(alignment: .center, spacing: 12.0) {
-            IconCircleView(icon: category.icon ?? "ellipsis.circle.fill", circleColor: Color.blue, imageColor: .white, frameSize: 12)
+        HStack(alignment: .center, spacing: 14.0) {
+            IconRoundedRectangleView(icon: category.icon ?? "ellipsis.circle.fill", circleColor: Color(UIColor.secondarySystemFill), imageColor: .primary, frameSize: 16)
             
             Text(category.description)
                 .font(.headline)
         }
+        .padding(.vertical, 4)
     }
 }
 
