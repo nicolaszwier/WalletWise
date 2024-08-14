@@ -11,11 +11,12 @@ struct PlanningsView: View {
     @StateObject var viewModel = PlanningsViewViewModel()
     @EnvironmentObject var planningStore: PlanningStore
     @State private var editingPlanning = Planning(id: "", description: "", currency: Currency.brl, currentBalance: 0, expectedBalance: 0)
+    @Binding var selectePlanningSheetPresented: Bool
     
     var body: some View {
-        NavigationView {
+//        NavigationView {
             List(viewModel.plannings) { planning in
-                PlanningListItemView(planning: planning)
+                PlanningListItemView(planning: planning, selectePlanningSheetPresented: $selectePlanningSheetPresented)
                     .swipeActions(edge: .trailing) {
                         Button(role: .destructive) {
                             Task {
@@ -37,8 +38,8 @@ struct PlanningsView: View {
             }
             .listStyle(DefaultListStyle())
             .listRowSpacing(12)
-            .refreshable {  await viewModel.fetch() }
-            .navigationTitle("Plannings")
+//            .refreshable {  await viewModel.fetch() }
+//            .navigationTitle("Plannings")
             .task {
                 await viewModel.fetch()
             }
@@ -66,8 +67,8 @@ struct PlanningsView: View {
                 }
             }
             
-        }
-        .tint(.primary)
+//        }
+//        .tint(.primary)
       
     }
     
@@ -79,7 +80,7 @@ struct PlanningsView: View {
 }
 
 #Preview {
-    PlanningsView()
+    PlanningsView(selectePlanningSheetPresented: .constant(true))
         .environmentObject(AppViewViewModel())
         .environmentObject(PlanningStore())
 }

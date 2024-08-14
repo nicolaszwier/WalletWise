@@ -14,7 +14,6 @@ class PlanningsModel {
         guard let request = try? HttpService().buildUrlRequest(method: "GET", endpoint: Constants.ApiConstants.Plannings.getPlannings) else {
             throw NetworkError.invalidURL
         }
-      
         
         let (data, response) = try await URLSession.shared.data(for: request)
         guard response is HTTPURLResponse else {
