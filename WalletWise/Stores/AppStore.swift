@@ -17,27 +17,16 @@ class AppStore {
     }
     
     private func loadStore() {
-        token = UserDefaults.standard.string(forKey: "token") ?? ""
-        planningId = UserDefaults.standard.string(forKey: "planningId") ?? ""
+        token = UserDefaults.standard.string(forKey: Constants.UserDefaults.token) ?? ""
     }
     
     func setToken(value: String) {
          token = value
-         UserDefaults.standard.setValue(token, forKey: "token")
+         UserDefaults.standard.setValue(token, forKey: Constants.UserDefaults.token)
     }
     
     func getToken() -> String {
         return token
-    }
-
-    func setPlanningId(value: String) {
-        print("setPlanningId", value)
-         planningId = value
-         UserDefaults.standard.setValue(planningId, forKey: "planningId")
-    }
-    
-    func getPlanningId() -> String {
-        return planningId
     }
 
 }
