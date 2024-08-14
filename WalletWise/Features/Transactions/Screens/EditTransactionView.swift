@@ -16,12 +16,12 @@ struct EditTransactionView: View {
         NavigationStack {
             if transaction.type == TransactionType.expense {
                 Text("Edit expense")
-                    .font(/*@START_MENU_TOKEN@*/.title/*@END_MENU_TOKEN@*/)
+                    .font(.headline)
                     .bold()
                     .padding(.top)
             } else {
                 Text("Edit income")
-                    .font(/*@START_MENU_TOKEN@*/.title/*@END_MENU_TOKEN@*/)
+                    .font(.headline)
                     .bold()
                     .padding(.top)
             }

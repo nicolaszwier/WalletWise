@@ -18,12 +18,12 @@ struct NewTransactionView: View {
         NavigationStack {
             if $viewModel.newTransaction.type.wrappedValue == TransactionType.expense {
                 Text("Add new expense")
-                    .font(/*@START_MENU_TOKEN@*/.title/*@END_MENU_TOKEN@*/)
+                    .font(.headline)
                     .bold()
                     .padding(.top)
             } else {
                 Text("Add new income")
-                    .font(/*@START_MENU_TOKEN@*/.title/*@END_MENU_TOKEN@*/)
+                    .font(.headline)
                     .bold()
                 //                .foregroundStyle(.green)
                     .padding(.top)
