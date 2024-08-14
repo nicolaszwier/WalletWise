@@ -183,10 +183,17 @@ class TransactionsViewViewModel: ObservableObject {
         return (orderPeriodStart == .orderedDescending || orderPeriodStart == .orderedSame) && (orderPeriodEnd == .orderedAscending || orderPeriodEnd == .orderedSame)
     }
     
+    func isOverdue(date: Date) -> Bool {
+        let now = Date()
+        
+        return date < now
+    }
+    
     
     func formattedDate(date: Date) -> String {
         let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "MMMM d"
+        dateFormatter.dateFormat = "MMM d"
+        
         return dateFormatter.string(from: date)
     }
     
