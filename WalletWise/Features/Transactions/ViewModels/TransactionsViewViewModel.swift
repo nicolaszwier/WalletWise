@@ -14,13 +14,16 @@ class TransactionsViewViewModel: ObservableObject {
     @Published var isLoading: Bool = false
     @Published var isPresentingNewTransactionView = false
     @Published var isPresentingEditTransactionView = false
+    @Published var isPresentingDuplicateTransactionsView = false
     @Published var isPresentingFiltersView = false
+    @Published var isSelectionMode = false;
     @Published var errorMessage = ""
     @Published var newTransaction = Transaction(id: "", periodId: "", categoryId: "", planningId: "", userId: "", amount: nil)
     @Published var formErrors: [String] = []
     @Published var planningExpectedBalance: Decimal = 0
     @Published var planningCurrentBalance: Decimal = 0
     @Published var filters: FiltersEntity = FiltersEntity()
+    @Published var selectedTransactions: Set<Transaction> = []
     
     func fetch(planning: Planning) async {
         do {
@@ -65,6 +68,28 @@ class TransactionsViewViewModel: ObservableObject {
                 print("Error: \(error)")
                 self.loader(show: false)
                 self.errorMessage = "Error on submitting transaction"
+            }
+        }
+    }
+
+    func duplicateTransactions(transactions: [Transaction]) async  {
+//        guard isFormValid(transaction: self.newTransaction) else {
+//            print("form invalid", formErrors.count)
+//            return
+//        }
+        self.loader(show: true)
+        do {
+//            self.newTransaction.planningId = planningId
+            _ = try await TransactionModel().saveMany(transactions: transactions)
+            DispatchQueue.main.async {
+                print("success")
+                self.loader(show: false)
+            }
+        } catch {
+            DispatchQueue.main.async {
+                print("Error: \(error)")
+                self.loader(show: false)
+                self.errorMessage = "Error on submitting transactions"
             }
         }
     }
