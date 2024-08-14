@@ -22,7 +22,7 @@ struct PeriodHeader: View {
                     .padding(.vertical, 2)
                     .padding(.horizontal, 8)
                     .foregroundColor(.white)
-                    .background(.accent)
+                    .background(Color.customAccent)
                     .cornerRadius(6)
                     .bold()
             }

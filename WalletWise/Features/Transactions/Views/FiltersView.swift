@@ -22,7 +22,7 @@ struct FiltersView: View {
     var body: some View {
         
         Text("Filter transactions")
-            .font(/*@START_MENU_TOKEN@*/.title/*@END_MENU_TOKEN@*/)
+            .font(/*@START_MENU_TOKEN@*/.headline/*@END_MENU_TOKEN@*/)
             .bold()
             .padding(.top)
         VStack(alignment: .center) {

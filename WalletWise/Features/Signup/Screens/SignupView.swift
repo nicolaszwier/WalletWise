@@ -52,6 +52,7 @@ struct SignupView: View {
                         .foregroundStyle(.red)
                         .font(.callout)
                         .padding(.top)
+                        .fixedSize(horizontal: false, vertical: true)
                 }
                 
                 Form {

@@ -26,7 +26,7 @@ struct PeriodFooter: View {
                 }
                 .font(.title3)
                 .bold()
-                .foregroundColor(Color.green)
+                .foregroundColor(Color.secondary)
         }
     }
 }

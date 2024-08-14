@@ -18,7 +18,7 @@ struct TimelineTotalsView: View {
         HStack {
             VStack {
                 Text("Current balance")
-                    .foregroundColor(.secondary)
+                    .foregroundColor(.white)
                     .font(.footnote)
                 Text(currentBalance.formatted(.currency(code: planningStore.planning?.currency.rawValue ?? "BRL")))
                     .contentTransition(.numericText())
@@ -27,7 +27,7 @@ struct TimelineTotalsView: View {
                     }
                     .font(.title2)
                     .bold()
-                    .foregroundColor(Color.green)
+                    .foregroundColor(.white)
                    
             }
             .onTapGesture {
@@ -44,7 +44,7 @@ struct TimelineTotalsView: View {
             
             VStack {
                 Text("Expected balance")
-                    .foregroundColor(.secondary)
+                    .foregroundColor(.white)
                     .font(.footnote)
                 Text(expectedBalance.formatted(.currency(code: planningStore.planning?.currency.rawValue ?? "BRL")))
                     .contentTransition(.numericText())
@@ -53,7 +53,7 @@ struct TimelineTotalsView: View {
                     }
                     .font(.title2)
                     .bold()
-                    .foregroundColor(Color.green)
+                    .foregroundColor(Color.white)
             }
             .onTapGesture {
                 isExpectedBalancePopoverPresented = true

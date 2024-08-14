@@ -15,16 +15,17 @@ struct MainView: View {
         VStack {
             if viewModel.isAuthenticated {
                 TabView {
-                    PlanningsView()
+                    DashboardView()
                         .environmentObject(planningStore)
                         .tabItem {
-                            Label("Plannings", systemImage: "dollarsign.circle.fill")
+                            Label("Home", systemImage: "house")
                         }
                     ProfileView()
                         .tabItem {
                             Label("Profile", systemImage: "person.circle.fill")
                         }
                 }
+                
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
                 .transition(.move(edge: .trailing))
             } else {
@@ -39,4 +40,5 @@ struct MainView: View {
 
 #Preview {
     MainView()
+        .environmentObject(TransactionsViewViewModel())
 }
