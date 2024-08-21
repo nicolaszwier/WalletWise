@@ -9,6 +9,7 @@ import SwiftUI
 
 struct ProfileView: View {
     @EnvironmentObject var viewModel: AppViewViewModel
+    @StateObject private var planningStore = PlanningStore()
     
     var body: some View {
         NavigationView {
@@ -24,6 +25,7 @@ struct ProfileView: View {
                 Spacer()
                 Button("Signout") {
                     viewModel.signout()
+                    planningStore.clearSelectedPlanning()
                 }
                 .padding()
                 .fontWeight(.heavy)

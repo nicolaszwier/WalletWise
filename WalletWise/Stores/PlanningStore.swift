@@ -83,6 +83,15 @@ class PlanningStore: ObservableObject {
         }
     }
     
+    func clearSelectedPlanning() -> Void {
+        withAnimation(){
+            DispatchQueue.main.async {
+                self.planning = nil
+            }
+        }
+        UserDefaults.standard.removeObject(forKey: Constants.UserDefaults.selectedPlanning)
+    }
+    
     func getSelectedPlanning() -> Planning? {
         if let data = UserDefaults.standard.data(forKey: Constants.UserDefaults.selectedPlanning) {
             do {
