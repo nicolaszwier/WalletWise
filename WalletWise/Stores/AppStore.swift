@@ -25,6 +25,10 @@ class AppStore {
          UserDefaults.standard.setValue(token, forKey: Constants.UserDefaults.token)
     }
     
+    func setWelcomeScreenDone(value: Bool) {
+         UserDefaults.standard.setValue(value, forKey: Constants.UserDefaults.welcomeScreenDone)
+    }
+    
     func getToken() -> String {
         return token
     }
