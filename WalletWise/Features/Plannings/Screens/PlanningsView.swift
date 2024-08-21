@@ -14,10 +14,14 @@ struct PlanningsView: View {
     @Binding var selectePlanningSheetPresented: Bool
     
     var body: some View {
-//        NavigationView {
-            List(viewModel.plannings) { planning in
-                PlanningListItemView(planning: planning, selectePlanningSheetPresented: $selectePlanningSheetPresented)
-                    .swipeActions(edge: .trailing) {
+        Text("Select planning")
+            .font(/*@START_MENU_TOKEN@*/.headline/*@END_MENU_TOKEN@*/)
+            .bold()
+            .padding(.top)
+        List(viewModel.plannings) { planning in
+            PlanningListItemView(planning: planning, selectePlanningSheetPresented: $selectePlanningSheetPresented)
+                .swipeActions(edge: .trailing) {
+                    if viewModel.plannings.count > 1 {
                         Button(role: .destructive) {
                             Task {
                                 await viewModel.remove(planningId: planning.id )
@@ -26,50 +30,46 @@ struct PlanningsView: View {
                             Label("Delete", systemImage: "trash")
                         }
                         .tint(.red)
-                        Button {
-                            editingPlanning = planning
-                            viewModel.isPresentingEditPlanningView = true
-                        } label: {
-                            Label("Flag", systemImage: "pencil.circle")
-                        }
-                        .tint(.blue)
                     }
-             
-            }
-            .listStyle(DefaultListStyle())
-            .listRowSpacing(12)
-//            .refreshable {  await viewModel.fetch() }
-//            .navigationTitle("Plannings")
-            .task {
-                await viewModel.fetch()
-            }
-            .toolbar {
-                if viewModel.isLoading {
-                    ProgressView()
-                        .padding(.leading)
-                        .zIndex(2)
-                    Spacer()
+                    Button {
+                        editingPlanning = planning
+                        viewModel.isPresentingEditPlanningView = true
+                    } label: {
+                        Label("Flag", systemImage: "pencil.circle")
+                    }
+                    .tint(.blue)
                 }
-                Button {
-                    viewModel.isPresentingNewPlannningView = true
-                } label: {
-                    Image(systemName: "plus")
-                }
-            }
-            .sheet(isPresented: $viewModel.isPresentingNewPlannningView, onDismiss: didDismiss){
-                NavigationStack {
-                    NewPlanningView(newPlanningPresented: $viewModel.isPresentingNewPlannningView)
-                }
-            }
-            .sheet(isPresented: $viewModel.isPresentingEditPlanningView, onDismiss: didDismiss){
-                NavigationStack {
-                    EditPlanningView(planning: $editingPlanning, editPlanningPresented: $viewModel.isPresentingEditPlanningView)
-                }
-            }
             
-//        }
-//        .tint(.primary)
-      
+        }
+        .listStyle(DefaultListStyle())
+        .listRowSpacing(12)
+        .task {
+            await viewModel.fetch()
+        }
+        .toolbar {
+            if viewModel.isLoading {
+                ProgressView()
+                    .padding(.leading)
+                    .zIndex(2)
+                Spacer()
+            }
+            Button {
+                viewModel.isPresentingNewPlannningView = true
+            } label: {
+                Image(systemName: "plus")
+            }
+        }
+        .sheet(isPresented: $viewModel.isPresentingNewPlannningView, onDismiss: didDismiss){
+            //            NavigationStack {
+            NewPlanningView(newPlanningPresented: $viewModel.isPresentingNewPlannningView)
+            //            }
+        }
+        .interactiveDismissDisabled()
+        .sheet(isPresented: $viewModel.isPresentingEditPlanningView, onDismiss: didDismiss){
+            NavigationStack {
+                EditPlanningView(planning: $editingPlanning, editPlanningPresented: $viewModel.isPresentingEditPlanningView)
+            }
+        }
     }
     
     func didDismiss() {

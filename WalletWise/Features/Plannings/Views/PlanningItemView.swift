@@ -24,6 +24,10 @@ struct PlanningListItemView: View {
                     Text(planning.description)
                         .bold()
                         .padding(.horizontal)
+                    if planningStore.planning?.id == planning.id {
+                        Image(systemName: "checkmark.circle.fill")
+                            .foregroundColor(.accent)
+                    }
                     Spacer()
                     Text(planning.currency.rawValue)
                         .font(.caption2)
@@ -34,9 +38,7 @@ struct PlanningListItemView: View {
             .frame(maxWidth: .infinity)
             .frame(height: 42.0)
             .contentShape(Rectangle())
-//            .background(.gray)
-          
-            
+//            .background(.blue)
         }
 //        .background(
 //            NavigationLink(destination: TimelineView(planning: planning), isActive: $isActive) {
