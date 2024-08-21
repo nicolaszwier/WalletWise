@@ -100,6 +100,7 @@ class AppViewViewModel: ObservableObject {
             if let accessToken = response.accessToken {
                 DispatchQueue.main.async {
                     withAnimation(){
+                        AppStore.shared.setWelcomeScreenDone(value: false)
                         print("success")
                         self.loader(show: false)
                         self.isAuthenticated = true;
