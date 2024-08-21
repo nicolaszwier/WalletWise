@@ -54,7 +54,13 @@ struct DashboardView: View {
                 .frame(maxWidth: .greatestFiniteMagnitude)
                 .background(Constants.UI.defaultGradient)
                 VStack(alignment: .center) {
-                    DashboardExpiringTransactionsSection(transactions: $viewModel.expiringTransactions)
+                    if !viewModel.isLoading {
+                        DashboardExpiringTransactionsSection(transactions: $viewModel.expiringTransactions)
+                    } else {
+                        ProgressView()
+                            .padding()
+                            .zIndex(2)
+                    }
                     Spacer()
                 }
                 .offset(y: -120)
