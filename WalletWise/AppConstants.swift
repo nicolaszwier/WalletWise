@@ -51,6 +51,7 @@ struct Constants {
     struct UserDefaults {
         static let token = "token"
         static let selectedPlanning = "selectedPlanning"
+        static let welcomeScreenDone = "welcomeScreenDone"
     }
     
     struct UI {
