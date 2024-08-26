@@ -10,12 +10,12 @@ import SwiftUI
 struct TimelineView: View {
     let planning: Planning
     @StateObject private var viewModel = TransactionsViewViewModel()
+    @EnvironmentObject var planningStore: PlanningStore
+    @State private var totalSelected: Decimal = 0
     
     var body: some View {
         
-        Group {
-//            TimelineTotalsViews(expectedBalance: $viewModel.planningExpectedBalance, currentBalance: $viewModel.planningCurrentBalance)
-            
+        ZStack(alignment: .bottom) {
             if $viewModel.periods.isEmpty && !viewModel.isLoading {
                 Text("We couldn’t find any transactions, go ahead and register the first one")
                     .multilineTextAlignment(.center)
@@ -24,16 +24,31 @@ struct TimelineView: View {
             }
             List {
                 TimelineTotalsView(expectedBalance: $viewModel.planningExpectedBalance, currentBalance: $viewModel.planningCurrentBalance)
-                    .listRowBackground(Color(UIColor.tertiarySystemFill))
-//                    .listRowBackground(Color(UIColor.secondarySystemBackground))
+                    .listRowBackground(Constants.UI.defaultGradient)
+//                                    .listRowBackground(Color(UIColor.tertiarySystemFill))
+                //                    .listRowBackground(Color(UIColor.secondarySystemBackground))
                 
                 ForEach($viewModel.periods, id: \.self) { $period in
                     if !period.transactions.isEmpty {
                         Section {
                             ForEach(period.transactions.indices, id: \.self) { index in
-                                TransactionsListItemView(transaction: $period.transactions[index], refreshTrigger: {
+                                let transaction = period.transactions[index]
+                                TransactionsListItemView(transaction: $period.transactions[index], isSelected: viewModel.selectedTransactions.contains(transaction), toggleSelection: {
+                                    if viewModel.selectedTransactions.contains(transaction) {
+                                        viewModel.selectedTransactions.remove(transaction)
+                                    } else {
+                                        viewModel.selectedTransactions.insert(transaction)
+                                    }
+                                    withAnimation {
+                                        if !viewModel.selectedTransactions.isEmpty {
+                                            viewModel.isSelectionMode = true
+                                        } else {
+                                            viewModel.isSelectionMode = false
+                                        }
+                                    }
+                                }, refreshTrigger: {
                                     await viewModel.fetch(planning: planning)
-                                }, onEditDismiss: didDismiss)
+                                }, onEditDismiss: didDismiss, allowSelection: true, allowSwipeActions: true)
                             }
                         } header: {
                             PeriodHeader(period: period)
@@ -41,14 +56,25 @@ struct TimelineView: View {
                             PeriodFooter(period: $period)
                                 .padding(.bottom)
                         }
+                        
                     }
                 }
             }
             .listStyle(.insetGrouped)
-            //        .listRowSpacing(6)
             .refreshable { await viewModel.fetch(planning: planning) }
             .task {
                 await viewModel.fetch(planning: planning)
+            }
+            .onChange(of: viewModel.planningExpectedBalance) { oldValue, newValue in
+                planningStore.expectedBalanceBinding.wrappedValue = newValue
+            }
+            .onChange(of: viewModel.planningCurrentBalance) { oldValue, newValue in
+                planningStore.currentBalanceBinding.wrappedValue = newValue
+            }
+            .onChange(of: viewModel.selectedTransactions) { oldValue, newValue in
+                totalSelected = viewModel.selectedTransactions.reduce(0) {
+                   $0 + ($1.amount ?? 0)
+                }
             }
             .frame(maxHeight: .infinity)
             .toolbar {
@@ -57,17 +83,27 @@ struct TimelineView: View {
                         .padding(.leading)
                         .zIndex(2)
                 }
-                Button {
-                    viewModel.isPresentingFiltersView = true
-                } label: {
-                    Image(systemName: "line.3.horizontal.decrease.circle")
-                }
-                Button {
-                    viewModel.isPresentingNewTransactionView = true
-                } label: {
-                    Image(systemName: "plus")
+                if (viewModel.isSelectionMode) {
+                    Button {
+                        viewModel.selectedTransactions.removeAll()
+                        viewModel.isSelectionMode = false
+                    } label: {
+                        Text("Cancel")
+                    }
+                } else {
+                    Button {
+                        viewModel.isPresentingFiltersView = true
+                    } label: {
+                        Image(systemName: "line.3.horizontal.decrease.circle")
+                    }
+                    Button {
+                        viewModel.isPresentingNewTransactionView = true
+                    } label: {
+                        Image(systemName: "plus")
+                    }
                 }
             }
+//            .tint(.primary)
             .navigationTitle(planning.description)
             .navigationBarTitleDisplayMode(.inline)
             .sheet(isPresented: $viewModel.isPresentingNewTransactionView, onDismiss: didDismiss){
@@ -77,6 +113,52 @@ struct TimelineView: View {
             }
             .sheet(isPresented: $viewModel.isPresentingFiltersView) {
                 FiltersView(planning: planning, filtersViewPresented: $viewModel.isPresentingFiltersView)
+            }
+            .sheet(isPresented: $viewModel.isPresentingDuplicateTransactionsView, onDismiss: didDismiss) {
+                DuplicateTransactionsView(transactions: Array(viewModel.selectedTransactions), duplicateTransactionPresented: $viewModel.isPresentingDuplicateTransactionsView)
+            }
+            
+            if (viewModel.isSelectionMode) {
+                
+                VStack {
+                    HStack(alignment: .center) {
+                        Text("\(viewModel.selectedTransactions.count) transaction\(viewModel.selectedTransactions.count > 1 ? "s" : "") selected")
+                            .contentTransition(.numericText())
+                            .transaction { t in
+                                t.animation = .smooth
+                            }
+                            .foregroundStyle(.secondary)
+                            .font(.footnote)
+                        Spacer()
+                        Text(totalSelected.formatted(.currency(code: planningStore.planning?.currency.rawValue ?? "BRL")))
+                            .contentTransition(.numericText())
+                            .transaction { t in
+                                t.animation = .smooth
+                            }
+                            .foregroundStyle(.accent)
+                            .bold()
+                            .font(.title2)
+                    }
+                    .padding()
+                    
+                    WWButton(isLoading: .constant(false), label: "Duplicate", background: .accentColor) {
+                        viewModel.isPresentingDuplicateTransactionsView = true
+                    }
+                    .background(
+                        RoundedRectangle(cornerRadius: 20)
+                            .fill(Color.accentColor)
+                        
+                    )
+                    .padding([.horizontal, .bottom])
+                }
+                .background(Color(UIColor.systemBackground))
+                .cornerRadius(20)
+                .padding(20)
+                .transition(.move(edge: .bottom))
+                .tint(Color.customAccent)
+                .shadow(color: Color(UIColor.tertiaryLabel), radius: 6, x: 0, y: 8)
+                
+                
             }
         }
         .environmentObject(viewModel)
@@ -88,9 +170,19 @@ struct TimelineView: View {
             await viewModel.fetch(planning: planning)
         }
     }
+    
+    //    func didDismissDuplicateView() {
+    //        viewModel.isSelectionMode = false
+    //        viewModel.selectedTransactions.removeAll()
+    //        Task {
+    //            await viewModel.fetch(planning: planning)
+    //        }
+    //    }
+    //
 }
 
 #Preview {
-    TimelineView(planning: Planning(id: "66410a4bbe0ab6de43a126b5", description: "Sample planning name bem grndao", currency: Currency.cad, currentBalance: 100, expectedBalance: 100, dateOfCreation: Date.now))
+    TimelineView(planning: Planning(id: "6680c1ae817a7ffd7d648e27", description: "Sample planning name bem grndao", currency: Currency.cad, currentBalance: 100, expectedBalance: 100, dateOfCreation: Date.now))
         .environmentObject(PlanningStore())
+        .environmentObject(AppViewViewModel())
 }

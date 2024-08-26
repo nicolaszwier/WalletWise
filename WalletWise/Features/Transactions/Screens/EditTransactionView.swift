@@ -16,12 +16,12 @@ struct EditTransactionView: View {
         NavigationStack {
             if transaction.type == TransactionType.expense {
                 Text("Edit expense")
-                    .font(/*@START_MENU_TOKEN@*/.title/*@END_MENU_TOKEN@*/)
+                    .font(.headline)
                     .bold()
                     .padding(.top)
             } else {
                 Text("Edit income")
-                    .font(/*@START_MENU_TOKEN@*/.title/*@END_MENU_TOKEN@*/)
+                    .font(.headline)
                     .bold()
                     .padding(.top)
             }
@@ -43,8 +43,8 @@ struct EditTransactionView: View {
                                 .textFieldStyle(RoundedTextFieldStyle(icon: Image(systemName: "dollarsign"), verticalPadding: 6))
                                 .onAppear(perform: {
                                     //if expense, convert the value to show as positive (logic will be handled by API)
-                                    if transaction.type == TransactionType.expense &&  transaction.amount < 0 {
-                                        transaction.amount = transaction.amount * -1
+                                    if transaction.type == TransactionType.expense &&  transaction.amount ?? 0 < 0 {
+                                        transaction.amount = (transaction.amount ?? 0) * -1
                                     }
                                 })
                         }
@@ -95,7 +95,7 @@ struct EditTransactionView: View {
 }
 
 #Preview {
-    EditTransactionView(transaction: .constant(Transaction(id: "", periodId: "", categoryId: "", planningId: "", userId: "")), editTransactionPresented: Binding(get: {
+    EditTransactionView(transaction: .constant(Transaction(id: "", periodId: "", categoryId: "", planningId: "", userId: "",amount: nil)), editTransactionPresented: Binding(get: {
         return true
     }, set: { _ in }))
     .environmentObject(AppViewViewModel())

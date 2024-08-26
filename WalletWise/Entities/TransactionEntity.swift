@@ -13,7 +13,7 @@ struct Transaction: Codable, Identifiable, Hashable {
     var categoryId: String
     var planningId: String
     var userId: String?
-    var amount: Decimal
+    var amount: Decimal?
     var description: String
     var category: Category {
         didSet {
@@ -30,7 +30,7 @@ struct Transaction: Codable, Identifiable, Hashable {
          categoryId: String,
          planningId: String,
          userId: String?,
-         amount: Decimal = 0,
+         amount: Decimal? = 0,
          description: String = "",
          category: Category = Category(id: "", description: "", icon: "", userId: "", active: true, type: TransactionType.expense),
          date: Date = Date.now,

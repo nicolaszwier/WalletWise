@@ -18,12 +18,12 @@ struct NewTransactionView: View {
         NavigationStack {
             if $viewModel.newTransaction.type.wrappedValue == TransactionType.expense {
                 Text("Add new expense")
-                    .font(/*@START_MENU_TOKEN@*/.title/*@END_MENU_TOKEN@*/)
+                    .font(.headline)
                     .bold()
                     .padding(.top)
             } else {
                 Text("Add new income")
-                    .font(/*@START_MENU_TOKEN@*/.title/*@END_MENU_TOKEN@*/)
+                    .font(.headline)
                     .bold()
                 //                .foregroundStyle(.green)
                     .padding(.top)
@@ -51,8 +51,9 @@ struct NewTransactionView: View {
                                 .keyboardType(.decimalPad)
                                 .accessibilityIdentifier("myTextField")
                                 .textFieldStyle(RoundedTextFieldStyle(icon: Image(systemName: "dollarsign"), verticalPadding: 6))
+                                .font(.title2)
+                                .foregroundColor($viewModel.newTransaction.type.wrappedValue == TransactionType.expense ? .red : .green)
                                 .bold()
-                                .font(.title3)
                         }
                         TextField("Description", text: $viewModel.newTransaction.description)
 //                            .frame(height: 35.0)

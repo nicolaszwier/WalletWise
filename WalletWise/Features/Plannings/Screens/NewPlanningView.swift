@@ -13,7 +13,7 @@ struct NewPlanningView: View {
     
     var body: some View {
         Text("Add new planning")
-            .font(/*@START_MENU_TOKEN@*/.title/*@END_MENU_TOKEN@*/)
+            .font(.headline)
             .bold()
             .padding(.top)
         

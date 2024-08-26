@@ -39,217 +39,127 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "3F13ADEB-C144-413D-BB15-ABA2CB7AC16E"
-            shouldBeEnabled = "Yes"
+            uuid = "EE552051-7CC4-4EB9-876D-CABDD54DB75F"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "WalletWise/Features/Transactions/ViewModels/TransactionsViewViewModel.swift"
+            filePath = "WalletWise/Features/Transactions/Models/TransactionModel.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "25"
-            endingLineNumber = "25"
-            landmarkName = "fetch(planning:)"
-            landmarkType = "7">
-            <Locations>
-               <Location
-                  uuid = "3F13ADEB-C144-413D-BB15-ABA2CB7AC16E - 4753abf7108a64"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "(1) suspend resume partial function for WalletWise.TransactionsViewViewModel.fetch(planning: WalletWise.Planning) async -&gt; ()"
-                  moduleName = "WalletWise"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/nicolaszwierzykowski/Documents/Source/WalletWise/WalletWise/WalletWise/Features/Transactions/ViewModels/TransactionsViewViewModel.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "25"
-                  endingLineNumber = "25">
-               </Location>
-               <Location
-                  uuid = "3F13ADEB-C144-413D-BB15-ABA2CB7AC16E - fbbf7f15968fb85d"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "(2) await resume partial function for WalletWise.TransactionsViewViewModel.fetch(planning: WalletWise.Planning) async -&gt; ()"
-                  moduleName = "WalletWise"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/nicolaszwierzykowski/Documents/Source/WalletWise/WalletWise/WalletWise/Features/Transactions/ViewModels/TransactionsViewViewModel.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "25"
-                  endingLineNumber = "25">
-               </Location>
-               <Location
-                  uuid = "3F13ADEB-C144-413D-BB15-ABA2CB7AC16E - acf5670f69774e62"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "(3) suspend resume partial function for WalletWise.TransactionsViewViewModel.fetch(planning: WalletWise.Planning) async -&gt; ()"
-                  moduleName = "WalletWise"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/nicolaszwierzykowski/Documents/Source/WalletWise/WalletWise/WalletWise/Features/Transactions/ViewModels/TransactionsViewViewModel.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "25"
-                  endingLineNumber = "25">
-               </Location>
-               <Location
-                  uuid = "3F13ADEB-C144-413D-BB15-ABA2CB7AC16E - e53c11211e6ae063"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "(4) suspend resume partial function for WalletWise.TransactionsViewViewModel.fetch(planning: WalletWise.Planning) async -&gt; ()"
-                  moduleName = "WalletWise"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/nicolaszwierzykowski/Documents/Source/WalletWise/WalletWise/WalletWise/Features/Transactions/ViewModels/TransactionsViewViewModel.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "25"
-                  endingLineNumber = "25">
-               </Location>
-            </Locations>
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "28E761C2-4535-462B-883F-14CBDE5FA08E"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "WalletWise/Features/Plannings/ViewModels/PlanningsViewViewModel.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "17"
-            endingLineNumber = "17"
-            landmarkName = "fetchPlannings()"
-            landmarkType = "7">
-            <Locations>
-               <Location
-                  uuid = "28E761C2-4535-462B-883F-14CBDE5FA08E - 65dc15757c907703"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "WalletWise.PlanningsViewViewModel.fetchPlannings() -&gt; ()"
-                  moduleName = "WalletWise"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/nicolaszwierzykowski/Documents/Source/WalletWise/WalletWise/WalletWise/Features/Plannings/ViewModels/PlanningsViewViewModel.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "17"
-                  endingLineNumber = "17">
-               </Location>
-               <Location
-                  uuid = "28E761C2-4535-462B-883F-14CBDE5FA08E - f9ca505bb25a3846"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "closure #1 (Swift.Result&lt;Swift.Array&lt;WalletWise.Planning&gt;, WalletWise.NetworkError&gt;) -&gt; () in WalletWise.PlanningsViewViewModel.fetchPlannings() -&gt; ()"
-                  moduleName = "WalletWise"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/nicolaszwierzykowski/Documents/Source/WalletWise/WalletWise/WalletWise/Features/Plannings/ViewModels/PlanningsViewViewModel.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "17"
-                  endingLineNumber = "17">
-               </Location>
-            </Locations>
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "55A2458F-4509-47D4-8B18-4D8181D2DDD0"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "WalletWise/Features/Plannings/Models/PlanningsModel.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "25"
-            endingLineNumber = "25"
-            landmarkName = "fetch(completion:)"
+            startingLineNumber = "133"
+            endingLineNumber = "133"
+            landmarkName = "handleError(data:statusCode:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "090A9D12-A51B-47B7-8225-5B6D5BF44871"
-            shouldBeEnabled = "Yes"
+            uuid = "A59A5244-FD37-4393-97DC-D0ADD3D1C08F"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "WalletWise/Services/HttpService.swift"
+            filePath = "WalletWise/Features/Transactions/Models/TransactionModel.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "11"
-            endingLineNumber = "11"
-            landmarkName = "HttpService"
-            landmarkType = "3">
+            startingLineNumber = "143"
+            endingLineNumber = "143"
+            landmarkName = "handleError(data:statusCode:)"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "5762BF9E-98DF-4DBD-A42F-6534477F9786"
+            uuid = "B594106E-D7C2-413D-B849-1213D8B4CA65"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "WalletWise/Features/Transactions/Models/TransactionModel.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "151"
+            endingLineNumber = "151"
+            landmarkName = "handleError(data:statusCode:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "A70ED605-7D8F-46EC-BE50-6936F9B4F7B5"
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "WalletWise/Features/Plannings/Models/PlanningsModel.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "42"
+            endingLineNumber = "42"
+            landmarkName = "save(planning:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "6170E501-1379-4B59-9579-077140F96367"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "WalletWise/AppConstants.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "20"
+            endingLineNumber = "20"
+            landmarkName = "Auth"
+            landmarkType = "14">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "826EC93E-55B8-4720-AAEB-A5A26F34752B"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "WalletWise/AppConstants.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
             startingLineNumber = "15"
             endingLineNumber = "15"
-            landmarkName = "fetch(completion:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "8131115B-D73E-4A7F-A365-8B5B67F2272B"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "WalletWise/Services/HttpService.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "74"
-            endingLineNumber = "74"
-            landmarkName = "customDecoder()"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "056068AD-BE37-4FFD-9114-AA9DFB9D3626"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "WalletWise/Services/HttpService.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "78"
-            endingLineNumber = "78"
-            landmarkName = "customDecoder()"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "3C42F4C7-1F28-42C2-9C84-BD0C05B8AAF1"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "WalletWise/Features/Plannings/Models/PlanningsModel.swift"
-            startingColumnNumber = "70"
-            endingColumnNumber = "76"
-            startingLineNumber = "25"
-            endingLineNumber = "25"
-            landmarkName = "fetch(completion:)"
-            landmarkType = "7">
+            landmarkName = "ApiConstants"
+            landmarkType = "14">
+            <Locations>
+               <Location
+                  uuid = "826EC93E-55B8-4720-AAEB-A5A26F34752B - 9f4e51f30f226a20"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "one-time initialization function for apiBaseUrl"
+                  moduleName = "WalletWise"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/nicolaszwierzykowski/Documents/Source/WalletWise/WalletWise/WalletWise/AppConstants.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "16"
+                  endingLineNumber = "16">
+               </Location>
+               <Location
+                  uuid = "826EC93E-55B8-4720-AAEB-A5A26F34752B - f9ca34136de1ebcc"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "WalletWise.Constants.ApiConstants.apiBaseUrl.unsafeMutableAddressor : Swift.String"
+                  moduleName = "WalletWise"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/nicolaszwierzykowski/Documents/Source/WalletWise/WalletWise/WalletWise/AppConstants.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "16"
+                  endingLineNumber = "16">
+               </Location>
+            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

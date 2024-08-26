@@ -76,13 +76,21 @@ class HttpService {
     func handleError(data: Data, statusCode: Int?) throws {
         var code = statusCode
         var errorResponse: ErrorResponse?
+        var errorResponseAlt: ErrorResponseAlt?
         
         if statusCode == nil {
-            errorResponse = try HttpService().customDecoder().decode(ErrorResponse.self, from: data)
+            errorResponse = try? HttpService().customDecoder().decode(ErrorResponse.self, from: data)
             code = errorResponse?.statusCode ?? 0
         }
         
+        if  statusCode == nil && errorResponse == nil {
+            errorResponseAlt = try? HttpService().customDecoder().decode(ErrorResponseAlt.self, from: data)
+            code = errorResponseAlt?.statusCode ?? 0
+        }
+        
         switch code {
+        case 400:
+            throw NetworkError.badRequest
         case 401:
             throw AuthenticationError.unauthorized
         case 404:
@@ -92,7 +100,7 @@ class HttpService {
         case 500:
             throw NetworkError.internalServerError
         default:
-            throw NetworkError.custom(errorMessage: errorResponse?.message ?? "Bad request")
+            throw NetworkError.custom(errorMessage: errorResponse?.message ?? "Unidentified error code")
         }
     }
     

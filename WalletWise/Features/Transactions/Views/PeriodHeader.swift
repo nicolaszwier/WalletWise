@@ -17,12 +17,15 @@ struct PeriodHeader: View {
                 .bold()
                 .font(/*@START_MENU_TOKEN@*/.headline/*@END_MENU_TOKEN@*/)
             Spacer()
-//                            Text(viewModel.formatCurrency(amount: period.periodBalance))
-//                                .accessibilityLabel("Balance: \(viewModel.formatCurrency(amount: period.periodBalance))")
-//                                .bold()
-//                                .font(/*@START_MENU_TOKEN@*/.headline/*@END_MENU_TOKEN@*/)
-//                                .foregroundColor(.secondary)
-//                                .multilineTextAlignment(.trailing)
+            if (viewModel.isCurrentPeriod(periodStart: period.periodStart, periodEnd: period.periodEnd)) {
+                Text("Current period")
+                    .padding(.vertical, 2)
+                    .padding(.horizontal, 8)
+                    .foregroundColor(.white)
+                    .background(Color.customAccent)
+                    .cornerRadius(6)
+                    .bold()
+            }
         }
     }
 }

@@ -13,7 +13,7 @@ struct EditPlanningView: View {
     @Binding var editPlanningPresented: Bool
     var body: some View {
         Text("Edit planning")
-            .font(/*@START_MENU_TOKEN@*/.title/*@END_MENU_TOKEN@*/)
+            .font(.headline)
             .bold()
             .padding(.top)
         

@@ -6,11 +6,15 @@
 //
 
 import Foundation
+import SwiftUI
 
 struct Constants {
     
     struct ApiConstants {
-        static let apiBaseUrl = "http://localhost:3000/api"
+//        static let apiBaseUrl = "http://localhost:3000/api"
+        static let apiBaseUrl = "https://ww-prod.up.railway.app/api"
+//        static let apiBaseUrl = "https://ww-staging.up.railway.app/api"
+    
         
         struct Auth {
             static let signin = "/auth/signin"
@@ -23,7 +27,9 @@ struct Constants {
         
         struct Transactions {
             static let getTransactions = "/transactions/{{periodId}}"
+            static let getPendingTransactionsDueInAWeek = "/transactions/due-this-week/{{planningId}}"
             static let postTransaction = "/transactions"
+            static let postManyTransactions = "/transactions/many"
             static let putTransaction = "/transactions/{{transactionId}}"
             static let deleteTransaction = "/transactions/{{periodId}}/{{transactionId}}"
             static let payTransaction = "/transactions/pay/{{periodId}}/{{transactionId}}"
@@ -43,5 +49,16 @@ struct Constants {
         struct Api {
             static let status = "/users/status"
         }
+    }
+    
+    struct UserDefaults {
+        static let token = "token"
+        static let selectedPlanning = "selectedPlanning"
+        static let welcomeScreenDone = "welcomeScreenDone"
+    }
+    
+    struct UI {
+        static let defaultGradient = LinearGradient(colors: [Color.gradientPrimary, Color.gradientSecondary], startPoint: .bottomLeading, endPoint: .topTrailing)
+        static let defaultTextGradient = LinearGradient(colors: [Color.gradientTextPrimary, Color.gradientTextSecondary], startPoint: .bottomLeading, endPoint: .topTrailing)
     }
 }

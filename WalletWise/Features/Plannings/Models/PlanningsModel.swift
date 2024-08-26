@@ -14,7 +14,6 @@ class PlanningsModel {
         guard let request = try? HttpService().buildUrlRequest(method: "GET", endpoint: Constants.ApiConstants.Plannings.getPlannings) else {
             throw NetworkError.invalidURL
         }
-      
         
         let (data, response) = try await URLSession.shared.data(for: request)
         guard response is HTTPURLResponse else {
@@ -85,7 +84,7 @@ class PlanningsModel {
     
     func remove(planningId: String) async throws -> DefaultResponse {
         
-        guard var request = try? HttpService().buildUrlRequest(method: "DELETE", endpoint: Constants.ApiConstants.Plannings.deletePlanning, params: [planningId]) else {
+        guard let request = try? HttpService().buildUrlRequest(method: "DELETE", endpoint: Constants.ApiConstants.Plannings.deletePlanning, params: [planningId]) else {
             throw NetworkError.invalidURL
         }
 
