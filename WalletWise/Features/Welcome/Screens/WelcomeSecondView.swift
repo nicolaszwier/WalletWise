@@ -59,6 +59,7 @@ struct WelcomeSecondView: View {
             }
             .padding(.all)
         }
+        .navigationViewStyle(StackNavigationViewStyle())
     }
 }
 

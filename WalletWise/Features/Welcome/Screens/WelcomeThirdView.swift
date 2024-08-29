@@ -59,6 +59,7 @@ struct WelcomeThirdView: View {
             }
             .padding(.all)
         }
+        .navigationViewStyle(StackNavigationViewStyle())
     }
 }
 

@@ -92,9 +92,11 @@ struct SignupView: View {
                 }
                 .padding(.vertical)
             }
+            .frame(maxWidth: 500)
             .padding(30)
             .padding(.bottom, 50)
         }
+        .navigationViewStyle(StackNavigationViewStyle())
     }
 }
 

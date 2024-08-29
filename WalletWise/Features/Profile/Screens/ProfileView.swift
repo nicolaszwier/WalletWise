@@ -32,6 +32,7 @@ struct ProfileView: View {
             }
             .navigationTitle("My profile")
         }
+        .navigationViewStyle(StackNavigationViewStyle())
     }
 }
 

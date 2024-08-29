@@ -77,6 +77,7 @@ struct DashboardView: View {
             }
             .environmentObject(viewModel)
         }
+        .navigationViewStyle(StackNavigationViewStyle())
         .refreshable {
             await viewModel.fetchExpiringTransactions(planningId: planningStore.planning?.id ?? "")
         }
