@@ -81,6 +81,7 @@ struct SigninView: View {
                 .padding(.vertical)
              
             }
+            .frame(maxWidth: 500)
             .padding(30)
         }
     }

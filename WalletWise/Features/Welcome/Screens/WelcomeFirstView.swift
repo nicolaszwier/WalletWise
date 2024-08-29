@@ -50,6 +50,7 @@ struct WelcomeFirstView: View {
             }
             .padding(.all)
         }
+        .navigationViewStyle(StackNavigationViewStyle())
     }
     
 }

@@ -61,6 +61,7 @@ struct WelcomeFourthView: View {
             }
             .padding(.all)
         }
+        .navigationViewStyle(StackNavigationViewStyle())
     }
 }
 
