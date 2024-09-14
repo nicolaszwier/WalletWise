@@ -279,13 +279,6 @@
 			path = IconCircle;
 			sourceTree = "<group>";
 		};
-		5B7118392C5C43F100AACFE1 /* Extensions */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Extensions;
-			sourceTree = "<group>";
-		};
 		5B71183E2C5C6D8900AACFE1 /* Dashboard */ = {
 			isa = PBXGroup;
 			children = (
@@ -373,7 +366,6 @@
 		5BE0DEFC2BDF5D15003BBD41 /* WalletWise */ = {
 			isa = PBXGroup;
 			children = (
-				5B7118392C5C43F100AACFE1 /* Extensions */,
 				5BA9C9D12BEAC5E900F57AC2 /* Stores */,
 				5BF580C62BE05219001E9A38 /* Enums */,
 				5BF580C12BE04E5C001E9A38 /* Services */,
