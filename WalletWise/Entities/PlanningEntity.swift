@@ -8,7 +8,7 @@
 import Foundation
 
 enum Currency: String, Codable {
-    case brl = "BRL", cad = "CAD"
+    case brl = "BRL", cad = "CAD", eur = "EUR", gbp = "GBP", usd = "USD"
 }
 
 struct Planning: Hashable, Codable, Identifiable {

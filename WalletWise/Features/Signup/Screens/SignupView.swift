@@ -48,7 +48,7 @@ struct SignupView: View {
                     .textFieldStyle(OutlinedTextFieldStyle(icon: Image(systemName: "lock")))
 
                 ForEach(viewModel.formErrors, id: \.self) { error in
-                    Text(error)
+                    Text(NSLocalizedString(error, comment: ""))
                         .foregroundStyle(.red)
                         .font(.callout)
                         .padding(.top)

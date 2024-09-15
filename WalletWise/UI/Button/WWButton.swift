@@ -24,7 +24,7 @@ struct WWButton: View {
                     .frame(maxWidth: .infinity)
                     .frame(height: 32.0)
             } else {
-                Text(label)
+                Text(NSLocalizedString(label, comment: ""))
                     .frame(maxWidth: .infinity)
                     .frame(height: 32.0)
                     .fontWeight(.heavy)

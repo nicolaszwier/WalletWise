@@ -14,7 +14,7 @@ struct CategoryPickerItemView: View {
         HStack(alignment: .center, spacing: 14.0) {
             IconRoundedRectangleView(icon: category.icon ?? "ellipsis.circle.fill", circleColor: Color(UIColor.secondarySystemFill), imageColor: .primary, frameSize: 16)
             
-            Text(category.description)
+            Text(NSLocalizedString(category.description, comment: ""))
                 .font(.headline)
         }
         .padding(.vertical, 4)

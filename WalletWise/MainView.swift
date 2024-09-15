@@ -21,7 +21,7 @@ struct MainView: View {
                         DashboardView()
                             .environmentObject(planningStore)
                             .tabItem {
-                                Label("Home", systemImage: "house")
+                                Label("Dashboard", systemImage: "house")
                             }
                         ProfileView()
                             .tabItem {

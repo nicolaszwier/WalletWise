@@ -31,11 +31,11 @@ struct EditPlanningView: View {
                             .foregroundStyle(.secondary)
                     }
                     ForEach(viewModel.formErrors, id: \.self) { error in
-                        Text(error)
+                        Text(NSLocalizedString(error, comment: ""))
                             .foregroundStyle(.red)
                             .font(.callout)
                     }
-                    WWButton(isLoading: $viewModel.isLoading, label: "Submit", background: .accentColor) {
+                    WWButton(isLoading: $viewModel.isLoading, label: NSLocalizedString("Submit", comment: ""), background: .accentColor) {
                         Task {
                             await viewModel.update(planning: planning)
                             if viewModel.formErrors.isEmpty {

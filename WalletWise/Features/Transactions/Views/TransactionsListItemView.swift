@@ -38,7 +38,7 @@ struct TransactionsListItemView: View {
                         .font(.footnote)
                         .foregroundStyle(.secondary)
                         .padding(.leading, 1)
-                    Text(transaction.category.description)
+                    Text(NSLocalizedString(transaction.category.description, comment: ""))
                         .font(.footnote)
                         .foregroundStyle(.secondary)
                     if transaction.isPaid {
@@ -81,7 +81,7 @@ struct TransactionsListItemView: View {
                         await refreshTrigger()
                     }
                 } label: {
-                    Label("Flag", systemImage: "checkmark.circle.fill")
+                    Label("Edit", systemImage: "checkmark.circle.fill")
                 }
                 .tint(.green)
             }
@@ -103,7 +103,7 @@ struct TransactionsListItemView: View {
                     editingTransaction = transaction
                     viewModel.isPresentingEditTransactionView = true
                 } label: {
-                    Label("Flag", systemImage: "pencil.circle")
+                    Label("Edit", systemImage: "pencil.circle")
                 }
                 .tint(.blue)
             }

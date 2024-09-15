@@ -64,7 +64,7 @@ struct EditTransactionView: View {
                         CategoryPicker(transactionType: $transaction.type, selection: $transaction.category)
                         
                         ForEach(viewModel.formErrors, id: \.self) { error in
-                            Text(error)
+                            Text(NSLocalizedString(error, comment: ""))
                                 .foregroundStyle(.red)
                                 .font(.callout)
                         }
