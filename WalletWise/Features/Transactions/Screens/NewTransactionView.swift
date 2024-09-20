@@ -71,7 +71,7 @@ struct NewTransactionView: View {
                         .tint(.accentColor)
                         CategoryPicker(transactionType: $viewModel.newTransaction.type, selection: $viewModel.newTransaction.category)
                         ForEach(viewModel.formErrors, id: \.self) { error in
-                            Text(error)
+                            Text(NSLocalizedString(error, comment: ""))
                                 .foregroundStyle(.red)
                                 .font(.callout)
                         }

@@ -13,6 +13,10 @@ struct TimelineView: View {
     @EnvironmentObject var planningStore: PlanningStore
     @State private var totalSelected: Decimal = 0
     
+    var isSearching: Bool {
+        return !viewModel.searchQuery.isEmpty
+     }
+    
     var body: some View {
         
         ZStack(alignment: .bottom) {
@@ -23,12 +27,11 @@ struct TimelineView: View {
                     .foregroundColor(.secondary)
             }
             List {
-                TimelineTotalsView(expectedBalance: $viewModel.planningExpectedBalance, currentBalance: $viewModel.planningCurrentBalance)
-                    .listRowBackground(Constants.UI.defaultGradient)
-//                                    .listRowBackground(Color(UIColor.tertiarySystemFill))
-                //                    .listRowBackground(Color(UIColor.secondarySystemBackground))
-                
-                ForEach($viewModel.periods, id: \.self) { $period in
+                if !isSearching {            
+                    TimelineTotalsView(expectedBalance: $viewModel.planningExpectedBalance, currentBalance: $viewModel.planningCurrentBalance)
+                        .listRowBackground(Constants.UI.defaultGradient)
+                }
+                ForEach(isSearching ? $viewModel.localSearchResults : $viewModel.periods, id: \.self) { $period in
                     if !period.transactions.isEmpty {
                         Section {
                             ForEach(period.transactions.indices, id: \.self) { index in
@@ -60,10 +63,28 @@ struct TimelineView: View {
                     }
                 }
             }
+            .searchable(
+                text: $viewModel.searchQuery,
+                placement: .automatic,
+                prompt: "Search transactions"
+            )
+            .overlay {
+                if isSearching && viewModel.localSearchResults.isEmpty {
+                    ContentUnavailableView(
+                        "Transaction not found",
+                        systemImage: "magnifyingglass",
+                        description: Text("No results for \(viewModel.searchQuery)")
+                    )
+                }
+            }
+            .textInputAutocapitalization(.never)
             .listStyle(.insetGrouped)
             .refreshable { await viewModel.fetch(planning: planning) }
             .task {
                 await viewModel.fetch(planning: planning)
+            }
+            .onChange(of: viewModel.searchQuery) {
+                viewModel.localSearchResults = viewModel.filterTransactions(by: viewModel.searchQuery)
             }
             .onChange(of: viewModel.planningExpectedBalance) { oldValue, newValue in
                 planningStore.expectedBalanceBinding.wrappedValue = newValue
@@ -73,7 +94,7 @@ struct TimelineView: View {
             }
             .onChange(of: viewModel.selectedTransactions) { oldValue, newValue in
                 totalSelected = viewModel.selectedTransactions.reduce(0) {
-                   $0 + ($1.amount ?? 0)
+                    $0 + ($1.amount ?? 0)
                 }
             }
             .frame(maxHeight: .infinity)
@@ -103,7 +124,6 @@ struct TimelineView: View {
                     }
                 }
             }
-//            .tint(.primary)
             .navigationTitle(planning.description)
             .navigationBarTitleDisplayMode(.inline)
             .sheet(isPresented: $viewModel.isPresentingNewTransactionView, onDismiss: didDismiss){
@@ -119,7 +139,6 @@ struct TimelineView: View {
             }
             
             if (viewModel.isSelectionMode) {
-                
                 VStack {
                     HStack(alignment: .center) {
                         Text("\(viewModel.selectedTransactions.count) transaction\(viewModel.selectedTransactions.count > 1 ? "s" : "") selected")
@@ -157,8 +176,6 @@ struct TimelineView: View {
                 .transition(.move(edge: .bottom))
                 .tint(Color.customAccent)
                 .shadow(color: Color(UIColor.tertiaryLabel), radius: 6, x: 0, y: 8)
-                
-                
             }
         }
         .environmentObject(viewModel)
@@ -171,14 +188,6 @@ struct TimelineView: View {
         }
     }
     
-    //    func didDismissDuplicateView() {
-    //        viewModel.isSelectionMode = false
-    //        viewModel.selectedTransactions.removeAll()
-    //        Task {
-    //            await viewModel.fetch(planning: planning)
-    //        }
-    //    }
-    //
 }
 
 #Preview {

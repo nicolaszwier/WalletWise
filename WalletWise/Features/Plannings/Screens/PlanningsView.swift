@@ -35,7 +35,7 @@ struct PlanningsView: View {
                         editingPlanning = planning
                         viewModel.isPresentingEditPlanningView = true
                     } label: {
-                        Label("Flag", systemImage: "pencil.circle")
+                        Label("Edit", systemImage: "pencil.circle")
                     }
                     .tint(.blue)
                 }

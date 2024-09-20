@@ -23,12 +23,15 @@ struct NewPlanningView: View {
                     TextField("Description", text: $viewModel.newPlanning.description)
                         .frame(height: 35.0)
                     Picker(selection: $viewModel.newPlanning.currency, label: Text("Currency")) {
-                        Text("Canadian Dollars (CA$)").tag(Currency.cad)
-                        Text("Brazilian Real (R$)").tag(Currency.brl)
+                        Text("Brazilian Real (BRL)").tag(Currency.brl)
+                        Text("Canadian Dollars (CAD)").tag(Currency.cad)
+                        Text("Euro (EUR)").tag(Currency.eur)
+                        Text("British Pound (GBP)").tag(Currency.gbp)
+                        Text("United States Dollar (USD)").tag(Currency.usd)
                     }
                     .tint(.primary)
                     ForEach(viewModel.formErrors, id: \.self) { error in
-                        Text(error)
+                        Text(NSLocalizedString(error, comment: ""))
                             .foregroundStyle(.red)
                             .font(.callout)
                     }

@@ -38,7 +38,7 @@ struct SigninView: View {
                     .textFieldStyle(OutlinedTextFieldStyle(icon: Image(systemName: "lock")))
                 
                 if !viewModel.errorMessage.isEmpty {
-                    Text(viewModel.errorMessage)
+                    Text(NSLocalizedString(viewModel.errorMessage, comment: ""))
                         .foregroundStyle(.red)
                         .font(.callout)
                         .padding(.bottom)

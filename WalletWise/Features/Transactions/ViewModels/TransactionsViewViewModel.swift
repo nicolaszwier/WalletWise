@@ -24,6 +24,8 @@ class TransactionsViewViewModel: ObservableObject {
     @Published var planningCurrentBalance: Decimal = 0
     @Published var filters: FiltersEntity = FiltersEntity()
     @Published var selectedTransactions: Set<Transaction> = []
+    @Published var localSearchResults: [Period] = []
+    @Published var searchQuery: String = ""
     
     func fetch(planning: Planning) async {
         do {
@@ -44,6 +46,23 @@ class TransactionsViewViewModel: ObservableObject {
                 self.loader(show: false)
             }
         }
+    }
+    
+    func filterTransactions(by searchTerm: String) -> [Period] {
+        var filteredPeriods: [Period] = []
+        
+        for period in periods {
+            let matchingTransactions = period.transactions.filter { transaction in
+                transaction.description.localizedCaseInsensitiveContains(searchTerm)
+            }
+            
+            if !matchingTransactions.isEmpty {
+                let filteredPeriod = Period(id: period.id, planningId: period.planningId, userId: period.userId, periodBalance: period.periodBalance, periodBalancePaidOnly: period.periodBalancePaidOnly, expectedAllTimeBalance: period.expectedAllTimeBalance, expectedAllTimeBalancePaidOnly: period.expectedAllTimeBalancePaidOnly, periodStart: period.periodStart, periodEnd: period.periodEnd, transactions: matchingTransactions)
+                filteredPeriods.append(filteredPeriod)
+            }
+        }
+        
+        return filteredPeriods
     }
     
     func clearFilters() {
