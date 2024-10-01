@@ -28,40 +28,47 @@ struct TransactionsListItemView: View {
                 IconRoundedRectangleView(icon: transaction.category.icon ?? "ellipsis.circle.fill", circleColor: Color(UIColor.secondarySystemFill), imageColor: .primary, frameSize: 16)
                     .padding(.trailing, 4)
             }
-            VStack(alignment: .leading) {
-                Text(transaction.description)
-                    .font(.headline)
-                    .fontWeight(.semibold)
-                
-                HStack(alignment: .bottom) {
+            
+            VStack {
+                HStack {
+                    Text(transaction.description)
+                        .font(.headline)
+                        .fontWeight(.semibold)
+                    Spacer()
                     Text("\(viewModel.formattedDate(date: transaction.date))")
                         .font(.footnote)
                         .foregroundStyle(.secondary)
-                        .padding(.leading, 1)
+                        .padding(.leading, 0.5)
+                   
+                }
+                .padding(.vertical, 1.4)
+                HStack {
                     Text(NSLocalizedString(transaction.category.description, comment: ""))
                         .font(.footnote)
                         .foregroundStyle(.secondary)
                     if transaction.isPaid {
                         Label("", systemImage: "checkmark.circle.fill")
-                            .font(.caption)
+                            .font(.custom("", fixedSize: 10))
                             .foregroundColor(Color.gradientTextSecondary)
                     }
                     if !transaction.isPaid && !viewModel.isOverdue(date: transaction.date){
                         Label("", systemImage: "exclamationmark.circle.fill")
-                            .font(.caption)
+                            .font(.custom("", fixedSize: 10))
                             .foregroundColor(.secondary)
                     }
                     if !transaction.isPaid && viewModel.isOverdue(date: transaction.date) {
                         Label("", systemImage: "calendar.badge.exclamationmark")
-                            .font(.caption)
+                            .font(.custom("", fixedSize: 12))
                             .foregroundColor(.red)
-                        Spacer()
                     }
+                    Spacer()
+                    Text(transaction.amount?.formatted(.currency(code: planningStore.planning?.currency.rawValue ?? "BRL")) ?? "0")
+                        .font(.callout)
+                        .fontWeight(.medium)
+                        .multilineTextAlignment(.trailing)
+                    
                 }
-                
             }
-            Spacer()
-            Text(transaction.amount?.formatted(.currency(code: planningStore.planning?.currency.rawValue ?? "BRL")) ?? "0")
         }
         .contentShape(Rectangle())
         .onTapGesture {
@@ -120,7 +127,9 @@ struct TransactionsListItemView: View {
 }
 
 #Preview {
-    TransactionsListItemView(transaction: .constant(Transaction(id: "", periodId: "", categoryId: "", planningId: "", userId: "", description: "Transaction description", category: Category(id: "", description: "Shopping", icon: "dollarsign.circle.fill", userId: "sdfsfwe", active: true, type: TransactionType.expense), isPaid: false)), isSelected: true, toggleSelection: {}, refreshTrigger: {}, onEditDismiss: {}, allowSelection: true, allowSwipeActions: true)
-        .environmentObject(PlanningStore())
-    //        .environmentObject(TransactionsViewViewModel())
+    List {
+        TransactionsListItemView(transaction: .constant(Transaction(id: "", periodId: "", categoryId: "", planningId: "", userId: "", amount: 1599, description: "Transaction description", category: Category(id: "", description: "Credit card", icon: "dollarsign.circle.fill", userId: "sdfsfwe", active: true, type: TransactionType.expense), isPaid: true)), isSelected: true, toggleSelection: {}, refreshTrigger: {}, onEditDismiss: {}, allowSelection: true, allowSwipeActions: true)
+            .environmentObject(PlanningStore())
+        //        .environmentObject(TransactionsViewViewModel())
+    }
 }

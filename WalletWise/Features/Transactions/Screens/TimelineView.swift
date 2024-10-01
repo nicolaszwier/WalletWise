@@ -175,7 +175,7 @@ struct TimelineView: View {
                 .padding(20)
                 .transition(.move(edge: .bottom))
                 .tint(Color.customAccent)
-                .shadow(color: Color(UIColor.tertiaryLabel), radius: 6, x: 0, y: 8)
+                .shadow(radius: 6, x: 0, y: 8)
             }
         }
         .environmentObject(viewModel)
