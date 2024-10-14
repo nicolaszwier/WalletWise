@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		5B03F2202C056C4E00A3395D /* CategoryPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B03F21F2C056C4E00A3395D /* CategoryPicker.swift */; };
+		5B0FE2EE2CBDD73000E2798D /* BalancesModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B0FE2ED2CBDD73000E2798D /* BalancesModel.swift */; };
+		5B0FE2F02CBDD82D00E2798D /* BalanceEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B0FE2EF2CBDD82100E2798D /* BalanceEntity.swift */; };
 		5B1752012BEFDFDB00998D5E /* TransactionDetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B1752002BEFDFDB00998D5E /* TransactionDetailsView.swift */; };
 		5B1752032BEFE7BE00998D5E /* EditTransactionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B1752022BEFE7BE00998D5E /* EditTransactionView.swift */; };
 		5B1752052BF0665D00998D5E /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5B1752042BF0665D00998D5E /* Launch Screen.storyboard */; };
@@ -104,6 +106,8 @@
 
 /* Begin PBXFileReference section */
 		5B03F21F2C056C4E00A3395D /* CategoryPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryPicker.swift; sourceTree = "<group>"; };
+		5B0FE2ED2CBDD73000E2798D /* BalancesModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BalancesModel.swift; sourceTree = "<group>"; };
+		5B0FE2EF2CBDD82100E2798D /* BalanceEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BalanceEntity.swift; sourceTree = "<group>"; };
 		5B1752002BEFDFDB00998D5E /* TransactionDetailsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionDetailsView.swift; sourceTree = "<group>"; };
 		5B1752022BEFE7BE00998D5E /* EditTransactionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditTransactionView.swift; sourceTree = "<group>"; };
 		5B1752042BF0665D00998D5E /* Launch Screen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = "<group>"; };
@@ -211,6 +215,38 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		5B0FE2E82CBDD6D900E2798D /* Balances */ = {
+			isa = PBXGroup;
+			children = (
+				5B0FE2EB2CBDD6FF00E2798D /* Screens */,
+				5B0FE2EA2CBDD6EF00E2798D /* Models */,
+				5B0FE2E92CBDD6EB00E2798D /* Views */,
+			);
+			path = Balances;
+			sourceTree = "<group>";
+		};
+		5B0FE2E92CBDD6EB00E2798D /* Views */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		5B0FE2EA2CBDD6EF00E2798D /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				5B0FE2ED2CBDD73000E2798D /* BalancesModel.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		5B0FE2EB2CBDD6FF00E2798D /* Screens */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Screens;
+			sourceTree = "<group>";
+		};
 		5B2A498E2C5F4C69007B9525 /* Models */ = {
 			isa = PBXGroup;
 			children = (
@@ -243,6 +279,7 @@
 		5B5BDA332BE020A5009046D1 /* Entities */ = {
 			isa = PBXGroup;
 			children = (
+				5B0FE2EF2CBDD82100E2798D /* BalanceEntity.swift */,
 				5B5BDA342BE020B7009046D1 /* UserEntity.swift */,
 				5B5BDA362BE020F4009046D1 /* AuthEntity.swift */,
 				5B5BDA382BE02104009046D1 /* PlanningEntity.swift */,
@@ -434,6 +471,7 @@
 		5BF580922BE04425001E9A38 /* Features */ = {
 			isa = PBXGroup;
 			children = (
+				5B0FE2E82CBDD6D900E2798D /* Balances */,
 				5BE3AD5F2C6C3DA70015A11A /* Welcome */,
 				5B71183E2C5C6D8900AACFE1 /* Dashboard */,
 				5BD20C652C1155A8000F2228 /* App */,
@@ -863,10 +901,12 @@
 				5BAFFABE2C0815E200B9AD26 /* UserModel.swift in Sources */,
 				5BF580BA2BE04CE9001E9A38 /* FiltersView.swift in Sources */,
 				5B2A498B2C5EE45B007B9525 /* DashboardExpiringTransactionsSection.swift in Sources */,
+				5B0FE2F02CBDD82D00E2798D /* BalanceEntity.swift in Sources */,
 				5B2A49902C5F4C78007B9525 /* DashboardModel.swift in Sources */,
 				5BF580A92BE047F2001E9A38 /* PlanningsView.swift in Sources */,
 				5B4833752C3722F0006C15CD /* PlanningStore.swift in Sources */,
 				5BF580CA2BE0734C001E9A38 /* AppViewViewModel.swift in Sources */,
+				5B0FE2EE2CBDD73000E2798D /* BalancesModel.swift in Sources */,
 				5BF580C82BE0526B001E9A38 /* TransactionType.swift in Sources */,
 				5B5BDA392BE02104009046D1 /* PlanningEntity.swift in Sources */,
 				5BBCB7CE2BE4631A004E8A47 /* TransactionsViewViewModel.swift in Sources */,

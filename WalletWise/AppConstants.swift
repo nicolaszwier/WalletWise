@@ -11,8 +11,8 @@ import SwiftUI
 struct Constants {
     
     struct ApiConstants {
-//        static let apiBaseUrl = "http://localhost:3000/api"
-        static let apiBaseUrl = "https://ww-prod.up.railway.app/api"
+        static let apiBaseUrl = "http://localhost:3000/api"
+//        static let apiBaseUrl = "https://ww-prod.up.railway.app/api"
 //        static let apiBaseUrl = "https://ww-staging.up.railway.app/api"
     
         
@@ -33,6 +33,7 @@ struct Constants {
             static let putTransaction = "/transactions/{{transactionId}}"
             static let deleteTransaction = "/transactions/{{periodId}}/{{transactionId}}"
             static let payTransaction = "/transactions/pay/{{periodId}}/{{transactionId}}"
+            static let getMonthlyBalance = "/transactions/monthly_balance/{{planningId}}"
         }
         
         struct Plannings {
