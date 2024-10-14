@@ -699,6 +699,7 @@
       }
     },
     "Last eight periods" : {
+      "extractionState" : "stale",
       "localizations" : {
         "pt-BR" : {
           "stringUnit" : {
@@ -709,6 +710,7 @@
       }
     },
     "Last four periods" : {
+      "extractionState" : "stale",
       "localizations" : {
         "pt-BR" : {
           "stringUnit" : {
@@ -940,7 +942,7 @@
         "pt-BR" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Alugel"
+            "value" : "Aluguel"
           }
         }
       }

@@ -25,7 +25,6 @@ struct NewTransactionView: View {
                 Text("Add new income")
                     .font(.headline)
                     .bold()
-                //                .foregroundStyle(.green)
                     .padding(.top)
             }
             
@@ -94,6 +93,11 @@ struct NewTransactionView: View {
                 }
                 .formStyle(.grouped)
             }
+            .onChange(of: viewModel.newTransaction.type) {
+                if !(appViewModel.user.categories?.isEmpty ?? false) {
+                    viewModel.newTransaction.category = (appViewModel.user.categories?.first(where: {$0.type == viewModel.newTransaction.type} ))!
+                }
+            }
             .onAppear {
                 self.isFocused = true
                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
@@ -106,7 +110,7 @@ struct NewTransactionView: View {
                     
                     // selects by default the first available category for the user
                     if viewModel.newTransaction.categoryId.isEmpty && !(appViewModel.user.categories?.isEmpty ?? false) {
-                        viewModel.newTransaction.category = (appViewModel.user.categories?.first)!
+                        viewModel.newTransaction.category = (appViewModel.user.categories?.first(where: {$0.type == viewModel.newTransaction.type} ))!
                     }
 
                 }
